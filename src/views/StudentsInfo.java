@@ -12,7 +12,6 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Image;
-import java.awt.LayoutManager;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.time.LocalDate;
@@ -222,7 +221,7 @@ public class StudentsInfo extends javax.swing.JPanel {
         UIManager.put("Component.focusedBorderColor", new Color(217, 217, 217));
         JLabel label6 = new JLabel("Gender:");
             label6.setFont(new java.awt.Font("Google Sans Medium", 0, 12));
-            label6.setBorder(BorderFactory.createEmptyBorder(0, 5, 0, 0));
+            label6.setBorder(BorderFactory.createEmptyBorder(2, 0, 2, 0));
             label6.setAlignmentX(Component.LEFT_ALIGNMENT);
             label6.setOpaque(false);
             label6.setBackground(Color.red);
@@ -235,12 +234,12 @@ public class StudentsInfo extends javax.swing.JPanel {
             fieldPanel6.setOpaque(false);
             fieldPanel6.add(label6, BorderLayout.PAGE_START);
             fieldPanel6.add(comboBox6, BorderLayout.PAGE_END);
-            fieldPanel6.setBorder(BorderFactory.createEmptyBorder(0, 3, 0, 0));
+            fieldPanel6.setBorder(BorderFactory.createEmptyBorder(0, 6, 0, 0));
             forms.add(fieldPanel6);
             
         JLabel label7 = new JLabel("Status:");
             label7.setFont(new java.awt.Font("Google Sans Medium", 0, 12));
-            label7.setBorder(BorderFactory.createEmptyBorder(0, 5, 0, 0));
+            label7.setBorder(BorderFactory.createEmptyBorder(2, 0, 2, 0));
             label7.setAlignmentX(Component.LEFT_ALIGNMENT);
             label7.setOpaque(false);
             label7.setBackground(Color.red);
@@ -253,12 +252,12 @@ public class StudentsInfo extends javax.swing.JPanel {
             fieldPanel7.setOpaque(false);
             fieldPanel7.add(label7, BorderLayout.PAGE_START);
             fieldPanel7.add(comboBox7, BorderLayout.PAGE_END);
-            fieldPanel7.setBorder(BorderFactory.createEmptyBorder(0, 5, 0, 0));
+            fieldPanel7.setBorder(BorderFactory.createEmptyBorder(0, 13, 0, 0));
             forms.add(fieldPanel7);
             
         JLabel label8 = new JLabel("Course:");
             label8.setFont(new java.awt.Font("Google Sans Medium", 0, 12));
-            label8.setBorder(BorderFactory.createEmptyBorder(0, 5, 0, 0));
+            label8.setBorder(BorderFactory.createEmptyBorder(2, 0, 2, 0));
             label8.setAlignmentX(Component.LEFT_ALIGNMENT);
             label8.setOpaque(false);
             label8.setBackground(Color.red);
@@ -273,13 +272,13 @@ public class StudentsInfo extends javax.swing.JPanel {
             comboBox8.addItem("Japan");
             comboBox8.addItem("China");
             comboBox8.addItem("India");
-            comboBox8.setPreferredSize(new Dimension(303, 30));
+            comboBox8.setPreferredSize(new Dimension(280, 30));
         JPanel fieldPanel8 = new JPanel();
             fieldPanel8.setLayout(new BorderLayout());
             fieldPanel8.setOpaque(false);
             fieldPanel8.add(label8, BorderLayout.PAGE_START);
             fieldPanel8.add(comboBox8, BorderLayout.PAGE_END);
-            fieldPanel8.setBorder(BorderFactory.createEmptyBorder(0, 5, 0, 0));
+            fieldPanel8.setBorder(BorderFactory.createEmptyBorder(0, 13, 0, 0));
             forms.add(fieldPanel8);
             
         JLabel label9 = new JLabel("Birthday:");
@@ -288,7 +287,7 @@ public class StudentsInfo extends javax.swing.JPanel {
             label9.setAlignmentX(Component.LEFT_ALIGNMENT);
             label9.setOpaque(false);
             label9.setBackground(Color.red);
-        JPanel dateField9 = new BetterPanel(180, 25, new Color(250, 250, 250), 10, 0.2f, new Color(220, 220, 224));
+        JPanel dateField9 = new BetterPanel(180, 28, new Color(250, 250, 250), 10, 0.2f, new Color(220, 220, 224));
             JFormattedTextField formattedTextField9 = new JFormattedTextField();
             formattedTextField9.setBorder(null);
             formattedTextField9.setOpaque(false);
@@ -317,7 +316,7 @@ public class StudentsInfo extends javax.swing.JPanel {
             label10.setAlignmentX(Component.LEFT_ALIGNMENT);
             label10.setOpaque(false);
             label10.setBackground(Color.red);
-        JPanel dateField10 = new BetterPanel(170, 25, new Color(250, 250, 250), 10, 0.2f, new Color(220, 220, 224));
+        JPanel dateField10 = new BetterPanel(170, 28, new Color(250, 250, 250), 10, 0.2f, new Color(220, 220, 224));
             JFormattedTextField formattedTextField10 = new JFormattedTextField();
             formattedTextField10.setBorder(null);
             formattedTextField10.setOpaque(false);
@@ -346,7 +345,7 @@ public class StudentsInfo extends javax.swing.JPanel {
             label11.setAlignmentX(Component.LEFT_ALIGNMENT);
             label11.setOpaque(false);
             label11.setBackground(Color.red);
-        JPanel dateField11 = new BetterPanel(170, 25, new Color(250, 250, 250), 10, 0.2f, new Color(220, 220, 224));
+        JPanel dateField11 = new BetterPanel(170, 28, new Color(250, 250, 250), 10, 0.2f, new Color(220, 220, 224));
             JFormattedTextField formattedTextField12 = new JFormattedTextField();
             formattedTextField12.setBorder(null);
             formattedTextField12.setOpaque(false);
@@ -475,11 +474,6 @@ public class StudentsInfo extends javax.swing.JPanel {
         setMinimumSize(new java.awt.Dimension(1030, 720));
         setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
     }// </editor-fold>//GEN-END:initComponents
-
-    private LayoutManager BorderLayout() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables
