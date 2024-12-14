@@ -39,7 +39,7 @@ public class BetterTextField extends BetterPanel {
         textField.addFocusListener(new FocusAdapter() {
             @Override
             public void focusGained(FocusEvent e) {
-                if (textField.getText().equals(hintText)) {
+                if (textField.getText().equals(hintText) || hintText == null) {
                     textField.setText("");
                     textField.setForeground(Color.BLACK);
                 }

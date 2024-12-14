@@ -53,6 +53,7 @@ public class MainView extends javax.swing.JPanel {
                 mainViewCardLayout.show(viewsPanel, "viewEmployees");
             }
         });
+        mainViewCardLayout.show(viewsPanel, "viewStudents");
     }
 
     /**

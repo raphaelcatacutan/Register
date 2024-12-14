@@ -22,12 +22,23 @@ import views.MainView;
  *
  * @author Raphael
  */
-public class Register {
+public class Register extends JFrame{
+    
+    public Register() {
+        JPanel view = new MainView();
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        add(view);
+        setSize(view.getPreferredSize());
+        setUndecorated(true);
+        setShape(new RoundRectangle2D.Double(0, 0, getWidth(), getHeight(), 20, 20)); 
+        setResizable(false); 
+        setLocationRelativeTo(null);
+        setTitle("RegISTER");
+    }
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        JPanel view = new MainView();
         
         FlatMacLightLaf.setup();
         UIManager.put("defaultFont", new Font("Google Sans", Font.PLAIN, 13));
@@ -36,29 +47,9 @@ public class Register {
                 UIManager.setLookAndFeel("com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatAtomOneLightIJTheme");
             } catch (ClassNotFoundException | IllegalAccessException | InstantiationException | UnsupportedLookAndFeelException e) {
             }
+            
+            new Register().setVisible(true);
         });
-        
-        JFrame frame = new JFrame() {
-            @Override
-            public void paint(Graphics g) {
-                super.paint(g);
-                Graphics2D g2d = (Graphics2D) g;
-                g2d.setRenderingHint(java.awt.RenderingHints.KEY_ANTIALIASING, java.awt.RenderingHints.VALUE_ANTIALIAS_ON);
-                g2d.setColor(new Color(199, 199, 199, 60)); 
-                g2d.setStroke(new java.awt.BasicStroke(2)); 
-                g2d.draw(new RoundRectangle2D.Double(0, 0, getWidth(), getHeight(), 20, 20)); // Adjust the border thickness here
-            }
-        };
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.add(view);
-        frame.setSize(view.getPreferredSize());
-        frame.setUndecorated(true);
-        frame.setShape(new RoundRectangle2D.Double(0, 0, frame.getWidth(), frame.getHeight(), 20, 20));  // Make the window rounded
-        frame.setResizable(false); 
-        frame.setLocationRelativeTo(null);
-        frame.setTitle("RegISTER");
-
-        frame.setVisible(true);
     }
     
 }

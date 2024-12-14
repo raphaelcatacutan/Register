@@ -11,22 +11,23 @@ import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.Image;
-import java.awt.RenderingHints;
-import java.awt.TextField;
+import java.awt.LayoutManager;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.time.LocalDate;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
+import javax.swing.JComboBox;
+import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
-import static views.ViewStudents.viewStudentsCardLayout;
+import javax.swing.UIManager;
+import raven.datetime.component.date.DatePicker;
 import views.components.BetterPanel;
 import views.components.BetterTextField;
 
@@ -98,7 +99,7 @@ public class StudentsInfo extends javax.swing.JPanel {
     }
     
     private JPanel createInfoPanel() {
-        JPanel glowPanel = new BetterPanel(770, 210, new Color(250, 250, 250), 30, 0.2f);
+        JPanel glowPanel = new BetterPanel(770, 250, new Color(250, 250, 250), 30, 0.2f);
         glowPanel.setLayout(null);
         glowPanel.setOpaque(false);
         
@@ -114,24 +115,259 @@ public class StudentsInfo extends javax.swing.JPanel {
         JPanel forms = new JPanel();
         forms.setBackground(Color.RED);
         forms.setOpaque(false);
-        forms.setLayout(new FlowLayout(FlowLayout.LEFT, 10, 10));
-        forms.setBounds(170, 20, 580, 175); 
+        forms.setLayout(new FlowLayout(FlowLayout.LEFT, 0, 0));
+        forms.setBounds(180, 25, 570, 215); 
         glowPanel.add(forms);
         
+        JLabel label1 = new JLabel("Student Number:");
+            label1.setFont(new java.awt.Font("Google Sans Medium", 0, 12));
+            label1.setBorder(BorderFactory.createEmptyBorder(0, 5, 0, 0));
+            label1.setAlignmentX(Component.LEFT_ALIGNMENT);
+            label1.setOpaque(false);
+            label1.setBackground(Color.red);
+        BetterTextField betterTextField1 = new BetterTextField(
+            130, 25, Color.WHITE, 13, 0.04f, new Color(220, 220, 224), 12, null, null
+        );
+            betterTextField1.setOpaque(false);
+            JTextField textfield1 = betterTextField1.textField;
+            textfield1.setForeground(Color.black);
         JPanel fieldPanel1 = new JPanel();
-        glowPanel.setLayout(null);
-        fieldPanel1.setLayout(new FlowLayout(FlowLayout.LEFT, 10, 10));
-        JLabel label1 = new JLabel("First Name:");
-        label1.setFont(new java.awt.Font("Google Sans", 0, 14)); // NOI18N
-        BetterTextField panelField1 = new BetterTextField(230, 25, Color.WHITE, 13, 0.04f, new Color(220, 220, 224), 12, null, null);
-        JTextField textfield1 = panelField1.textField;
-        textfield1.setForeground(Color.black);
-        fieldPanel1.setPreferredSize(new Dimension(230, 80));
-        fieldPanel1.add(label1);
-        fieldPanel1.add(panelField1);
-        fieldPanel1.setOpaque(false);
-        
-        forms.add(fieldPanel1);
+            fieldPanel1.setLayout(new BorderLayout());
+            fieldPanel1.setOpaque(false);
+            fieldPanel1.add(label1, BorderLayout.PAGE_START);
+            fieldPanel1.add(betterTextField1, BorderLayout.PAGE_END);
+            forms.add(fieldPanel1);
+            
+        JLabel label2 = new JLabel("First Name:");
+            label2.setFont(new java.awt.Font("Google Sans Medium", 0, 12));
+            label2.setBorder(BorderFactory.createEmptyBorder(0, 5, 0, 0));
+            label2.setAlignmentX(Component.LEFT_ALIGNMENT);
+            label2.setOpaque(false);
+            label2.setBackground(Color.red);
+        BetterTextField betterTextField2 = new BetterTextField(
+            200, 25, Color.WHITE, 13, 0.04f, new Color(220, 220, 224), 12, null, null
+        );
+            betterTextField2.setOpaque(false);
+            JTextField textField2 = betterTextField2.textField;
+            textField2.setForeground(Color.black);
+        JPanel fieldPanel2 = new JPanel();
+            fieldPanel2.setLayout(new BorderLayout());
+            fieldPanel2.setOpaque(false);
+            fieldPanel2.add(label2, BorderLayout.PAGE_START);
+            fieldPanel2.add(betterTextField2, BorderLayout.PAGE_END);
+            forms.add(fieldPanel2);
+            
+        JLabel label3 = new JLabel("Last Name:");
+            label3.setFont(new java.awt.Font("Google Sans Medium", 0, 12));
+            label3.setBorder(BorderFactory.createEmptyBorder(0, 5, 0, 0));
+            label3.setAlignmentX(Component.LEFT_ALIGNMENT);
+            label3.setOpaque(false);
+            label3.setBackground(Color.red);
+        BetterTextField betterTextField3 = new BetterTextField(
+            200, 25, Color.WHITE, 13, 0.04f, new Color(220, 220, 224), 12, null, null
+        );
+            betterTextField3.setOpaque(false);
+            JTextField textField3 = betterTextField3.textField;
+            textField3.setForeground(Color.black);
+        JPanel fieldPanel3 = new JPanel();
+            fieldPanel3.setLayout(new BorderLayout());
+            fieldPanel3.setOpaque(false);
+            fieldPanel3.add(label3, BorderLayout.PAGE_START);
+            fieldPanel3.add(betterTextField3, BorderLayout.PAGE_END);
+            forms.add(fieldPanel3); 
+            
+        JLabel label4 = new JLabel("Address:");
+            label4.setFont(new java.awt.Font("Google Sans Medium", 0, 12));
+            label4.setBorder(BorderFactory.createEmptyBorder(0, 5, 0, 0));
+            label4.setAlignmentX(Component.LEFT_ALIGNMENT);
+            label4.setOpaque(false);
+            label4.setBackground(Color.red);
+        BetterTextField betterTextField4 = new BetterTextField(
+            342, 25, Color.WHITE, 13, 0.04f, new Color(220, 220, 224), 12, null, null
+        );
+            betterTextField4.setOpaque(false);
+            JTextField textField4 = betterTextField4.textField;
+            textField4.setForeground(Color.black);
+        JPanel fieldPanel4 = new JPanel();
+            fieldPanel4.setLayout(new BorderLayout());
+            fieldPanel4.setOpaque(false);
+            fieldPanel4.add(label4, BorderLayout.PAGE_START);
+            fieldPanel4.add(betterTextField4, BorderLayout.PAGE_END);
+            forms.add(fieldPanel4);
+            
+        JLabel label5 = new JLabel("Email:");
+            label5.setFont(new java.awt.Font("Google Sans Medium", 0, 12));
+            label5.setBorder(BorderFactory.createEmptyBorder(0, 5, 0, 0));
+            label5.setAlignmentX(Component.LEFT_ALIGNMENT);
+            label5.setOpaque(false);
+            label5.setBackground(Color.red);
+        BetterTextField betterTextField5 = new BetterTextField(
+            200, 25, Color.WHITE, 13, 0.04f, new Color(220, 220, 224), 12, null, null
+        );
+            betterTextField5.setOpaque(false);
+            JTextField textField5 = betterTextField5.textField;
+            textField5.setForeground(Color.black);
+        JPanel fieldPanel5 = new JPanel();
+            fieldPanel5.setLayout(new BorderLayout());
+            fieldPanel5.setOpaque(false);
+            fieldPanel5.add(label5, BorderLayout.PAGE_START);
+            fieldPanel5.add(betterTextField5, BorderLayout.PAGE_END);
+            forms.add(fieldPanel5);
+            
+        UIManager.put("ComboBox.buttonBackground", new Color(224, 224, 224));
+        UIManager.put("ComboBox.buttonHoverArrowColor", Color.gray);
+        UIManager.put("ComboBox.buttonPressedArrowColor", Color.gray);
+        UIManager.put("ComboBox.buttonArrowColor", Color.gray);
+        UIManager.put("Component.focusWidth", 0);
+        UIManager.put("Component.focusedBorderColor", new Color(217, 217, 217));
+        JLabel label6 = new JLabel("Gender:");
+            label6.setFont(new java.awt.Font("Google Sans Medium", 0, 12));
+            label6.setBorder(BorderFactory.createEmptyBorder(0, 5, 0, 0));
+            label6.setAlignmentX(Component.LEFT_ALIGNMENT);
+            label6.setOpaque(false);
+            label6.setBackground(Color.red);
+        JComboBox comboBox6 = new JComboBox();
+            comboBox6.addItem("Male");
+            comboBox6.addItem("Female");
+            comboBox6.setPreferredSize(new Dimension(125, 30));
+        JPanel fieldPanel6 = new JPanel();
+            fieldPanel6.setLayout(new BorderLayout());
+            fieldPanel6.setOpaque(false);
+            fieldPanel6.add(label6, BorderLayout.PAGE_START);
+            fieldPanel6.add(comboBox6, BorderLayout.PAGE_END);
+            fieldPanel6.setBorder(BorderFactory.createEmptyBorder(0, 3, 0, 0));
+            forms.add(fieldPanel6);
+            
+        JLabel label7 = new JLabel("Status:");
+            label7.setFont(new java.awt.Font("Google Sans Medium", 0, 12));
+            label7.setBorder(BorderFactory.createEmptyBorder(0, 5, 0, 0));
+            label7.setAlignmentX(Component.LEFT_ALIGNMENT);
+            label7.setOpaque(false);
+            label7.setBackground(Color.red);
+        JComboBox comboBox7 = new JComboBox();
+            comboBox7.addItem("Active");
+            comboBox7.addItem("Inactive");
+            comboBox7.setPreferredSize(new Dimension(125, 30));
+        JPanel fieldPanel7 = new JPanel();
+            fieldPanel7.setLayout(new BorderLayout());
+            fieldPanel7.setOpaque(false);
+            fieldPanel7.add(label7, BorderLayout.PAGE_START);
+            fieldPanel7.add(comboBox7, BorderLayout.PAGE_END);
+            fieldPanel7.setBorder(BorderFactory.createEmptyBorder(0, 5, 0, 0));
+            forms.add(fieldPanel7);
+            
+        JLabel label8 = new JLabel("Course:");
+            label8.setFont(new java.awt.Font("Google Sans Medium", 0, 12));
+            label8.setBorder(BorderFactory.createEmptyBorder(0, 5, 0, 0));
+            label8.setAlignmentX(Component.LEFT_ALIGNMENT);
+            label8.setOpaque(false);
+            label8.setBackground(Color.red);
+        JComboBox comboBox8 = new JComboBox();
+            comboBox8.addItem("United States");
+            comboBox8.addItem("Canada");
+            comboBox8.addItem("Brazil");
+            comboBox8.addItem("United Kingdom");
+            comboBox8.addItem("France");
+            comboBox8.addItem("Germany");
+            comboBox8.addItem("Australia");
+            comboBox8.addItem("Japan");
+            comboBox8.addItem("China");
+            comboBox8.addItem("India");
+            comboBox8.setPreferredSize(new Dimension(303, 30));
+        JPanel fieldPanel8 = new JPanel();
+            fieldPanel8.setLayout(new BorderLayout());
+            fieldPanel8.setOpaque(false);
+            fieldPanel8.add(label8, BorderLayout.PAGE_START);
+            fieldPanel8.add(comboBox8, BorderLayout.PAGE_END);
+            fieldPanel8.setBorder(BorderFactory.createEmptyBorder(0, 5, 0, 0));
+            forms.add(fieldPanel8);
+            
+        JLabel label9 = new JLabel("Birthday:");
+            label9.setFont(new java.awt.Font("Google Sans Medium", 0, 12));
+            label9.setBorder(BorderFactory.createEmptyBorder(5, 5, 0, 0));
+            label9.setAlignmentX(Component.LEFT_ALIGNMENT);
+            label9.setOpaque(false);
+            label9.setBackground(Color.red);
+        JPanel dateField9 = new BetterPanel(180, 25, new Color(250, 250, 250), 10, 0.2f, new Color(220, 220, 224));
+            JFormattedTextField formattedTextField9 = new JFormattedTextField();
+            formattedTextField9.setBorder(null);
+            formattedTextField9.setOpaque(false);
+            DatePicker datePicker9 = new DatePicker();
+            datePicker9.setDateSelectionAble((date) -> !date.isAfter(LocalDate.now())); // TODO:
+            datePicker9.now();
+            datePicker9.setEditor(formattedTextField9);
+            datePicker9.setCloseAfterSelected(true);
+            datePicker9.setEditorValidation(false);
+            datePicker9.setAnimationEnabled(false);
+            dateField9.setLayout(new BorderLayout());
+            dateField9.add(formattedTextField9, BorderLayout.CENTER);
+            dateField9.add(formattedTextField9);
+            dateField9.setBorder(BorderFactory.createEmptyBorder(2, 15, 0, 15));
+        JPanel fieldPanel9 = new JPanel();
+            fieldPanel9.setLayout(new BorderLayout());
+            fieldPanel9.setOpaque(false);
+            fieldPanel9.add(label9, BorderLayout.PAGE_START);
+            fieldPanel9.add(dateField9, BorderLayout.PAGE_END);
+            fieldPanel9.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+            forms.add(fieldPanel9);
+            
+        JLabel label10 = new JLabel("Date Started:");
+            label10.setFont(new java.awt.Font("Google Sans Medium", 0, 12));
+            label10.setBorder(BorderFactory.createEmptyBorder(5, 5, 0, 0));
+            label10.setAlignmentX(Component.LEFT_ALIGNMENT);
+            label10.setOpaque(false);
+            label10.setBackground(Color.red);
+        JPanel dateField10 = new BetterPanel(170, 25, new Color(250, 250, 250), 10, 0.2f, new Color(220, 220, 224));
+            JFormattedTextField formattedTextField10 = new JFormattedTextField();
+            formattedTextField10.setBorder(null);
+            formattedTextField10.setOpaque(false);
+            DatePicker datePicker10 = new DatePicker();
+            datePicker10.setDateSelectionAble((date) -> !date.isAfter(LocalDate.now())); // TODO:
+            datePicker10.now();
+            datePicker10.setEditor(formattedTextField10);
+            datePicker10.setCloseAfterSelected(true);
+            datePicker10.setEditorValidation(false);
+            datePicker10.setAnimationEnabled(false);
+            dateField10.setLayout(new BorderLayout());
+            dateField10.add(formattedTextField10, BorderLayout.CENTER);
+            dateField10.add(formattedTextField10);
+            dateField10.setBorder(BorderFactory.createEmptyBorder(2, 15, 0, 15));
+        JPanel fieldPanel10 = new JPanel();
+            fieldPanel10.setLayout(new BorderLayout());
+            fieldPanel10.setOpaque(false);
+            fieldPanel10.add(label10, BorderLayout.PAGE_START);
+            fieldPanel10.add(dateField10, BorderLayout.PAGE_END);
+            fieldPanel10.setBorder(BorderFactory.createEmptyBorder(0, 5, 0, 0));
+            forms.add(fieldPanel10);
+            
+        JLabel label11 = new JLabel("Date Graduated:");
+            label11.setFont(new java.awt.Font("Google Sans Medium", 0, 12));
+            label11.setBorder(BorderFactory.createEmptyBorder(5, 5, 0, 0));
+            label11.setAlignmentX(Component.LEFT_ALIGNMENT);
+            label11.setOpaque(false);
+            label11.setBackground(Color.red);
+        JPanel dateField11 = new BetterPanel(170, 25, new Color(250, 250, 250), 10, 0.2f, new Color(220, 220, 224));
+            JFormattedTextField formattedTextField12 = new JFormattedTextField();
+            formattedTextField12.setBorder(null);
+            formattedTextField12.setOpaque(false);
+            DatePicker datePicker11 = new DatePicker();
+            datePicker11.setDateSelectionAble((date) -> !date.isAfter(LocalDate.now())); // TODO:
+            datePicker11.now();
+            datePicker11.setEditor(formattedTextField12);
+            datePicker11.setCloseAfterSelected(true);
+            datePicker11.setEditorValidation(false);
+            datePicker11.setAnimationEnabled(false);
+            dateField11.setLayout(new BorderLayout());
+            dateField11.add(formattedTextField12, BorderLayout.CENTER);
+            dateField11.add(formattedTextField12);
+            dateField11.setBorder(BorderFactory.createEmptyBorder(2, 15, 0, 15));
+        JPanel fieldPanel11 = new JPanel();
+            fieldPanel11.setLayout(new BorderLayout());
+            fieldPanel11.setOpaque(false);
+            fieldPanel11.add(label11, BorderLayout.PAGE_START);
+            fieldPanel11.add(dateField11, BorderLayout.PAGE_END);
+            fieldPanel11.setBorder(BorderFactory.createEmptyBorder(0, 5, 0, 0));
+            forms.add(fieldPanel11);
         
         return glowPanel;
     }
@@ -239,6 +475,10 @@ public class StudentsInfo extends javax.swing.JPanel {
         setMinimumSize(new java.awt.Dimension(1030, 720));
         setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
     }// </editor-fold>//GEN-END:initComponents
+
+    private LayoutManager BorderLayout() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

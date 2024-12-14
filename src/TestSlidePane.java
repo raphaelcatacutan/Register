@@ -50,7 +50,7 @@ public class TestSlidePane extends JFrame {
         datePicker.setEditorValidation(false);
         datePicker.setAnimationEnabled(false);
 
-        add(editor, "width 250");
+        add(editor);
         
     }
 
