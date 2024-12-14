@@ -232,6 +232,11 @@ public class EmployeesList extends javax.swing.JPanel {
                 column4.setForeground(Color.black);
                 column5.setForeground(Color.black);
             }
+            
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                ViewEmployees.viewEmployeesCardLayout.show(MainView.viewEmployees, "empInfoPanel");
+            }
         });
         
         return recordPanel;

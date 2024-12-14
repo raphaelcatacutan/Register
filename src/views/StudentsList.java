@@ -20,11 +20,9 @@ import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.SwingConstants;
 import views.components.BetterPanel;
 import views.components.BetterTextField;
-import static views.MainView.mainViewCardLayout;
 
 /**
  *

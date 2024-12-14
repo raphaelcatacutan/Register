@@ -34,11 +34,11 @@ import views.components.BetterTextField;
  *
  * @author Raphael
  */
-public class StudentsInfo extends javax.swing.JPanel {
+public class EmployeesInfo extends javax.swing.JPanel {
     /**
-     * Creates new form StudentsList
+     * Creates new form EmployeesInfo
      */
-    public StudentsInfo() {
+    public EmployeesInfo() {
         initComponents();
         
         add(createActionsPanel());
@@ -55,7 +55,7 @@ public class StudentsInfo extends javax.swing.JPanel {
         
         JLabel lblTitle = new javax.swing.JLabel();
         lblTitle.setFont(new java.awt.Font("Google Sans Medium", 0, 24)); // NOI18N
-        lblTitle.setText("Student Information");
+        lblTitle.setText("Employee Information");
         
         JLabel lblBack = new javax.swing.JLabel();
         lblBack.setIcon(new ImageIcon(getClass().getResource("/assets/icons/app (2).png"))); // NOI18N
@@ -63,7 +63,7 @@ public class StudentsInfo extends javax.swing.JPanel {
             @Override
             public void mouseClicked(MouseEvent e) {
                 System.out.println("Hello");
-                ViewStudents.viewStudentsCardLayout.show(MainView.viewStudents, "studListPanel");
+                ViewEmployees.viewEmployeesCardLayout.show(MainView.viewEmployees, "empListPanel");
             }
          });
         
@@ -379,7 +379,7 @@ public class StudentsInfo extends javax.swing.JPanel {
 
         JLabel lblTitle = new javax.swing.JLabel();
         lblTitle.setFont(new java.awt.Font("Google Sans", 0, 20)); // NOI18N
-        lblTitle.setText("Course Grades");
+        lblTitle.setText("Course Schedule");
         
         BetterTextField searchPanel = new BetterTextField(260, 32, Color.WHITE, 13, 0.04f, new Color(220, 220, 224), 12, getClass().getResource("/assets/icons/app (1).png").toString(), "Search");
         

@@ -4,19 +4,30 @@
  */
 package views;
 
+import java.awt.CardLayout;
+import javax.swing.JLayeredPane;
+
 /**
  *
  * @author Raphael
  */
 public class ViewEmployees extends javax.swing.JPanel {
-
+    public static CardLayout viewEmployeesCardLayout;
+    public static EmployeesInfo empInfoPanel;
+    public static EmployeesList empListPanel;
+    
     /**
      * Creates new form ViewStudents
      */
     public ViewEmployees() {
         initComponents();
         
-        add(new EmployeesList());
+        viewEmployeesCardLayout = (CardLayout) getLayout();
+        empListPanel = new EmployeesList();
+        empInfoPanel = new EmployeesInfo();
+        
+        add(empInfoPanel, "empInfoPanel");
+        add(empListPanel, "empListPanel");
     }
 
     /**
@@ -28,9 +39,9 @@ public class ViewEmployees extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        setBackground(new java.awt.Color(250, 250, 250));
         setMaximumSize(new java.awt.Dimension(1030, 720));
         setMinimumSize(new java.awt.Dimension(1030, 720));
+        setOpaque(false);
         setPreferredSize(new java.awt.Dimension(1030, 720));
         setLayout(new java.awt.CardLayout());
     }// </editor-fold>//GEN-END:initComponents

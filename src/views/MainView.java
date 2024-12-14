@@ -17,6 +17,8 @@ import views.panels.NavigationPanel;
 public class MainView extends javax.swing.JPanel {
     public static CardLayout mainViewCardLayout;
     public static JPanel viewStudents;
+    public static JPanel viewEmployees;
+    
     /**
      * Creates new form MainView
      */
@@ -27,7 +29,7 @@ public class MainView extends javax.swing.JPanel {
         
         JPanel viewDashboard = new ViewDashboard();
         viewStudents = new ViewStudents();
-        JPanel viewEmployees = new ViewEmployees();
+        viewEmployees = new ViewEmployees();
         
         viewsPanel.add(viewDashboard, "viewDashboard");
         viewsPanel.add(viewStudents, "viewStudents");
@@ -53,7 +55,7 @@ public class MainView extends javax.swing.JPanel {
                 mainViewCardLayout.show(viewsPanel, "viewEmployees");
             }
         });
-        mainViewCardLayout.show(viewsPanel, "viewStudents");
+        mainViewCardLayout.show(viewsPanel, "viewEmployees");
     }
 
     /**
