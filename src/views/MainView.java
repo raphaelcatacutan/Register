@@ -18,6 +18,8 @@ public class MainView extends javax.swing.JPanel {
     public static CardLayout mainViewCardLayout;
     public static JPanel viewStudents;
     public static JPanel viewEmployees;
+    public static JPanel viewDashboard;
+    public static JPanel viewGrading;
     
     /**
      * Creates new form MainView
@@ -27,13 +29,15 @@ public class MainView extends javax.swing.JPanel {
         
         navigationItems.add(NavigationPanel.createNavigationPanel());
         
-        JPanel viewDashboard = new ViewDashboard();
+        viewDashboard = new ViewDashboard();
         viewStudents = new ViewStudents();
         viewEmployees = new ViewEmployees();
+        viewGrading = new ViewGrading();
         
         viewsPanel.add(viewDashboard, "viewDashboard");
         viewsPanel.add(viewStudents, "viewStudents");
         viewsPanel.add(viewEmployees, "viewEmployees");
+        viewsPanel.add(viewGrading, "viewGrading");
         
         mainViewCardLayout = (CardLayout) viewsPanel.getLayout();
         
@@ -55,7 +59,13 @@ public class MainView extends javax.swing.JPanel {
                 mainViewCardLayout.show(viewsPanel, "viewEmployees");
             }
         });
-        mainViewCardLayout.show(viewsPanel, "viewEmployees");
+        NavigationPanel.gradingItem.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                mainViewCardLayout.show(viewsPanel, "viewGrading");
+            }
+        });
+        mainViewCardLayout.show(viewsPanel, "viewGrading");
     }
 
     /**

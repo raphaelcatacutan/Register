@@ -36,9 +36,9 @@ public class NavigationPanel {
         navPanel.add(dashboardItem);
         navPanel.add(studentItem);
         navPanel.add(employeesItem);
-        navPanel.add(subjectsItem);
         navPanel.add(gradingItem);
         navPanel.add(collegesItem);
+        navPanel.add(subjectsItem);
         navPanel.add(lookupItem);
         
         // Adding space for exit
