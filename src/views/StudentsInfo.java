@@ -14,10 +14,12 @@ import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.net.URL;
 import java.time.LocalDate;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
 import javax.swing.JFormattedTextField;
@@ -58,7 +60,7 @@ public class StudentsInfo extends javax.swing.JPanel {
         lblTitle.setText("Student Information");
         
         JLabel lblBack = new javax.swing.JLabel();
-        lblBack.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/icons/app (2).png"))); // NOI18N
+        lblBack.setIcon(new ImageIcon(getClass().getResource("/assets/icons/app (2).png"))); // NOI18N
         lblBack.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -73,7 +75,7 @@ public class StudentsInfo extends javax.swing.JPanel {
         JLabel button1Label = new JLabel("Save Changes");
         button1Label.setFont(new Font("Google Sans", Font.PLAIN, 12));
         button1Label.setAlignmentX(Component.LEFT_ALIGNMENT);
-        button1Label.setIcon(new ImageIcon("C:/Users/Raphael/Documents/Sync/Developments/Java/RegISTER/src/assets/icons/app (1).png"));
+        button1Label.setIcon(new ImageIcon(getClass().getResource("/assets/icons/app (1).png")));
         button1.add(button1Label);
         button1.setBorder(BorderFactory.createEmptyBorder(9, 10, 10, 10));
         button1.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -81,7 +83,7 @@ public class StudentsInfo extends javax.swing.JPanel {
         JLabel button2Label = new JLabel("Delete Student");
         button2Label.setFont(new Font("Google Sans", Font.PLAIN, 12));
         button2Label.setAlignmentX(Component.LEFT_ALIGNMENT);
-        button2Label.setIcon(new ImageIcon("C:/Users/Raphael/Documents/Sync/Developments/Java/RegISTER/src/assets/icons/app (1).png"));
+        button2Label.setIcon(new ImageIcon(getClass().getResource("/assets/icons/app (1).png")));
         button2.add(button2Label);
         button2.setBorder(BorderFactory.createEmptyBorder(9, 10, 10, 10));
         button2.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -102,7 +104,7 @@ public class StudentsInfo extends javax.swing.JPanel {
         glowPanel.setLayout(null);
         glowPanel.setOpaque(false);
         
-        ImageIcon icon = new ImageIcon("C:\\Users\\Raphael\\Downloads\\example image.png");
+        ImageIcon icon = new ImageIcon(getClass().getResource("/assets/image/example image.png"));
         Image img = icon.getImage();
         Image scaledImg = img.getScaledInstance(120, 120, Image.SCALE_SMOOTH);
         ImageIcon scaledIcon = new ImageIcon(scaledImg);
@@ -381,14 +383,14 @@ public class StudentsInfo extends javax.swing.JPanel {
         lblTitle.setFont(new java.awt.Font("Google Sans", 0, 20)); // NOI18N
         lblTitle.setText("Course Grades");
         
-        BetterTextField searchPanel = new BetterTextField(260, 32, Color.WHITE, 13, 0.04f, new Color(220, 220, 224), 12, "C:/Users/Raphael/Documents/Sync/Developments/Java/RegISTER/src/assets/icons/app (1).png", "Search");
+        BetterTextField searchPanel = new BetterTextField(260, 32, Color.WHITE, 13, 0.04f, new Color(220, 220, 224), 12, getClass().getResource("/assets/icons/app (1).png").toString(), "Search");
         
         JPanel button1 = new BetterPanel(115, 30, new Color(173, 204, 255), 10, 0.5f);
         
         JLabel button1Label = new JLabel("Filter Course");
         button1Label.setFont(new Font("Google Sans", Font.PLAIN, 12));
         button1Label.setAlignmentX(Component.LEFT_ALIGNMENT);
-        button1Label.setIcon(new ImageIcon("C:/Users/Raphael/Documents/Sync/Developments/Java/RegISTER/src/assets/icons/app (1).png"));
+        button1Label.setIcon(new ImageIcon(getClass().getResource("/assets/icons/app (1).png")));
         button1.add(button1Label);
         button1.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         button1.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));

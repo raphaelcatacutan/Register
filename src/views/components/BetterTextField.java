@@ -65,23 +65,4 @@ public class BetterTextField extends BetterPanel {
         this.requestFocus();
         this.add(textField, BorderLayout.CENTER);
     }
-
-    public static void main(String[] args) {
-        // Create the JFrame
-        JFrame frame = new JFrame("Minimal JTextField with Icon");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(400, 200);
-        frame.setLayout(new FlowLayout());
-
-        // Example: Adding an icon
-        Icon exampleIcon = new ImageIcon("C:/Users/Raphael/Documents/Sync/Developments/Java/RegISTER/src/assets/icons/app (1).png");  // Replace with the path to your icon
-
-        // Create BetterTextField with icon
-        JPanel panel = new BetterTextField(200, 27, Color.WHITE, 15, 0.04f, new Color(220, 220, 224), 13, "C:/Users/Raphael/Documents/Sync/Developments/Java/RegISTER/src/assets/icons/app (1).png", null);
-
-        frame.add(panel);
-        frame.add(new JLabel("d"));
-        frame.setVisible(true);
-        SwingUtilities.invokeLater(() -> frame.getContentPane().requestFocusInWindow());
-    }
 }
