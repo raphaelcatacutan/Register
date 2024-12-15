@@ -2,6 +2,10 @@ package database;
 
 import java.sql.*;
 
+/**
+ *
+ * @author Robante
+ */
 public class DBReadRS {
 
     public static ResultSet getSchoolYearData(String syear) throws SQLException {

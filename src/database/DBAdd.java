@@ -5,7 +5,10 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.Date;
 import models.*;
-
+/**
+ *
+ * @author Robante
+ */
 public class DBAdd {
 
     public static String addSchoolYear(SchoolYear schoolYear, Connection conn) {

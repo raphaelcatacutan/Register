@@ -5,6 +5,10 @@ import java.util.ArrayList;
 import java.util.List;
 import models.*;
 
+/**
+ *
+ * @author Robante
+ */
 public class DBReadMd {
 
     public static SchoolYear getSchoolYear(String syear) {

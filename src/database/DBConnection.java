@@ -7,7 +7,10 @@ import java.sql.Statement;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-
+/**
+ *
+ * @author Robante
+ */
 public class DBConnection {
 
     private static Connection connection;

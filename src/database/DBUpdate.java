@@ -3,6 +3,10 @@ package database;
 import java.sql.*;
 import java.util.Date;
 
+/**
+ *
+ * @author Robante
+ */
 public class DBUpdate {
 
     private Connection connection;
