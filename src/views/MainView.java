@@ -40,6 +40,7 @@ public class MainView extends javax.swing.JPanel {
         viewColleges = new ViewColleges();
         viewCourses = new ViewCourses();
         viewSettings = new ViewSettings();
+        viewSubjects = new ViewSubjects();
         
         viewsPanel.add(viewDashboard, "viewDashboard");
         viewsPanel.add(viewStudents, "viewStudents");
@@ -48,6 +49,7 @@ public class MainView extends javax.swing.JPanel {
         viewsPanel.add(viewColleges, "viewColleges");
         viewsPanel.add(viewCourses, "viewCourses");
         viewsPanel.add(viewSettings, "viewSettings");
+        viewsPanel.add(viewSubjects, "viewSubjects");
         
         mainViewCardLayout = (CardLayout) viewsPanel.getLayout();
         
@@ -93,6 +95,13 @@ public class MainView extends javax.swing.JPanel {
                 mainViewCardLayout.show(viewsPanel, "viewCourses");
             }
         });
+        NavigationPanel.subjectsItem.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                mainViewCardLayout.show(viewsPanel, "viewSubjects");
+            }
+        });
+//        mainViewCardLayout.show(viewsPanel, "viewColleges");
     }
 
     /**
