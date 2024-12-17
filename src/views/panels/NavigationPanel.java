@@ -15,6 +15,7 @@ public class NavigationPanel {
     public static JPanel subjectsItem;
     public static JPanel gradingItem;
     public static JPanel collegesItem;
+    public static JPanel coursesItem;
     public static JPanel settingsItem;
 
     public static JPanel createNavigationPanel() {
@@ -28,6 +29,7 @@ public class NavigationPanel {
         subjectsItem = createNavItem("Subjects", "icons/analytics.png");
         gradingItem = createNavItem("Grading", "icons/analytics.png");
         collegesItem = createNavItem("Colleges", "icons/analytics.png");
+        coursesItem = createNavItem("Courses", "icons/analytics.png");
         settingsItem = createNavItem("Settings", "icons/analytics.png");
         
         JPanel space = new JPanel();
@@ -38,6 +40,7 @@ public class NavigationPanel {
         navPanel.add(employeesItem);
         navPanel.add(gradingItem);
         navPanel.add(collegesItem);
+        navPanel.add(coursesItem);
         navPanel.add(subjectsItem);
         navPanel.add(settingsItem);
         

@@ -21,6 +21,7 @@ public class MainView extends javax.swing.JPanel {
     public static JPanel viewDashboard;
     public static JPanel viewGrading;
     public static JPanel viewColleges;
+    public static JPanel viewCourses;
     public static JPanel viewSubjects;
     public static JPanel viewSettings;
     
@@ -36,12 +37,16 @@ public class MainView extends javax.swing.JPanel {
         viewStudents = new ViewStudents();
         viewEmployees = new ViewEmployees();
         viewGrading = new ViewGrading();
+        viewColleges = new ViewColleges();
+        viewCourses = new ViewCourses();
         viewSettings = new ViewSettings();
         
         viewsPanel.add(viewDashboard, "viewDashboard");
         viewsPanel.add(viewStudents, "viewStudents");
         viewsPanel.add(viewEmployees, "viewEmployees");
         viewsPanel.add(viewGrading, "viewGrading");
+        viewsPanel.add(viewColleges, "viewColleges");
+        viewsPanel.add(viewCourses, "viewCourses");
         viewsPanel.add(viewSettings, "viewSettings");
         
         mainViewCardLayout = (CardLayout) viewsPanel.getLayout();
@@ -70,13 +75,24 @@ public class MainView extends javax.swing.JPanel {
                 mainViewCardLayout.show(viewsPanel, "viewGrading");
             }
         });
+        NavigationPanel.collegesItem.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                mainViewCardLayout.show(viewsPanel, "viewColleges");
+            }
+        });
         NavigationPanel.settingsItem.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 mainViewCardLayout.show(viewsPanel, "viewSettings");
             }
         });
-        mainViewCardLayout.show(viewsPanel, "viewSettings");
+        NavigationPanel.coursesItem.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                mainViewCardLayout.show(viewsPanel, "viewCourses");
+            }
+        });
     }
 
     /**
