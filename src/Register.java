@@ -45,7 +45,7 @@ public class Register extends JFrame{
         EventQueue.invokeLater(() -> {
             try {
                 UIManager.setLookAndFeel("com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatAtomOneLightIJTheme");
-            } catch (ClassNotFoundException | IllegalAccessException | InstantiationException | UnsupportedLookAndFeelException e) {
+            } catch (ClassNotFoundException | IllegalAccessException | InstantiationException | UnsupportedLookAndFeelException ignored) {
             }
             
             new Register().setVisible(true);
