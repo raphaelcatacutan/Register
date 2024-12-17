@@ -5,10 +5,6 @@
 package views;
 
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.util.ArrayList;
-import java.util.List;
 import javax.swing.*;
 import views.components.BetterPanel;
 import views.components.BetterTextField;
@@ -237,10 +233,11 @@ public final class ViewGrading extends javax.swing.JPanel {
             separator.setPreferredSize(new Dimension(40, 20));
             separator.setOpaque(false);
         
-        JPanel column3 = new BetterPanel(55, 20, new Color(255, 200, 200), 15, 0.5f);
+        boolean result = Math.random() < 0.5;
+        JPanel column3 = new BetterPanel(55, 20, result ? new Color(255, 200, 200) : new Color(174, 226, 200), 15, 0.5f);
         column3.setLayout(new FlowLayout(FlowLayout.CENTER));
         JLabel column3Label = new JLabel();
-        column3Label.setText("Inactive");
+        column3Label.setText(result ? "Failed" : "Passed");
         column3Label.setFont(new Font("Google Sans", Font.PLAIN, 11));
         column3Label.setBorder(BorderFactory.createEmptyBorder(4, 10, 10, 10));
         column3.add(column3Label);
@@ -275,7 +272,7 @@ public final class ViewGrading extends javax.swing.JPanel {
         setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
 
         lblDashboard.setFont(new java.awt.Font("Google Sans Medium", 0, 24)); // NOI18N
-        lblDashboard.setText("Grading");
+        lblDashboard.setText("Student Grading");
         add(lblDashboard);
     }// </editor-fold>//GEN-END:initComponents
 

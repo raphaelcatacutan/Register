@@ -15,7 +15,7 @@ public class NavigationPanel {
     public static JPanel subjectsItem;
     public static JPanel gradingItem;
     public static JPanel collegesItem;
-    public static JPanel lookupItem;
+    public static JPanel settingsItem;
 
     public static JPanel createNavigationPanel() {
         JPanel navPanel = new JPanel();
@@ -28,7 +28,7 @@ public class NavigationPanel {
         subjectsItem = createNavItem("Subjects", "icons/analytics.png");
         gradingItem = createNavItem("Grading", "icons/analytics.png");
         collegesItem = createNavItem("Colleges", "icons/analytics.png");
-        lookupItem = createNavItem("Lookup", "icons/analytics.png");
+        settingsItem = createNavItem("Settings", "icons/analytics.png");
         
         JPanel space = new JPanel();
         JPanel exit = createNavItem("Exit Application", "icons/analytics.png");
@@ -39,7 +39,7 @@ public class NavigationPanel {
         navPanel.add(gradingItem);
         navPanel.add(collegesItem);
         navPanel.add(subjectsItem);
-        navPanel.add(lookupItem);
+        navPanel.add(settingsItem);
         
         // Adding space for exit
         space.setMaximumSize(new Dimension(10, 200));
