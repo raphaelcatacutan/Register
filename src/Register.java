@@ -10,6 +10,11 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
+import raven.popup.GlassPanePopup;
+import raven.popup.component.PopupCallbackAction;
+import raven.popup.component.PopupController;
+import raven.popup.component.SimplePopupBorder;
+import utils.StaticVars;
 import views.MainView;
 
 /*
@@ -23,9 +28,9 @@ import views.MainView;
  * @author Raphael
  */
 public class Register extends JFrame{
-    
+    static JPanel view;
     public Register() {
-        JPanel view = new MainView();
+        view = new MainView();
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         add(view);
         setSize(view.getPreferredSize());
@@ -34,6 +39,9 @@ public class Register extends JFrame{
         setResizable(false); 
         setLocationRelativeTo(null);
         setTitle("RegISTER");
+        
+        GlassPanePopup.install(this);
+
     }
     /**
      * @param args the command line arguments
@@ -47,8 +55,9 @@ public class Register extends JFrame{
                 UIManager.setLookAndFeel("com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatAtomOneLightIJTheme");
             } catch (ClassNotFoundException | IllegalAccessException | InstantiationException | UnsupportedLookAndFeelException ignored) {
             }
-            
-            new Register().setVisible(true);
+            final Register register = new Register();
+            StaticVars.mainForm = register;
+            register.setVisible(true);
         });
     }
     

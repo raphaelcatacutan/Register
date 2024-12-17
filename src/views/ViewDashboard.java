@@ -5,10 +5,20 @@
 package views;
 
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.*;
+import raven.modal.ModalDialog;
+import raven.modal.component.SimpleModalBorder;
+import raven.modal.listener.ModalCallback;
+import raven.modal.option.BorderOption;
+import raven.modal.option.Location;
+import raven.modal.option.Option;
+import utils.StaticVars;
 import views.components.BetterPanel;
+import views.components.SimpleMessageModal;
 
 /**
  *
@@ -60,6 +70,21 @@ public final class ViewDashboard extends javax.swing.JPanel {
 
         JPanel button1 = new BetterPanel(100, 30, new Color(204, 194, 255), 10, 0.5f);
         JPanel button2 = new BetterPanel(100, 30, new Color(174, 226, 200), 10, 0.5f);
+        button2.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                String message = "Hello! I hope you're having a wonderful day.";
+                
+                final SimpleMessageModal simpleMessageModal = new SimpleMessageModal(SimpleMessageModal.Type.ERROR, message, "This is a modal custom message", SimpleModalBorder.YES_NO_OPTION, (controller, action) -> {
+                    if (action == SimpleModalBorder.YES_OPTION) {
+                        System.out.println("Hello");
+                    }
+                });
+                
+                ModalDialog.showModal(StaticVars.mainForm, simpleMessageModal);
+            }
+        });
+
         JPanel button3 = new BetterPanel(100, 30, new Color(255, 216, 158), 10, 0.5f);
         
         JLabel button1Label = new JLabel("Add Student");
