@@ -1,5 +1,6 @@
 
 import com.formdev.flatlaf.themes.FlatMacLightLaf;
+import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Font;
@@ -15,6 +16,7 @@ import raven.popup.component.PopupCallbackAction;
 import raven.popup.component.PopupController;
 import raven.popup.component.SimplePopupBorder;
 import utils.StaticVars;
+import views.MainLogin;
 import views.MainView;
 
 /*
@@ -28,20 +30,23 @@ import views.MainView;
  * @author Raphael
  */
 public class Register extends JFrame{
-    static JPanel view;
     public Register() {
-        view = new MainView();
+        getContentPane().setLayout(new java.awt.CardLayout());
+        StaticVars.mainCardLayout = (CardLayout) getContentPane().getLayout();
+        
+        JPanel mainLogin = new MainLogin();
+        JPanel mainView = new MainView();
+        
+        getContentPane().add(mainLogin, "mainLogin");
+        getContentPane().add(mainView, "mainView");
+        
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        add(view);
-        setSize(view.getPreferredSize());
+        setSize(getContentPane().getPreferredSize());
         setUndecorated(true);
         setShape(new RoundRectangle2D.Double(0, 0, getWidth(), getHeight(), 20, 20)); 
         setResizable(false); 
         setLocationRelativeTo(null);
         setTitle("RegISTER");
-        
-        GlassPanePopup.install(this);
-
     }
     /**
      * @param args the command line arguments
@@ -57,6 +62,8 @@ public class Register extends JFrame{
             }
             final Register register = new Register();
             StaticVars.mainForm = register;
+            
+            GlassPanePopup.install(register);
             register.setVisible(true);
         });
     }
