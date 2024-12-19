@@ -26,8 +26,8 @@ public class ViewEmployees extends javax.swing.JPanel {
         empListPanel = new EmployeesList();
         empInfoPanel = new EmployeesInfo();
         
-        add(empInfoPanel, "empInfoPanel");
         add(empListPanel, "empListPanel");
+        add(empInfoPanel, "empInfoPanel");
     }
 
     /**

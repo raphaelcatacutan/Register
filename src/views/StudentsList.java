@@ -20,6 +20,8 @@ import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import views.components.BetterPanel;
 import views.components.BetterTextField;
@@ -37,7 +39,7 @@ public class StudentsList extends javax.swing.JPanel {
         initComponents();
         
         add(createActionsPanel());
-        add(createTablePanel(), BorderLayout.CENTER);
+        add(createGridPanel(), BorderLayout.CENTER);
     }
     
     private JPanel createActionsPanel() {
@@ -77,192 +79,86 @@ public class StudentsList extends javax.swing.JPanel {
         return actionsPanel;
     }
     
-    private JPanel createTablePanel() {
-        JPanel table = new JPanel();
-        table.setOpaque(false);
-        table.setLayout(new BoxLayout(table, BoxLayout.PAGE_AXIS));
+    private JPanel createGridPanel() {
+        JPanel gridPanel = new JPanel();
+        gridPanel.setPreferredSize(new Dimension(850, 1000));
+        gridPanel.setOpaque(false);
+        gridPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
         
-        // Titles
-        JPanel title = new BetterPanel(775, 30, new Color(250, 247, 227), 10, 0.2f);
-        title.setLayout(new FlowLayout(FlowLayout.LEFT));
+        gridPanel.add(createGridRecord(1));
+        gridPanel.add(createGridRecord(2));
+        gridPanel.add(createGridRecord(3));
+        gridPanel.add(createGridRecord(4));
+        gridPanel.add(createGridRecord(5));
+        gridPanel.add(createGridRecord(6));
+        gridPanel.add(createGridRecord(7));
         
-        JLabel column1 = new JLabel();
-        column1.setPreferredSize(new Dimension(205, 33));
-        column1.setFont(new Font("Google Sans Medium", Font.PLAIN, 12));
-        column1.setOpaque(false);
-        column1.setBackground(new Color(205, 220, 220));
-        column1.setBorder(BorderFactory.createEmptyBorder(11, 10, 10, 10));
-        column1.setText("Full Name");
-        column1.setHorizontalAlignment(SwingConstants.CENTER);
-        column1.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-        
-        JLabel column2 = new JLabel();
-        column2.setPreferredSize(new Dimension(160, 33));
-        column2.setFont(new Font("Google Sans Medium", Font.PLAIN, 12));
-        column2.setOpaque(false);
-        column2.setBackground(new Color(220, 220, 220));
-        column2.setBorder(BorderFactory.createEmptyBorder(11, 10, 10, 10));
-        column2.setText("Email");
-        column2.setHorizontalAlignment(SwingConstants.CENTER);
-        column2.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-        
-        JLabel column3 = new JLabel();
-        column3.setPreferredSize(new Dimension(70, 33));
-        column3.setFont(new Font("Google Sans Medium", Font.PLAIN, 12));
-        column3.setOpaque(false);
-        column3.setBackground(new Color(220, 220, 220));
-        column3.setBorder(BorderFactory.createEmptyBorder(11, 10, 10, 10));
-        column3.setText("Status");
-        column3.setHorizontalAlignment(SwingConstants.CENTER);
-        column3.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-        
-        JLabel column4 = new JLabel();
-        column4.setPreferredSize(new Dimension(100, 33));
-        column4.setFont(new Font("Google Sans Medium", Font.PLAIN, 12));
-        column4.setOpaque(false);
-        column4.setBackground(new Color(220, 220, 220));
-        column4.setBorder(BorderFactory.createEmptyBorder(11, 10, 10, 10));
-        column4.setText("Course");
-        column4.setHorizontalAlignment(SwingConstants.CENTER);
-        column4.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-        
-        JLabel column5 = new JLabel();
-        column5.setPreferredSize(new Dimension(110, 33));
-        column5.setFont(new Font("Google Sans Medium", Font.PLAIN, 12));
-        column5.setOpaque(false);
-        column5.setBackground(new Color(220, 220, 220));
-        column5.setBorder(BorderFactory.createEmptyBorder(11, 10, 10, 10));
-        column5.setText("Date Started");
-        column5.setHorizontalAlignment(SwingConstants.CENTER);
-        column5.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-        
-        JLabel column6 = new JLabel();
-        column6.setPreferredSize(new Dimension(110, 33));
-        column6.setFont(new Font("Google Sans Medium", Font.PLAIN, 12));
-        column6.setOpaque(false);
-        column6.setBackground(new Color(220, 220, 220));
-        column6.setBorder(BorderFactory.createEmptyBorder(11, 10, 10, 10));
-        column6.setText("Data Graduated");
-        column6.setHorizontalAlignment(SwingConstants.CENTER);
-        column6.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-        
-        title.add(column1);
-        title.add(column2);
-        title.add(column4);
-        title.add(column5);
-        title.add(column6);
-        title.add(column3);
-        
-        add(title); // Add outside the scroll
-        table.add(createTableRecord(1));
-        table.add(createTableRecord(2));
-        table.add(createTableRecord(3));
-        table.add(createTableRecord(4));
-        table.add(createTableRecord(5));
-        table.add(createTableRecord(6));
-        table.add(createTableRecord(7));
-        
-        return table;
+        return gridPanel;
     }
 
-    private JPanel createTableRecord(int a) {
-        JPanel recordPanel = new BetterPanel(760, 50, Color.WHITE, 10, 0.05f);
-        recordPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
+    private JPanel createGridRecord(int a) {
+        JPanel glowPanel = new BetterPanel(245, 125, Color.WHITE, 20, 0.07f);
+        glowPanel.setLayout(null);
+        glowPanel.setOpaque(false);
         
-        JLabel column1 = new JLabel();
-        ImageIcon originalIcon = new ImageIcon("C:/Users/Raphael/Documents/Sync/Developments/Java/RegISTER/src/assets/icons/app (1).png");
-        Image originalImage = originalIcon.getImage(); 
-        Image resizedImage = originalImage.getScaledInstance(16, 16, Image.SCALE_SMOOTH);
-        ImageIcon resizedIcon = new ImageIcon(resizedImage);
-        column1.setPreferredSize(new Dimension(190, 53));
-        column1.setFont(new Font("Google Sans", Font.PLAIN, 12));
-        column1.setOpaque(false);
-        column1.setBackground(new Color(250, 250, 250));
-        column1.setBorder(BorderFactory.createEmptyBorder(11, 10, 10, 10));
-        column1.setText("Full Name");
-        column1.setIcon(resizedIcon);
-        column1.setHorizontalAlignment(SwingConstants.LEFT);
-        
-        JLabel column2 = new JLabel();
-        column2.setPreferredSize(new Dimension(160, 53));
-        column2.setFont(new Font("Google Sans", Font.PLAIN, 12));
-        column2.setOpaque(false);
-        column2.setBackground(new Color(220, 220, 220));
-        column2.setBorder(BorderFactory.createEmptyBorder(11, 10, 10, 10));
-        column2.setText("Email");
-        column2.setHorizontalAlignment(SwingConstants.CENTER);
-        
-        JPanel column3 = new BetterPanel(55, 20, new Color(255, 200, 200), 15, 0.5f);
-        column3.setLayout(new FlowLayout(FlowLayout.CENTER));
-        JLabel column3Label = new JLabel();
-        column3Label.setText("Inactive");
-        column3Label.setFont(new Font("Google Sans", Font.PLAIN, 11));
-        column3Label.setBorder(BorderFactory.createEmptyBorder(4, 10, 10, 10));
-        column3.add(column3Label);
-        
-        JLabel column4 = new JLabel();
-        column4.setPreferredSize(new Dimension(100, 53));
-        column4.setFont(new Font("Google Sans", Font.PLAIN, 12));
-        column4.setOpaque(false);
-        column4.setBackground(new Color(250, 250, 250));
-        column4.setBorder(BorderFactory.createEmptyBorder(11, 10, 10, 10));
-        column4.setText("Course");
-        column4.setHorizontalAlignment(SwingConstants.CENTER);
-        
-        JLabel column5 = new JLabel();
-        column5.setPreferredSize(new Dimension(110, 53));
-        column5.setFont(new Font("Google Sans", Font.PLAIN, 12));
-        column5.setOpaque(false);
-        column5.setBackground(new Color(250, 250, 250));
-        column5.setBorder(BorderFactory.createEmptyBorder(11, 10, 10, 10));
-        column5.setText(String.valueOf(a));
-        column5.setHorizontalAlignment(SwingConstants.CENTER);
-        
-        JLabel column6 = new JLabel();
-        column6.setPreferredSize(new Dimension(110, 53));
-        column6.setFont(new Font("Google Sans", Font.PLAIN, 12));
-        column6.setOpaque(false);
-        column6.setBackground(new Color(250, 250, 250));
-        column6.setBorder(BorderFactory.createEmptyBorder(11, 10, 10, 10));
-        column6.setText("Data Graduated");
-        column6.setHorizontalAlignment(SwingConstants.CENTER);
-        
-        recordPanel.add(column1);
-        recordPanel.add(column2);
-        recordPanel.add(column4);
-        recordPanel.add(column5);
-        recordPanel.add(column6);
-        recordPanel.add(column3);
-        recordPanel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-        
-        recordPanel.addMouseListener(new MouseAdapter() {
+        ImageIcon icon = new ImageIcon(getClass().getResource("/assets/image/example image.png"));
+            Image img = icon.getImage();
+            Image scaledImg = img.getScaledInstance(60, 60, Image.SCALE_SMOOTH);
+            ImageIcon scaledIcon = new ImageIcon(scaledImg);
+            JLabel image = new JLabel();
+            image.setIcon(scaledIcon);
+            image.setBounds(25, 25, 60, 60); 
+            glowPanel.add(image);
+            
+        JTextArea label1 = new JTextArea(2, 20);
+            label1.setText("Catacutan, Raphael James Casdasdassadas dasdsadada dadasdasdasdasd.");
+            label1.setWrapStyleWord(true);
+            label1.setLineWrap(true);
+            label1.setOpaque(false);
+            label1.setEditable(false);
+            label1.setFocusable(false);
+            label1.setBackground(Color.orange);
+            label1.setFont(new java.awt.Font("Google Sans Medium", 0, 15));
+            label1.setBounds(95, 23, 140, 40); 
+            label1.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+            glowPanel.add(label1);
+            
+        JLabel label2 = new JLabel("202334103");
+            label2.setFont(new java.awt.Font("Google Sans", 0, 13));
+            label2.setAlignmentX(Component.LEFT_ALIGNMENT);
+            label2.setOpaque(false);
+            label2.setBackground(Color.blue);
+            label2.setBounds(95, 63, 140, 20); 
+            glowPanel.add(label2);
+            
+        JPanel column3 = new BetterPanel(65, 18, new Color(255, 200, 200), 15, 0.5f);
+            column3.setLayout(new FlowLayout(FlowLayout.CENTER));
+            JLabel column3Label = new JLabel();
+            column3Label.setText("BSCS");
+            column3Label.setFont(new Font("Google Sans", Font.PLAIN, 10));
+            column3Label.setBorder(BorderFactory.createEmptyBorder(3, 3, 3, 3));
+            column3.add(column3Label);
+            column3.setBounds(85, 83, 80, 30); 
+            glowPanel.add(column3);
+            
+        label1.addMouseListener(new MouseAdapter() {
             @Override
-            public void mouseEntered(MouseEvent e) {
-                column1.setForeground(Color.red);
-                column2.setForeground(Color.red);
-                column3Label.setForeground(Color.red);
-                column4.setForeground(Color.red);
-                column5.setForeground(Color.red);
-                column6.setForeground(Color.red);
+            public void mouseClicked(MouseEvent e) {
+                ViewStudents.viewStudentsCardLayout.show(MainView.viewStudents, "studInfoPanel");
             }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-                column1.setForeground(Color.black);
-                column2.setForeground(Color.black);
-                column3Label.setForeground(Color.black);
-                column4.setForeground(Color.black);
-                column5.setForeground(Color.black);
-                column6.setForeground(Color.black);
-            }
+        });
+        glowPanel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        
+        glowPanel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 ViewStudents.viewStudentsCardLayout.show(MainView.viewStudents, "studInfoPanel");
             }
         });
         
-        return recordPanel;
+        return glowPanel;
     }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always

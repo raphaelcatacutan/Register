@@ -25,8 +25,8 @@ public class ViewStudents extends javax.swing.JPanel {
         studListPanel = new StudentsList();
         studInfoPanel = new StudentsInfo();
         
-        add(studInfoPanel, "studInfoPanel");
         add(studListPanel, "studListPanel");
+        add(studInfoPanel, "studInfoPanel");
     }
 
     /**
