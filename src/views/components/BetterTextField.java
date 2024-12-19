@@ -1,19 +1,14 @@
 package views.components;
 
+import com.formdev.flatlaf.FlatClientProperties;
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.FlowLayout;
 import java.awt.Font;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
 import javax.swing.BorderFactory;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.swing.SwingUtilities;
 
 public class BetterTextField extends BetterPanel {
     public JTextField textField;
@@ -25,8 +20,6 @@ public class BetterTextField extends BetterPanel {
         this.setBorder(BorderFactory.createEmptyBorder(5, 15, 5, 15));
 
         textField = new JTextField();
-        textField.setText(hintText);
-        textField.setForeground(Color.GRAY);
         
         if (iconPath != null) {
             Icon exampleIcon = new ImageIcon(iconPath);
@@ -35,29 +28,7 @@ public class BetterTextField extends BetterPanel {
             this.add(iconLabel, BorderLayout.WEST); 
         }
 
-        // Add focus listeners for hint text functionality
-        textField.addFocusListener(new FocusAdapter() {
-            @Override
-            public void focusGained(FocusEvent e) {
-                if (textField.getText().equals(hintText) || hintText == null) {
-                    textField.setText("");
-                    textField.setForeground(Color.BLACK);
-                }
-            }
-
-            @Override
-            public void focusLost(FocusEvent e) {
-                if (textField.getText().isEmpty()) {
-                    textField.setText(hintText);
-                    textField.setForeground(Color.GRAY);
-                }
-                if (textField.getParent() != null) {
-                    textField.getParent().requestFocusInWindow();
-                }
-            }
-        });
-
-        // Style the text field
+        textField.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, hintText);
         textField.setBorder(BorderFactory.createEmptyBorder());
         textField.setOpaque(false);
         textField.setFont(new Font("Google Sans", Font.PLAIN, fontSize));
