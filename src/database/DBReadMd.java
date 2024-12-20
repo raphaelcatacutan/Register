@@ -90,24 +90,27 @@ public class DBReadMd {
 
     public static List<Student> readStudents() {
     List<Student> students = new ArrayList<>();
-    String query = "SELECT * FROM Student";
+    String query = "SELECT * FROM STUDENT";  // Corrected table name to match your schema
     try (Connection conn = DBConnection.getConnection();
          PreparedStatement stmt = conn.prepareStatement(query);
          ResultSet rs = stmt.executeQuery()) {
         while (rs.next()) {
             Student student = new Student();
-            student.setStudentNo(rs.getString("student_no"));
+            student.setStudentNo(rs.getInt("student_no"));  // Changed to int
             student.setLastname(rs.getString("lastname"));
             student.setFirstname(rs.getString("firstname"));
             student.setEmail(rs.getString("email"));
-            student.setGender(rs.getString("gender").charAt(0)); 
+            student.setGender(rs.getString("gender"));  // Assuming gender is a single character
             student.setCourseCode(rs.getString("course_code"));
-            student.setCpNum(rs.getString("cp_num"));
+            student.setCpNum(rs.getInt("cp_num"));
             student.setAddress(rs.getString("address"));
+            
+            // Handling potential null values for dates
             student.setBday(rs.getDate("bday"));
             student.setStatus(rs.getString("status"));
             student.setDateStarted(rs.getDate("date_started"));
             student.setDateGraduated(rs.getDate("date_graduated"));
+            
             students.add(student);
         }
     } catch (SQLException e) {
@@ -115,6 +118,7 @@ public class DBReadMd {
     }
     return students;
 }
+
 
     public static List<Employee> readEmployees() {
         List<Employee> employees = new ArrayList<>();
@@ -128,7 +132,7 @@ public class DBReadMd {
                 employee.setLastname(rs.getString("lastname"));
                 employee.setFirstname(rs.getString("firstname"));
                 employee.setEmail(rs.getString("email"));
-                employee.setGender(rs.getString("gender").charAt(0));
+                employee.setGender(rs.getString("gender"));
                 employee.setCpNum(rs.getString("cp_num"));
                 employee.setAddress(rs.getString("address"));
                 employee.setBday(rs.getDate("bday"));
@@ -178,7 +182,7 @@ public class DBReadMd {
              ResultSet rs = stmt.executeQuery()) {
             while (rs.next()) {
                 Schedule schedule = new Schedule();
-                schedule.setSchedule_id(rs.getInt("schedule_id"));
+                schedule.setScheduleId(rs.getInt("schedule_id"));
                 schedule.setSyear(rs.getString("syear"));
                 schedule.setSemester(rs.getString("semester"));
                 schedule.setCollegeCode(rs.getString("college_code"));
@@ -210,7 +214,7 @@ public class DBReadMd {
                 grade.setGradeId(rs.getInt("grade_id"));
                 grade.setSyear(rs.getString("syear"));
                 grade.setSemester(rs.getString("semester"));
-                grade.setStudentNo(rs.getString("student_no"));
+                grade.setStudentNo(rs.getInt("student_no"));
                 grade.setSubjectCode(rs.getString("subject_code"));
                 grade.setBlockNo(rs.getString("block_no"));
                 grade.setGrade(rs.getDouble("grade"));
