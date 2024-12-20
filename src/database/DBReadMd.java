@@ -16,7 +16,7 @@ public class DBReadMd {
         try (Connection conn = DBConnection.getConnection(); PreparedStatement stmt = conn.prepareStatement(query); ResultSet rs = stmt.executeQuery()) {
             while (rs.next()) {
                 SchoolYear sy = new SchoolYear();
-                sy.setSyear(rs.getString("year"));
+                sy.setSyear(rs.getString("syear"));
                 schoolYears.add(sy);
             }
         } catch (SQLException e) {
@@ -31,7 +31,7 @@ public class DBReadMd {
         try (Connection conn = DBConnection.getConnection(); PreparedStatement stmt = conn.prepareStatement(query); ResultSet rs = stmt.executeQuery()) {
             while (rs.next()) {
                 Semester semester = new Semester();
-                semester.setSemester(rs.getString("name"));
+                semester.setSemester(rs.getString("semester"));
                 semesters.add(semester);
             }
         } catch (SQLException e) {

@@ -7,7 +7,6 @@ import java.sql.*;
  * @author Robante
  */
 public class DBReadRS {
-
     public static ResultSet getSchoolYearData(String syear) throws SQLException {
         String query = "SELECT * FROM SchoolYear WHERE syear = ?";
         PreparedStatement stmt = DBConnection.getConnection().prepareStatement(query); // Use getConnection() to get the connection

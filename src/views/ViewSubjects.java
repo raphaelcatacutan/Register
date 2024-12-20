@@ -25,8 +25,8 @@ public class ViewSubjects extends javax.swing.JPanel {
         subListPanel = new SubjectsList();
         subInfoPanel = new SubjectsInfo();
         
-        add(subInfoPanel, "subInfoPanel");
         add(subListPanel, "subListPanel");
+        add(subInfoPanel, "subInfoPanel");
     }
 
     /**

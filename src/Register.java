@@ -52,7 +52,6 @@ public class Register extends JFrame{
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        
         FlatMacLightLaf.setup();
         UIManager.put("defaultFont", new Font("Google Sans", Font.PLAIN, 13));
         EventQueue.invokeLater(() -> {
