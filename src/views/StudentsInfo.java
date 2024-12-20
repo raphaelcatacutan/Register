@@ -205,32 +205,34 @@ public class StudentsInfo extends javax.swing.JPanel {
                 Date dateGraduated = Date.from(dtpGraduated.getSelectedDate().atStartOfDay(ZoneId.systemDefault()).toInstant());
                 
                 if (selectedStudent != null) {
-//                    DBUpdate.updateStudent(studentNumber, 
-//                        lastName, 
-//                        firstName, 
-//                        email, 
-//                        sex , 
-//                        courseCode,
-//                        phoneNumber, 
-//                        address, 
-//                        bday,
-//                        status, 
-//                        dateStarted, 
-//                        dateGraduated);
+                    DBUpdate.updateStudent( 
+                        lastName, 
+                        firstName,
+                        email,
+                        courseCode,
+                        sex,
+                        phoneNumber,
+                        address, 
+                        status,
+                        bday,
+                        dateStarted, 
+                        dateGraduated,
+                        studentNumber);
                 
                 } else {
-//                    DBAdd.addStudent(studentNumber, 
-//                        lastName, 
-//                        firstName, 
-//                        email, 
-//                        sex , 
-//                        courseCode,
-//                        phoneNumber, 
-//                        address, 
-//                        bday,
-//                        status, 
-//                        dateStarted, 
-//                        dateGraduated);
+                    DBAdd.addStudent(
+                        studentNumber,
+                        lastName, 
+                        firstName, 
+                        email,
+                        courseCode,
+                        sex, 
+                        phoneNumber, 
+                        address,
+                        status, 
+                        bday,
+                        dateStarted, 
+                        dateGraduated);
                 }
                 final SimpleMessageModal simpleMessageModal = new SimpleMessageModal(SimpleMessageModal.Type.DEFAULT, 
                             "Data has been successfully saved to the database", 
@@ -264,7 +266,9 @@ public class StudentsInfo extends javax.swing.JPanel {
                                     + "\nThis action is irreversible", 
                             "Delete Student", SimpleModalBorder.YES_NO_OPTION, (controller, action) -> {
                         if (action == SimpleModalBorder.YES_OPTION) {
+                            
                             DBDelete.deleteStudent(String.valueOf(selectedStudent.getStudentNo()));
+                            
                             ViewStudents.studListPanel.refreshData(false);
                             ViewStudents.viewStudentsCardLayout.show(MainView.viewStudents, "studListPanel");
                         }
