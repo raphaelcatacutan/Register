@@ -65,7 +65,7 @@ public class DBAdd {
         }
     }
 
-    public static String addStudent(int studentNo, String lastname, String firstname, String email, char gender, String courseCode, int cpNum, String address, Date bday, String status, Date dateStarted, Date dateGraduated) {
+    public static String addStudent(int studentNo, String lastname, String firstname, String email, char gender, String courseCode, String cpNum, String address, Date bday, String status, Date dateStarted, Date dateGraduated) {
         String query = "INSERT INTO STUDENT (student_no, lastname, firstname, email, gender, course_code, cp_num, address, bday, status, date_started, date_graduated) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(query)) {
@@ -75,7 +75,7 @@ public class DBAdd {
             stmt.setString(4, email);
             stmt.setString(5, String.valueOf(gender));
             stmt.setString(6, courseCode);
-            stmt.setInt(7, cpNum);
+            stmt.setString(7, cpNum); 
             stmt.setString(8, address);
             stmt.setDate(9, new java.sql.Date(bday.getTime()));
             stmt.setString(10, status != null ? status : "A");
@@ -87,6 +87,7 @@ public class DBAdd {
             return "Error adding Student: " + e.getMessage();
         }
     }
+
 
     public static String addEmployee(String employeeId, String lastname, String firstname, String email, char gender, String cpNum, String address, Date bday, String status, Date dateStarted, Date dateResigned) {
         String query = "INSERT INTO Employee (employeeId, lastname, firstname, email, gender, cpNum, address, bday, status, dateStarted, dateResigned) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
