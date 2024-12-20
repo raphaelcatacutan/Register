@@ -7,6 +7,7 @@ package views;
 import java.awt.*;
 import javax.swing.*;
 import views.components.BetterPanel;
+import views.components.BetterPasswordField;
 import views.components.BetterTextField;
 
 /**
@@ -22,137 +23,167 @@ public final class ViewSettings extends javax.swing.JPanel {
         initComponents();   
         
         add(createActionsPanel());
-        add(createTablePanel());
-        add(createTablePanel());
-        add(createTablePanel());
+        add(createYearsTablePanel());
+        add(createSemesterTablePanel());
     }
     
     private JPanel createActionsPanel() {
         JPanel actions = new JPanel();
             actions.setLayout(new FlowLayout(FlowLayout.LEFT));
-            actions.setPreferredSize(new Dimension(850, 200));
+            actions.setPreferredSize(new Dimension(850, 250));
             
-        JLabel label4 = new JLabel();
-            label4.setPreferredSize(new Dimension(692, 33));
-            label4.setFont(new Font("Google Sans", Font.PLAIN, 14));
-            label4.setOpaque(false);
-            label4.setBackground(new Color(250, 250, 250));
-            label4.setText("About the Project");
-            label4.setHorizontalAlignment(SwingConstants.LEFT);
-        JPanel button4 = new BetterPanel(115, 30, new Color(173, 204, 255), 10, 0.5f);
-            JLabel button4Label = new JLabel("Visit Page");
-            button4Label.setFont(new Font("Google Sans", Font.PLAIN, 12));
-            button4Label.setAlignmentX(Component.LEFT_ALIGNMENT);
-            button4Label.setIcon(new ImageIcon("C:/Users/Raphael/Documents/Sync/Developments/Java/RegISTER/src/assets/icons/app (1).png"));
-            button4.add(button4Label);
-            button4.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-            button4.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-        JPanel actionsPanel4 = new JPanel();
-            actionsPanel4.setLayout(new BoxLayout(actionsPanel4, BoxLayout.X_AXIS));
-            actionsPanel4.setOpaque(false);
-            actionsPanel4.setAlignmentX(Component.LEFT_ALIGNMENT);
-            actionsPanel4.add(label4);
-            actionsPanel4.add(Box.createHorizontalStrut(5));
-            actionsPanel4.add(button4);
-        actions.add(actionsPanel4);
+        JLabel aboutLabel = new JLabel();
+            aboutLabel.setPreferredSize(new Dimension(692, 33));
+            aboutLabel.setFont(new Font("Google Sans", Font.PLAIN, 14));
+            aboutLabel.setOpaque(false);
+            aboutLabel.setBackground(new Color(250, 250, 250));
+            aboutLabel.setText("About the Project");
+            aboutLabel.setHorizontalAlignment(SwingConstants.LEFT);
+        JPanel aboutButton = new BetterPanel(115, 30, new Color(173, 204, 255), 10, 0.5f);
+            JLabel aboutButtonLabel = new JLabel("Visit Page");
+            aboutButtonLabel.setFont(new Font("Google Sans", Font.PLAIN, 12));
+            aboutButtonLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
+            aboutButtonLabel.setIcon(new ImageIcon("C:/Users/Raphael/Documents/Sync/Developments/Java/RegISTER/src/assets/icons/app (1).png"));
+            aboutButton.add(aboutButtonLabel);
+            aboutButton.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+            aboutButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        JPanel aboutPanel = new JPanel();
+            aboutPanel.setLayout(new BoxLayout(aboutPanel, BoxLayout.X_AXIS));
+            aboutPanel.setOpaque(false);
+            aboutPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
+            aboutPanel.add(aboutLabel);
+            aboutPanel.add(Box.createHorizontalStrut(5));
+            aboutPanel.add(aboutButton);
+        actions.add(aboutPanel);
         
-        JLabel label3 = new JLabel();
-            label3.setPreferredSize(new Dimension(525, 33));
-            label3.setFont(new Font("Google Sans", Font.PLAIN, 14));
-            label3.setOpaque(false);
-            label3.setBackground(new Color(250, 250, 250));
-            label3.setText("Database Management");
-            label3.setHorizontalAlignment(SwingConstants.LEFT);
-        JPanel button3_1 = new BetterPanel(135, 30, new Color(173, 204, 255), 10, 0.5f);
-            JLabel button3_1Label = new JLabel("Backup Database");
-            button3_1Label.setFont(new Font("Google Sans", Font.PLAIN, 12));
-            button3_1Label.setAlignmentX(Component.LEFT_ALIGNMENT);
-            button3_1Label.setIcon(new ImageIcon("C:/Users/Raphael/Documents/Sync/Developments/Java/RegISTER/src/assets/icons/app (1).png"));
-            button3_1.add(button3_1Label);
-            button3_1.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-            button3_1.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-        JPanel button3_2 = new BetterPanel(135, 30, new Color(174, 226, 200), 10, 0.5f);
-            JLabel button3_2Label = new JLabel("Restore Database");
-            button3_2Label.setFont(new Font("Google Sans", Font.PLAIN, 12));
-            button3_2Label.setAlignmentX(Component.LEFT_ALIGNMENT);
-            button3_2Label.setIcon(new ImageIcon("C:/Users/Raphael/Documents/Sync/Developments/Java/RegISTER/src/assets/icons/app (1).png"));
-            button3_2.add(button3_2Label);
-            button3_2.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-            button3_2.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-        JPanel actionsPanel3 = new JPanel();
-            actionsPanel3.setLayout(new BoxLayout(actionsPanel3, BoxLayout.X_AXIS));
-            actionsPanel3.setOpaque(false);
-            actionsPanel3.setAlignmentX(Component.LEFT_ALIGNMENT);
-            actionsPanel3.add(label3);
-            actionsPanel3.add(button3_1);
-            actionsPanel3.add(Box.createHorizontalStrut(5));
-            actionsPanel3.add(button3_2);
-        actions.add(actionsPanel3);
+        JLabel databaseLabel = new JLabel();
+            databaseLabel.setPreferredSize(new Dimension(525, 33));
+            databaseLabel.setFont(new Font("Google Sans", Font.PLAIN, 14));
+            databaseLabel.setOpaque(false);
+            databaseLabel.setBackground(new Color(250, 250, 250));
+            databaseLabel.setText("Database Management");
+            databaseLabel.setHorizontalAlignment(SwingConstants.LEFT);
+        JPanel databaseButton1 = new BetterPanel(135, 30, new Color(173, 204, 255), 10, 0.5f);
+            JLabel databaseButton1Label = new JLabel("Backup Database");
+            databaseButton1Label.setFont(new Font("Google Sans", Font.PLAIN, 12));
+            databaseButton1Label.setAlignmentX(Component.LEFT_ALIGNMENT);
+            databaseButton1Label.setIcon(new ImageIcon("C:/Users/Raphael/Documents/Sync/Developments/Java/RegISTER/src/assets/icons/app (1).png"));
+            databaseButton1.add(databaseButton1Label);
+            databaseButton1.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+            databaseButton1.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        JPanel databaseButton2 = new BetterPanel(135, 30, new Color(174, 226, 200), 10, 0.5f);
+            JLabel databaseButton2Label = new JLabel("Restore Database");
+            databaseButton2Label.setFont(new Font("Google Sans", Font.PLAIN, 12));
+            databaseButton2Label.setAlignmentX(Component.LEFT_ALIGNMENT);
+            databaseButton2Label.setIcon(new ImageIcon("C:/Users/Raphael/Documents/Sync/Developments/Java/RegISTER/src/assets/icons/app (1).png"));
+            databaseButton2.add(databaseButton2Label);
+            databaseButton2.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+            databaseButton2.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        JPanel databasePanel = new JPanel();
+            databasePanel.setLayout(new BoxLayout(databasePanel, BoxLayout.X_AXIS));
+            databasePanel.setOpaque(false);
+            databasePanel.setAlignmentX(Component.LEFT_ALIGNMENT);
+            databasePanel.add(databaseLabel);
+            databasePanel.add(databaseButton1);
+            databasePanel.add(Box.createHorizontalStrut(5));
+            databasePanel.add(databaseButton2);
+        actions.add(databasePanel);
         
-        JLabel label1 = new JLabel();
-            label1.setPreferredSize(new Dimension(420, 33));
-            label1.setFont(new Font("Google Sans", Font.PLAIN, 14));
-            label1.setOpaque(false);
-            label1.setBackground(new Color(250, 250, 250));
-            label1.setText("New School Year");
-            label1.setHorizontalAlignment(SwingConstants.LEFT);
-        BetterTextField textField1 = new BetterTextField(260, 32, Color.WHITE, 13, 0.04f, new Color(220, 220, 224), 12, null, "Example: 2024-2025");
-        JPanel button1 = new BetterPanel(115, 30, new Color(174, 226, 200), 10, 0.5f);
-            JLabel button1Label = new JLabel("Add Year");
-            button1Label.setFont(new Font("Google Sans", Font.PLAIN, 12));
-            button1Label.setAlignmentX(Component.LEFT_ALIGNMENT);
-            button1Label.setIcon(new ImageIcon("C:/Users/Raphael/Documents/Sync/Developments/Java/RegISTER/src/assets/icons/app (1).png"));
-            button1.add(button1Label);
-            button1.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-            button1.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-        JPanel actionsPanel1 = new JPanel();
-            actionsPanel1.setLayout(new BoxLayout(actionsPanel1, BoxLayout.X_AXIS));
-            actionsPanel1.setOpaque(false);
-            actionsPanel1.setAlignmentX(Component.LEFT_ALIGNMENT);
-            actionsPanel1.add(label1);
-            actionsPanel1.add(textField1);
-            actionsPanel1.add(Box.createHorizontalStrut(5));
-            actionsPanel1.add(button1);
-        actions.add(actionsPanel1);
+        JLabel yearLabel = new JLabel();
+            yearLabel.setPreferredSize(new Dimension(420, 33));
+            yearLabel.setFont(new Font("Google Sans", Font.PLAIN, 14));
+            yearLabel.setOpaque(false);
+            yearLabel.setBackground(new Color(250, 250, 250));
+            yearLabel.setText("New School Year");
+            yearLabel.setHorizontalAlignment(SwingConstants.LEFT);
+        BetterTextField yearTextfieldPanel = new BetterTextField(260, 32, Color.WHITE, 13, 0.04f, new Color(220, 220, 224), 12, null, "Example: 2024-2025");
+        JPanel yearButton = new BetterPanel(115, 30, new Color(174, 226, 200), 10, 0.5f);
+            JLabel yearButtonLabel = new JLabel("Add Year");
+            yearButtonLabel.setFont(new Font("Google Sans", Font.PLAIN, 12));
+            yearButtonLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
+            yearButtonLabel.setIcon(new ImageIcon("C:/Users/Raphael/Documents/Sync/Developments/Java/RegISTER/src/assets/icons/app (1).png"));
+            yearButton.add(yearButtonLabel);
+            yearButton.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+            yearButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        JPanel yearPanel = new JPanel();
+            yearPanel.setLayout(new BoxLayout(yearPanel, BoxLayout.X_AXIS));
+            yearPanel.setOpaque(false);
+            yearPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
+            yearPanel.add(yearLabel);
+            yearPanel.add(yearTextfieldPanel);
+            yearPanel.add(Box.createHorizontalStrut(5));
+            yearPanel.add(yearButton);
+        actions.add(yearPanel);
         
-        JLabel label2 = new JLabel();
-            label2.setPreferredSize(new Dimension(420, 33));
-            label2.setFont(new Font("Google Sans", Font.PLAIN, 14));
-            label2.setOpaque(false);
-            label2.setBackground(new Color(250, 250, 250));
-            label2.setText("New Semester");
-            label2.setHorizontalAlignment(SwingConstants.LEFT);
-        BetterTextField textField2 = new BetterTextField(260, 32, Color.WHITE, 13, 0.04f, new Color(220, 220, 224), 12, null, "Example: 1, 2, 3");
-        JPanel button2 = new BetterPanel(115, 30, new Color(174, 226, 200), 10, 0.5f);
-            JLabel button2Label = new JLabel("Add Semester");
-            button2Label.setFont(new Font("Google Sans", Font.PLAIN, 12));
-            button2Label.setAlignmentX(Component.LEFT_ALIGNMENT);
-            button2Label.setIcon(new ImageIcon("C:/Users/Raphael/Documents/Sync/Developments/Java/RegISTER/src/assets/icons/app (1).png"));
-            button2.add(button2Label);
-            button2.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-            button2.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-        JPanel actionsPanel2 = new JPanel();
-            actionsPanel2.setLayout(new BoxLayout(actionsPanel2, BoxLayout.X_AXIS));
-            actionsPanel2.setOpaque(false);
-            actionsPanel2.setAlignmentX(Component.LEFT_ALIGNMENT);
-            actionsPanel2.add(label2);
-            actionsPanel2.add(textField2);
-            actionsPanel2.add(Box.createHorizontalStrut(5));
-            actionsPanel2.add(button2);
-        actions.add(actionsPanel2);
+        JLabel semesterLabel = new JLabel();
+            semesterLabel.setPreferredSize(new Dimension(420, 33));
+            semesterLabel.setFont(new Font("Google Sans", Font.PLAIN, 14));
+            semesterLabel.setOpaque(false);
+            semesterLabel.setBackground(new Color(250, 250, 250));
+            semesterLabel.setText("New Semester");
+            semesterLabel.setHorizontalAlignment(SwingConstants.LEFT);
+        BetterTextField semesterTextfieldPanel = new BetterTextField(260, 32, Color.WHITE, 13, 0.04f, new Color(220, 220, 224), 12, null, "Example: 1, 2, 3");
+        JPanel semesterButton = new BetterPanel(115, 30, new Color(174, 226, 200), 10, 0.5f);
+            JLabel semesterButtonLabel = new JLabel("Add Semester");
+            semesterButtonLabel.setFont(new Font("Google Sans", Font.PLAIN, 12));
+            semesterButtonLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
+            semesterButtonLabel.setIcon(new ImageIcon("C:/Users/Raphael/Documents/Sync/Developments/Java/RegISTER/src/assets/icons/app (1).png"));
+            semesterButton.add(semesterButtonLabel);
+            semesterButton.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+            semesterButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        JPanel semesterPanel = new JPanel();
+            semesterPanel.setLayout(new BoxLayout(semesterPanel, BoxLayout.X_AXIS));
+            semesterPanel.setOpaque(false);
+            semesterPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
+            semesterPanel.add(semesterLabel);
+            semesterPanel.add(semesterTextfieldPanel);
+            semesterPanel.add(Box.createHorizontalStrut(5));
+            semesterPanel.add(semesterButton);
+        actions.add(semesterPanel);
+        
+        JLabel passwordLabel = new JLabel();
+            passwordLabel.setPreferredSize(new Dimension(110, 33));
+            passwordLabel.setFont(new Font("Google Sans", Font.PLAIN, 14));
+            passwordLabel.setOpaque(false);
+            passwordLabel.setBackground(new Color(250, 250, 250));
+            passwordLabel.setText("Reset Password");
+            passwordLabel.setHorizontalAlignment(SwingConstants.LEFT);
+        BetterPasswordField passTextfieldOldPasswordPanel = new BetterPasswordField(180, 32, Color.WHITE, 13, 0.04f, new Color(220, 220, 224), 12, null, "Example: 1, 2, 3");
+        BetterPasswordField passTextfieldNewPassword1Panel = new BetterPasswordField(180, 32, Color.WHITE, 13, 0.04f, new Color(220, 220, 224), 12, null, "Example: 1, 2, 3");
+        BetterPasswordField passTextfieldNewPassword2Panel = new BetterPasswordField(180, 32, Color.WHITE, 13, 0.04f, new Color(220, 220, 224), 12, null, "Example: 1, 2, 3");
+        JPanel passwordButton = new BetterPanel(115, 30, new Color(174, 226, 200), 10, 0.5f);
+            JLabel passwordButtonLabel = new JLabel("Add Semester");
+            passwordButtonLabel.setFont(new Font("Google Sans", Font.PLAIN, 12));
+            passwordButtonLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
+            passwordButtonLabel.setIcon(new ImageIcon("C:/Users/Raphael/Documents/Sync/Developments/Java/RegISTER/src/assets/icons/app (1).png"));
+            passwordButton.add(passwordButtonLabel);
+            passwordButton.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+            passwordButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        JPanel passwordPanel = new JPanel();
+            passwordPanel.setLayout(new BoxLayout(passwordPanel, BoxLayout.X_AXIS));
+            passwordPanel.setOpaque(false);
+            passwordPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
+            passwordPanel.add(passwordLabel);
+            passwordPanel.add(passTextfieldOldPasswordPanel);
+            passwordPanel.add(Box.createHorizontalStrut(5));
+            passwordPanel.add(passTextfieldNewPassword1Panel);
+            passwordPanel.add(passTextfieldNewPassword2Panel);
+            passwordPanel.add(Box.createHorizontalStrut(5));
+            passwordPanel.add(passwordButton);
+        actions.add(passwordPanel);
         
         actions.setOpaque(false);
         return actions;
     }
     
-    private JPanel createTablePanel() {
-        JPanel table = new BetterPanel(260, 370, new Color(250, 250, 250), 30, 0.2f);
-        table.setOpaque(false);
-        table.setLayout(new BoxLayout(table, BoxLayout.Y_AXIS));
-        table.setBorder(BorderFactory.createEmptyBorder(25, 25, 25, 25));
+    private JPanel createYearsTablePanel() {
+        JPanel table = new BetterPanel(300, 320, new Color(250, 250, 250), 30, 0.2f);
+            table.setOpaque(false);
+            table.setLayout(new FlowLayout(FlowLayout.CENTER, 1, 1));
+            table.setBorder(BorderFactory.createEmptyBorder(25, 25, 25, 25));
         
         JLabel label = new JLabel();
-            label.setMinimumSize(new Dimension(692, 33));
+            label.setMinimumSize(new Dimension(692, 40));
             label.setFont(new Font("Google Sans", Font.PLAIN, 16));
             label.setOpaque(false);
             label.setBackground(Color.GREEN);
@@ -171,7 +202,50 @@ public final class ViewSettings extends javax.swing.JPanel {
     }
     
     private JPanel createYearsPanel(int a) {
-        JPanel recordPanel = new BetterPanel(200, 33, Color.WHITE, 10, 0.1f);
+        JPanel recordPanel = new BetterPanel(230, 33, Color.WHITE, 10, 0.1f);
+        recordPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
+        
+        JLabel column1 = new JLabel();
+        column1.setPreferredSize(new Dimension(200, 33));
+        column1.setFont(new Font("Google Sans", Font.PLAIN, 12));
+        column1.setOpaque(false);
+        column1.setBackground(new Color(250, 250, 250));
+        column1.setBorder(BorderFactory.createEmptyBorder(17, 30, 10, 10));
+        column1.setText("Full Name");
+        column1.setHorizontalAlignment(SwingConstants.LEFT);
+        
+        recordPanel.add(column1);
+        recordPanel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        
+        return recordPanel;
+    }
+
+    private JPanel createSemesterTablePanel() {
+        JPanel table = new BetterPanel(300, 320, new Color(250, 250, 250), 30, 0.2f);
+        table.setOpaque(false);
+        table.setLayout(new BoxLayout(table, BoxLayout.Y_AXIS));
+        table.setBorder(BorderFactory.createEmptyBorder(25, 25, 25, 25));
+        
+        JLabel label = new JLabel();
+            label.setMinimumSize(new Dimension(692, 33));
+            label.setFont(new Font("Google Sans", Font.PLAIN, 16));
+            label.setOpaque(false);
+            label.setBackground(Color.GREEN);
+            label.setText("School Years");
+            label.setHorizontalAlignment(SwingConstants.LEFT);
+            
+        table.add(label);
+        table.add(createSemesterPanel(1));
+        table.add(createSemesterPanel(2));
+        table.add(createSemesterPanel(3));
+        table.add(createSemesterPanel(4));
+        table.add(createSemesterPanel(4));
+        
+        return table;
+    }
+    
+    private JPanel createSemesterPanel(int a) {
+        JPanel recordPanel = new BetterPanel(230, 33, Color.WHITE, 10, 0.1f);
         recordPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
         
         JLabel column1 = new JLabel();
@@ -207,10 +281,9 @@ public final class ViewSettings extends javax.swing.JPanel {
         setMinimumSize(new java.awt.Dimension(1040, 720));
         setName(""); // NOI18N
         setPreferredSize(new java.awt.Dimension(1040, 720));
-        setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
 
         lblDashboard.setFont(new java.awt.Font("Google Sans Medium", 0, 24)); // NOI18N
-        lblDashboard.setText("Settings");
+        lblDashboard.setText("Settings                                                                                                                            ");
         add(lblDashboard);
     }// </editor-fold>//GEN-END:initComponents
 

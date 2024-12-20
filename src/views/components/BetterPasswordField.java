@@ -21,6 +21,7 @@ public class BetterPasswordField extends BetterPanel {
         passwordField = new JPasswordField();
         passwordField.putClientProperty(FlatClientProperties.STYLE, "" +
                 "showRevealButton:true");
+        
 
         if (iconPath != null) {
             Icon exampleIcon = new ImageIcon(iconPath);
@@ -29,6 +30,7 @@ public class BetterPasswordField extends BetterPanel {
             this.add(iconLabel, BorderLayout.WEST);
         }
         
+        passwordField.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, hintText);
         passwordField.setBorder(BorderFactory.createEmptyBorder());
         passwordField.setOpaque(false);
 

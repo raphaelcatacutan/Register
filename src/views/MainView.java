@@ -101,7 +101,7 @@ public class MainView extends javax.swing.JPanel {
                 mainViewCardLayout.show(viewsPanel, "viewSubjects");
             }
         });
-         mainViewCardLayout.show(viewsPanel, "viewStudents");
+         mainViewCardLayout.show(viewsPanel, "viewSettings");
     }
 
     /**
