@@ -32,7 +32,11 @@ public class DBConnection {
     //get the existing connection
     public static Connection getConnection() {
         if (connection == null) {
-            throw new IllegalStateException("Database connection is not initialized.");
+            return initializeConnection(
+                    "jdbc:oracle:thin:@localhost:1521:xe",
+                    "plm",
+                    "plm"
+            );
         }
         return connection;
     }

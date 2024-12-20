@@ -23,55 +23,73 @@ public class DBReadRS {
     }
 
     public static ResultSet getCollegeData(String collegeCode) throws SQLException {
-        String query = "SELECT * FROM College WHERE collegeCode = ?";
+        String query = "SELECT * FROM College WHERE college_code = ?";
         PreparedStatement stmt = DBConnection.getConnection().prepareStatement(query); // Use getConnection() to get the connection
         stmt.setString(1, collegeCode);
         return stmt.executeQuery();
     }
 
     public static ResultSet getCourseData(String courseCode) throws SQLException {
-        String query = "SELECT * FROM Course WHERE courseCode = ?";
+        String query = "SELECT * FROM Course WHERE course_code = ?";
         PreparedStatement stmt = DBConnection.getConnection().prepareStatement(query); // Use getConnection() to get the connection
         stmt.setString(1, courseCode);
         return stmt.executeQuery();
     }
 
     public static ResultSet getStudentData(String studentNo) throws SQLException {
-        String query = "SELECT * FROM Student WHERE studentNo = ?";
+        String query = "SELECT * FROM Student WHERE student_no = ?";
         PreparedStatement stmt = DBConnection.getConnection().prepareStatement(query); // Use getConnection() to get the connection
         stmt.setString(1, studentNo);
         return stmt.executeQuery();
     }
 
     public static ResultSet getEmployeeData(String employeeId) throws SQLException {
-        String query = "SELECT * FROM Employee WHERE employeeId = ?";
+        String query = "SELECT * FROM Employee WHERE employee_id = ?";
         PreparedStatement stmt = DBConnection.getConnection().prepareStatement(query); // Use getConnection() to get the connection
         stmt.setString(1, employeeId);
         return stmt.executeQuery();
     }
 
     public static ResultSet getSubjectData(String subjectCode) throws SQLException {
-        String query = "SELECT * FROM Subject WHERE subjectCode = ?";
+        String query = "SELECT * FROM Subject WHERE subject_code = ?";
         PreparedStatement stmt = DBConnection.getConnection().prepareStatement(query); // Use getConnection() to get the connection
         stmt.setString(1, subjectCode);
         return stmt.executeQuery();
     }
 
-    public static ResultSet getScheduleData(String syear, String semester, String collegeCode) throws SQLException {
-        String query = "SELECT * FROM Schedule WHERE syear = ? AND semester = ? AND collegeCode = ?";
+    public static ResultSet getScheduleData(int schedule_id) throws SQLException {
+        String query = "SELECT * FROM Schedule WHERE schedule_id = ?";
         PreparedStatement stmt = DBConnection.getConnection().prepareStatement(query); // Use getConnection() to get the connection
-        stmt.setString(1, syear);
-        stmt.setString(2, semester);
-        stmt.setString(3, collegeCode);
+        stmt.setInt(1, schedule_id);
         return stmt.executeQuery();
     }
 
-    public static ResultSet getGradesData(String syear, String semester, String studentNo) throws SQLException {
-        String query = "SELECT * FROM Grades WHERE syear = ? AND semester = ? AND studentNo = ?";
+    public static ResultSet getGradesData(int grade_id) throws SQLException {
+        String query = "SELECT * FROM Grades WHERE grade_id = ?";
         PreparedStatement stmt = DBConnection.getConnection().prepareStatement(query); // Use getConnection() to get the connection
-        stmt.setString(1, syear);
-        stmt.setString(2, semester);
-        stmt.setString(3, studentNo);
+        stmt.setInt(1, grade_id);
         return stmt.executeQuery();
+    }
+    
+    public static void main(String[] args) throws SQLException {
+        // Get the metadata to get the column names
+        
+        ResultSet resultSet = getScheduleData(1);
+        ResultSetMetaData rsMetaData = resultSet.getMetaData();
+        int columnCount = rsMetaData.getColumnCount();
+
+        // Print column headers
+        for (int i = 1; i <= columnCount; i++) {
+            System.out.print(rsMetaData.getColumnLabel(i) + "\t");
+        }
+        System.out.println();
+
+        // Iterate through the ResultSet and print each row
+        while (resultSet.next()) {
+            for (int i = 1; i <= columnCount; i++) {
+                System.out.print(resultSet.getString(i) + "\t");
+            }
+            System.out.println();
+        }
     }
 }

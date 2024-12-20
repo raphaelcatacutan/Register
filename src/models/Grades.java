@@ -9,12 +9,21 @@ package models;
  * @author Robante
  */
 public class Grades {
+    private int gradeId;
     private String syear;
     private String semester;
     private String studentNo;
     private String subjectCode;
     private String blockNo;
     private double grade;
+
+    public int getGradeId() {
+        return gradeId;
+    }
+
+    public void setGradeId(int gradeId) {
+        this.gradeId = gradeId;
+    }
 
     public String getSyear() {
         return syear;

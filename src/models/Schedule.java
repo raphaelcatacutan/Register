@@ -9,6 +9,7 @@ package models;
  * @author Robante
  */
 public class Schedule {
+    private int schedule_id;
     private String syear;
     private String semester;
     private String collegeCode;
@@ -20,6 +21,14 @@ public class Schedule {
     private String type;
     private int sequenceNo;
     private String employeeId;
+
+    public int getSchedule_id() {
+        return schedule_id;
+    }
+
+    public void setSchedule_id(int schedule_id) {
+        this.schedule_id = schedule_id;
+    }
 
     public String getSyear() {
         return syear;
