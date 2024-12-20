@@ -130,7 +130,7 @@ public class EmployeesList extends javax.swing.JPanel {
         gridPanel.add(createGridRecord(5));
         gridPanel.add(createGridRecord(6));
         
-        gridPanel.setPreferredSize(new Dimension(800, (gridPanel.getComponentCount() * 125) / 3));
+        gridPanel.setPreferredSize(new Dimension(800, (gridPanel.getComponentCount() * (125 + 17)) / 3));
         SwingUtilities.invokeLater(() -> {
             scrollPane.getViewport().setViewPosition( new Point(0, 0) );
         });
@@ -216,7 +216,7 @@ public class EmployeesList extends javax.swing.JPanel {
         label1.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                ViewStudents.viewStudentsCardLayout.show(MainView.viewStudents, "studInfoPanel");
+                ViewEmployees.viewEmployeesCardLayout.show(MainView.viewEmployees, "empInfoPanel");
             }
         });
 
@@ -225,7 +225,7 @@ public class EmployeesList extends javax.swing.JPanel {
         glowPanel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                ViewStudents.viewStudentsCardLayout.show(MainView.viewStudents, "studInfoPanel");
+                ViewEmployees.viewEmployeesCardLayout.show(MainView.viewEmployees, "empInfoPanel");
             }
         });
 

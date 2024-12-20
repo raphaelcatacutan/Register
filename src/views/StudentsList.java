@@ -132,7 +132,7 @@ public class StudentsList extends javax.swing.JPanel {
         gridPanel.add(createGridRecord(5));
         gridPanel.add(createGridRecord(6));
         
-        gridPanel.setPreferredSize(new Dimension(800, (gridPanel.getComponentCount() * 125) / 3));
+        gridPanel.setPreferredSize(new Dimension(800, (gridPanel.getComponentCount() * (125 + 17)) / 3));
         SwingUtilities.invokeLater(() -> {
             scrollPane.getViewport().setViewPosition( new Point(0, 0) );
         });
@@ -185,7 +185,7 @@ public class StudentsList extends javax.swing.JPanel {
         glowPanel.add(circlePanel);
 
         JTextArea label1 = new JTextArea(2, 20);
-        label1.setText("Catacutan, Raphael James Casdasdassadas dasdsadada dadasdasdasdasd.");
+        label1.setText("Catacutan, Raphael James C.");
         label1.setWrapStyleWord(true);
         label1.setLineWrap(true);
         label1.setOpaque(false);
