@@ -1,27 +1,19 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package models;
 
-/**
- *
- * @author Robante
- */
 public class Grades {
-    private int gradeId;
+    private Integer gradeId;
     private String syear;
     private String semester;
-    private String studentNo;
+    private Integer studentNo;
     private String subjectCode;
     private String blockNo;
-    private double grade;
+    private Double grade;
 
-    public int getGradeId() {
+    public Integer getGradeId() {
         return gradeId;
     }
 
-    public void setGradeId(int gradeId) {
+    public void setGradeId(Integer gradeId) {
         this.gradeId = gradeId;
     }
 
@@ -41,11 +33,11 @@ public class Grades {
         this.semester = semester;
     }
 
-    public String getStudentNo() {
+    public Integer getStudentNo() {
         return studentNo;
     }
 
-    public void setStudentNo(String studentNo) {
+    public void setStudentNo(Integer studentNo) {
         this.studentNo = studentNo;
     }
 
@@ -65,12 +57,11 @@ public class Grades {
         this.blockNo = blockNo;
     }
 
-    public double getGrade() {
+    public Double getGrade() {
         return grade;
     }
 
-    public void setGrade(double grade) {
+    public void setGrade(Double grade) {
         this.grade = grade;
     }
 }
-

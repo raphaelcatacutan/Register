@@ -134,44 +134,40 @@ public class DBDelete {
         }
     }
 
-    public static String deleteSchedule(String syear, String semester, String collegeCode, String subjectCode) {
+    public static String deleteSchedule(int scheduleId) {
         Connection conn = DBConnection.getConnection();
-        String sql = "DELETE FROM Schedule WHERE syear = ? AND semester = ? AND collegeCode = ? AND subjectCode = ?";
-        
+        String sql = "DELETE FROM Schedule WHERE schedule_id = ?";
+
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setString(1, syear);
-            stmt.setString(2, semester);
-            stmt.setString(3, collegeCode);
-            stmt.setString(4, subjectCode);
+            stmt.setInt(1, scheduleId);  // Using schedule_id for the WHERE clause
             int rowsAffected = stmt.executeUpdate();
             if (rowsAffected > 0) {
-                return "Schedule for " + subjectCode + " deleted successfully.";
+                return "Schedule with ID " + scheduleId + " deleted successfully.";
             } else {
-                return "Schedule for " + subjectCode + " not found.";
+                return "Schedule with ID " + scheduleId + " not found.";
             }
         } catch (SQLException e) {
             return "Error deleting Schedule: " + e.getMessage();
         }
     }
 
-    public static String deleteGrades(String syear, String semester, String studentNo, String subjectCode) {
+
+        public static String deleteGrades(int gradeId) {
         Connection conn = DBConnection.getConnection();
-        String sql = "DELETE FROM Grades WHERE syear = ? AND semester = ? AND studentNo = ? AND subjectCode = ?";
-        
+        String sql = "DELETE FROM Grades WHERE grade_id = ?";
+
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setString(1, syear);
-            stmt.setString(2, semester);
-            stmt.setString(3, studentNo);
-            stmt.setString(4, subjectCode);
+            stmt.setInt(1, gradeId);  
             int rowsAffected = stmt.executeUpdate();
             if (rowsAffected > 0) {
-                return "Grade for " + studentNo + " in " + subjectCode + " deleted successfully.";
+                return "Grade with ID " + gradeId + " deleted successfully.";
             } else {
-                return "Grade for " + studentNo + " in " + subjectCode + " not found.";
+                return "Grade with ID " + gradeId + " not found.";
             }
         } catch (SQLException e) {
             return "Error deleting Grade: " + e.getMessage();
         }
     }
+
 }
 

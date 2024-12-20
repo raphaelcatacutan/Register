@@ -5,7 +5,7 @@
 package models;
 
 public class Semester {
-    private String semester; // Values: 1, 2, 3, S
+    private String semester;
 
     public String getSemester() {
         return semester;

@@ -5,7 +5,7 @@
 package models;
 
 public class SchoolYear {
-    private String syear; // Format: 2023-2024
+    private String syear;
 
     public String getSyear() {
         return syear;
@@ -15,3 +15,4 @@ public class SchoolYear {
         this.syear = syear;
     }
 }
+

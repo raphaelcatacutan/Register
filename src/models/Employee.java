@@ -1,13 +1,5 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package models;
 
-/**
- *
- * @author Robante
- */
 import java.util.Date;
 
 public class Employee {
@@ -15,7 +7,7 @@ public class Employee {
     private String lastname;
     private String firstname;
     private String email;
-    private char gender;
+    private String gender;
     private String cpNum;
     private String address;
     private Date bday;
@@ -55,11 +47,11 @@ public class Employee {
         this.email = email;
     }
 
-    public char getGender() {
+    public String getGender() {
         return gender;
     }
 
-    public void setGender(char gender) {
+    public void setGender(String gender) {
         this.gender = gender;
     }
 
@@ -111,4 +103,3 @@ public class Employee {
         this.dateResigned = dateResigned;
     }
 }
-

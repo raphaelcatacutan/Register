@@ -1,34 +1,26 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package models;
 
-/**
- *
- * @author Robante
- */
 import java.util.Date;
 
 public class Student {
-    private String studentNo;
+    private Integer studentNo;
     private String lastname;
     private String firstname;
     private String email;
-    private char gender;
+    private String gender;
     private String courseCode;
-    private String cpNum;
+    private Integer cpNum;
     private String address;
     private Date bday;
     private String status;
     private Date dateStarted;
     private Date dateGraduated;
 
-    public String getStudentNo() {
+    public Integer getStudentNo() {
         return studentNo;
     }
 
-    public void setStudentNo(String studentNo) {
+    public void setStudentNo(Integer studentNo) {
         this.studentNo = studentNo;
     }
 
@@ -56,11 +48,11 @@ public class Student {
         this.email = email;
     }
 
-    public char getGender() {
+    public String getGender() {
         return gender;
     }
 
-    public void setGender(char gender) {
+    public void setGender(String gender) {
         this.gender = gender;
     }
 
@@ -72,11 +64,11 @@ public class Student {
         this.courseCode = courseCode;
     }
 
-    public String getCpNum() {
+    public Integer getCpNum() {
         return cpNum;
     }
 
-    public void setCpNum(String cpNum) {
+    public void setCpNum(Integer cpNum) {
         this.cpNum = cpNum;
     }
 
@@ -120,4 +112,3 @@ public class Student {
         this.dateGraduated = dateGraduated;
     }
 }
-

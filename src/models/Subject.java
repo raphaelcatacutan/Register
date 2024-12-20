@@ -1,19 +1,11 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package models;
 
-/**
- *
- * @author Robante
- */
 import java.util.Date;
 
 public class Subject {
     private String subjectCode;
     private String description;
-    private int units;
+    private Integer units;
     private String curriculum;
     private String collegeCode;
     private String status;
@@ -36,11 +28,11 @@ public class Subject {
         this.description = description;
     }
 
-    public int getUnits() {
+    public Integer getUnits() {
         return units;
     }
 
-    public void setUnits(int units) {
+    public void setUnits(Integer units) {
         this.units = units;
     }
 

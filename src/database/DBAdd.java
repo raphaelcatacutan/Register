@@ -65,26 +65,27 @@ public class DBAdd {
     }
 
     public static String addStudent(Student student, Connection conn) {
-        String query = "INSERT INTO Student (studentNo, lastname, firstname, email, gender, courseCode, cpNum, address, bday, status, dateStarted, dateGraduated) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String query = "INSERT INTO STUDENT (student_no, lastname, firstname, email, gender, course_code, cp_num, address, bday, status, date_started, date_graduated) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try (PreparedStatement stmt = conn.prepareStatement(query)) {
-            stmt.setString(1, student.getStudentNo());
+            stmt.setInt(1, student.getStudentNo()); // student_no is an INTEGER
             stmt.setString(2, student.getLastname());
             stmt.setString(3, student.getFirstname());
             stmt.setString(4, student.getEmail());
-            stmt.setString(5, String.valueOf(student.getGender()));
-            stmt.setString(6, student.getCourseCode());
-            stmt.setString(7, student.getCpNum());
+            stmt.setString(5, String.valueOf(student.getGender())); // gender is a VARCHAR(1)
+            stmt.setString(6, student.getCourseCode()); // course_code is VARCHAR(10)
+            stmt.setInt(7, student.getCpNum()); // cp_num is an INTEGER
             stmt.setString(8, student.getAddress());
-            stmt.setDate(9, new java.sql.Date(student.getBday().getTime()));
-            stmt.setString(10, student.getStatus());
-            stmt.setDate(11, new java.sql.Date(student.getDateStarted().getTime()));
-            stmt.setDate(12, student.getDateGraduated() != null ? new java.sql.Date(student.getDateGraduated().getTime()) : null);
+            stmt.setDate(9, new java.sql.Date(student.getBday().getTime())); // bday is a DATE
+            stmt.setString(10, student.getStatus() != null ? student.getStatus() : "A"); // Default status is 'A'
+            stmt.setDate(11, new java.sql.Date(student.getDateStarted().getTime())); // date_started is a DATE
+            stmt.setDate(12, student.getDateGraduated() != null ? new java.sql.Date(student.getDateGraduated().getTime()) : null); // date_graduated is a DATE
             stmt.executeUpdate();
             return "Student added successfully!";
         } catch (SQLException e) {
             return "Error adding Student: " + e.getMessage();
         }
     }
+
 
     public static String addEmployee(Employee employee, Connection conn) {
         String query = "INSERT INTO Employee (employeeId, lastname, firstname, email, gender, cpNum, address, bday, status, dateStarted, dateResigned) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
@@ -147,18 +148,20 @@ public class DBAdd {
     }
 
     public static String addGrade(Grades grade, Connection conn) {
-        String query = "INSERT INTO Grades (syear, semester, studentNo, subjectCode, blockNo, grade) VALUES (?, ?, ?, ?, ?, ?)";
-        try (PreparedStatement stmt = conn.prepareStatement(query)) {
-            stmt.setString(1, grade.getSyear());
-            stmt.setString(2, grade.getSemester());
-            stmt.setString(3, grade.getStudentNo());
-            stmt.setString(4, grade.getSubjectCode());
-            stmt.setString(5, grade.getBlockNo());
-            stmt.setDouble(6, grade.getGrade());
-            stmt.executeUpdate();
-            return "Grade added successfully!";
-        } catch (SQLException e) {
-            return "Error adding Grade: " + e.getMessage();
-        }
+    String query = "INSERT INTO GRADES (syear, semester, student_no, subject_code, block_no, grade) VALUES (?, ?, ?, ?, ?, ?)";
+    try (PreparedStatement stmt = conn.prepareStatement(query)) {
+        stmt.setString(1, grade.getSyear()); // syear is VARCHAR(9)
+        stmt.setString(2, grade.getSemester()); // semester is VARCHAR(1)
+        stmt.setInt(3, grade.getStudentNo()); // student_no is INTEGER
+        stmt.setString(4, grade.getSubjectCode()); // subject_code is VARCHAR(10)
+        stmt.setString(5, grade.getBlockNo()); // block_no is VARCHAR(15)
+        stmt.setDouble(6, grade.getGrade()); // grade is DECIMAL(3, 2), use BigDecimal for precision
+        stmt.executeUpdate();
+        return "Grade added successfully!";
+    } catch (SQLException e) {
+        return "Error adding Grade: " + e.getMessage();
     }
+}
+
+
 }

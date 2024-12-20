@@ -4,10 +4,6 @@
  */
 package models;
 
-/**
- *
- * @author Robante
- */
 import java.util.Date;
 
 public class Course {
@@ -17,6 +13,7 @@ public class Course {
     private Date dateOpened;
     private Date dateClosed;
     private String status;
+    private String password;
 
     public String getCourseCode() {
         return courseCode;
@@ -64,5 +61,13 @@ public class Course {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }
