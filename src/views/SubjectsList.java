@@ -43,7 +43,7 @@ public class SubjectsList extends javax.swing.JPanel {
         initComponents();
         
         add(createActionsPanel());
-        add(createSubjectListPanel(), BorderLayout.CENTER);
+        add(createSubjectListPanel());
         
         JPanel rightPanel = new JPanel();
         rightPanel.setLayout(new FlowLayout(FlowLayout.LEFT)); 
@@ -66,7 +66,7 @@ public class SubjectsList extends javax.swing.JPanel {
         JPanel button1 = new BetterPanel(115, 30, new Color(173, 204, 255), 10, 0.5f);
         JPanel button2 = new BetterPanel(115, 30, new Color(174, 226, 200), 10, 0.5f);
         
-        JLabel button1Label = new JLabel("Search Student");
+        JLabel button1Label = new JLabel("Search Subject");
         button1Label.setFont(new Font("Google Sans", Font.PLAIN, 12));
         button1Label.setAlignmentX(Component.LEFT_ALIGNMENT);
         button1Label.setIcon(new ImageIcon("C:/Users/Raphael/Documents/Sync/Developments/Java/RegISTER/src/assets/icons/app (1).png"));
@@ -74,18 +74,18 @@ public class SubjectsList extends javax.swing.JPanel {
         button1.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         button1.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         
-        JLabel button2Label = new JLabel("Add Student");
+        JLabel button2Label = new JLabel("Add Subject");
         button2Label.setFont(new Font("Google Sans", Font.PLAIN, 12));
         button2Label.setAlignmentX(Component.LEFT_ALIGNMENT);
         button2Label.setIcon(new ImageIcon("C:/Users/Raphael/Documents/Sync/Developments/Java/RegISTER/src/assets/icons/app (1).png"));
         button2.add(button2Label);
-        button2.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        button2.setBorder(BorderFactory.createEmptyBorder(9, 10, 10, 10));
         button2.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 
-        actionsPanel.add(Box.createHorizontalStrut(95));
-        actionsPanel.add(searchPanel);
+        actionsPanel.add(Box.createHorizontalStrut(500));
+//        actionsPanel.add(searchPanel);
         actionsPanel.add(Box.createHorizontalStrut(5));
-        actionsPanel.add(button1);
+//        actionsPanel.add(button1);
         actionsPanel.add(Box.createHorizontalStrut(5));
         actionsPanel.add(button2);
         
@@ -94,7 +94,7 @@ public class SubjectsList extends javax.swing.JPanel {
     
     private JPanel createSubjectListPanel() {
         JPanel table = new JPanel();
-        table.setOpaque(false);
+        table.setOpaque(true);
         table.setLayout(new BoxLayout(table, BoxLayout.PAGE_AXIS));
         
         table.add(createSubjectRecord(1));

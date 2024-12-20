@@ -58,6 +58,7 @@ import views.components.SimpleMessageModal;
  */
 public class EmployeesInfo extends javax.swing.JPanel {
     public JLabel lblIconLabel;
+    public JTextField txfEmployeeId;
     public JTextField txfFirstName; 
     public JTextField txfLastName; 
     public JTextField txfEmail; 
@@ -77,6 +78,7 @@ public class EmployeesInfo extends javax.swing.JPanel {
     public void refreshView() {
         if (selectedEmployee != null) {
             lblIconLabel.setText((String.valueOf(selectedEmployee.getLastname().charAt(0)) + String.valueOf(selectedEmployee.getFirstname().charAt(0))).toUpperCase());
+            txfEmployeeId.setText(selectedEmployee.getEmployeeId());
             txfFirstName.setText(selectedEmployee.getFirstname());
             txfLastName.setText(selectedEmployee.getLastname());
             txfAddress.setText(selectedEmployee.getAddress());
@@ -90,17 +92,17 @@ public class EmployeesInfo extends javax.swing.JPanel {
             if (selectedEmployee.getBday() != null) dtpBirthday.setSelectedDate(new java.sql.Date(selectedEmployee.getBday().getTime()).toLocalDate());
             if (selectedEmployee.getDateStarted() != null) dtpStarted.setSelectedDate(new java.sql.Date(selectedEmployee.getDateStarted().getTime()).toLocalDate());
             if (selectedEmployee.getDateResigned()!= null) dtpResigned.setSelectedDate(new java.sql.Date(selectedEmployee.getDateResigned().getTime()).toLocalDate());
-
+            txfEmployeeId.setEnabled(false);
         } else {
             System.out.println("Clearing");
-            
+            txfEmployeeId.setText("");
             lblIconLabel.setText("X");
             txfFirstName.setText("");
             txfLastName.setText("");
             txfAddress.setText("");
             txfEmail.setText("");
             txfPhoneNumber.setText("");
-            
+            txfEmployeeId.setEnabled(true);
             cbxSex.setSelectedIndex(-1);
             cbxStatus.setSelectedIndex(-1);
             
@@ -157,6 +159,7 @@ public class EmployeesInfo extends javax.swing.JPanel {
         button1.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
+                String employeeId = txfEmployeeId.getText(); // Might be null, user might type duplicate
                 String firstName = txfFirstName.getText();
                 String lastName = txfLastName.getText();
                 String address = txfAddress.getText();
@@ -297,6 +300,25 @@ public class EmployeesInfo extends javax.swing.JPanel {
         forms.setBounds(180, 25, 570, 215); 
         glowPanel.add(forms);
         
+        JLabel label1 = new JLabel("Employee Id:");
+            label1.setFont(new java.awt.Font("Google Sans Medium", 0, 12));
+            label1.setBorder(BorderFactory.createEmptyBorder(0, 5, 0, 0));
+            label1.setAlignmentX(Component.LEFT_ALIGNMENT);
+            label1.setOpaque(false);
+            label1.setBackground(Color.red);
+        BetterTextField betterTextField1 = new BetterTextField(
+            130, 25, Color.WHITE, 13, 0.04f, new Color(220, 220, 224), 12, null, null
+        );
+            betterTextField1.setOpaque(false);
+            txfEmployeeId = betterTextField1.textField;
+            txfEmployeeId.setForeground(Color.black);
+        JPanel fieldPanel1 = new JPanel();
+            fieldPanel1.setLayout(new BorderLayout());
+            fieldPanel1.setOpaque(false);
+            fieldPanel1.add(label1, BorderLayout.PAGE_START);
+            fieldPanel1.add(betterTextField1, BorderLayout.PAGE_END);
+            forms.add(fieldPanel1);
+            
         JLabel label2 = new JLabel("First Name:");
             label2.setFont(new java.awt.Font("Google Sans Medium", 0, 12));
             label2.setBorder(BorderFactory.createEmptyBorder(0, 5, 0, 0));
@@ -304,7 +326,7 @@ public class EmployeesInfo extends javax.swing.JPanel {
             label2.setOpaque(false);
             label2.setBackground(Color.red);
         BetterTextField betterTextField2 = new BetterTextField(
-            190, 25, Color.WHITE, 13, 0.04f, new Color(220, 220, 224), 12, null, null
+            200, 25, Color.WHITE, 13, 0.04f, new Color(220, 220, 224), 12, null, null
         );
             betterTextField2.setOpaque(false);
             txfFirstName = betterTextField2.textField;
@@ -323,7 +345,7 @@ public class EmployeesInfo extends javax.swing.JPanel {
             label3.setOpaque(false);
             label3.setBackground(Color.red);
         BetterTextField betterTextField3 = new BetterTextField(
-            190, 25, Color.WHITE, 13, 0.04f, new Color(220, 220, 224), 12, null, null
+            200, 25, Color.WHITE, 13, 0.04f, new Color(220, 220, 224), 12, null, null
         );
             betterTextField3.setOpaque(false);
             txfLastName = betterTextField3.textField;
@@ -334,6 +356,25 @@ public class EmployeesInfo extends javax.swing.JPanel {
             fieldPanel3.add(label3, BorderLayout.PAGE_START);
             fieldPanel3.add(betterTextField3, BorderLayout.PAGE_END);
             forms.add(fieldPanel3); 
+            
+        JLabel label4 = new JLabel("Address:");
+            label4.setFont(new java.awt.Font("Google Sans Medium", 0, 12));
+            label4.setBorder(BorderFactory.createEmptyBorder(0, 5, 0, 0));
+            label4.setAlignmentX(Component.LEFT_ALIGNMENT);
+            label4.setOpaque(false);
+            label4.setBackground(Color.red);
+        BetterTextField betterTextField4 = new BetterTextField(
+            250, 25, Color.WHITE, 13, 0.04f, new Color(220, 220, 224), 12, null, null
+        );
+            betterTextField4.setOpaque(false);
+            txfAddress = betterTextField4.textField;
+            txfAddress.setForeground(Color.black);
+        JPanel fieldPanel4 = new JPanel();
+            fieldPanel4.setLayout(new BorderLayout());
+            fieldPanel4.setOpaque(false);
+            fieldPanel4.add(label4, BorderLayout.PAGE_START);
+            fieldPanel4.add(betterTextField4, BorderLayout.PAGE_END);
+            forms.add(fieldPanel4);
             
         JLabel label5 = new JLabel("Email:");
             label5.setFont(new java.awt.Font("Google Sans Medium", 0, 12));
@@ -353,25 +394,6 @@ public class EmployeesInfo extends javax.swing.JPanel {
             fieldPanel5.add(label5, BorderLayout.PAGE_START);
             fieldPanel5.add(betterTextField5, BorderLayout.PAGE_END);
             forms.add(fieldPanel5);
-            
-        JLabel label4 = new JLabel("Address:");
-            label4.setFont(new java.awt.Font("Google Sans Medium", 0, 12));
-            label4.setBorder(BorderFactory.createEmptyBorder(0, 5, 0, 0));
-            label4.setAlignmentX(Component.LEFT_ALIGNMENT);
-            label4.setOpaque(false);
-            label4.setBackground(Color.red);
-        BetterTextField betterTextField4 = new BetterTextField(
-            390, 25, Color.WHITE, 13, 0.04f, new Color(220, 220, 224), 12, null, null
-        );
-            betterTextField4.setOpaque(false);
-            txfAddress = betterTextField4.textField;
-            txfAddress.setForeground(Color.black);
-        JPanel fieldPanel4 = new JPanel();
-            fieldPanel4.setLayout(new BorderLayout());
-            fieldPanel4.setOpaque(false);
-            fieldPanel4.add(label4, BorderLayout.PAGE_START);
-            fieldPanel4.add(betterTextField4, BorderLayout.PAGE_END);
-            forms.add(fieldPanel4);
                
         JLabel label12 = new JLabel("Phone Number:");
             label12.setFont(new java.awt.Font("Google Sans Medium", 0, 12));

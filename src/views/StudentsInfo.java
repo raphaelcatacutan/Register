@@ -103,7 +103,7 @@ public class StudentsInfo extends javax.swing.JPanel {
         
         if (selectedStudent != null) {
             pnlGradesContainer.removeAll();
-            
+            txfStudentNumber.setEnabled(false);
             lblIconLabel.setText((String.valueOf(selectedStudent.getLastname().charAt(0)) + String.valueOf(selectedStudent.getFirstname().charAt(0))).toUpperCase());
             txfStudentNumber.setText(String.valueOf(selectedStudent.getStudentNo()));
             txfFirstName.setText(selectedStudent.getFirstname());
@@ -135,6 +135,7 @@ public class StudentsInfo extends javax.swing.JPanel {
             System.out.println("Clearing");
             pnlGradesContainer.removeAll();
             
+            txfStudentNumber.setEnabled(true);
             lblIconLabel.setText("X");
             txfStudentNumber.setText("");
             txfFirstName.setText("");

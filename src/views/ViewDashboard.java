@@ -12,10 +12,6 @@ import java.util.List;
 import javax.swing.*;
 import raven.modal.ModalDialog;
 import raven.modal.component.SimpleModalBorder;
-import raven.modal.listener.ModalCallback;
-import raven.modal.option.BorderOption;
-import raven.modal.option.Location;
-import raven.modal.option.Option;
 import utils.StaticVars;
 import views.components.BetterPanel;
 import views.components.SimpleMessageModal;
@@ -150,11 +146,11 @@ public final class ViewDashboard extends javax.swing.JPanel {
         quickNumberPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
 
         // The 5 panels
-        JPanel panel1 = createQuickNumberPanel("Total Students", "24142", new Color(231, 230, 251), new Color(97, 81, 251));
-        JPanel panel2 = createQuickNumberPanel("Total Employees", "24142", new Color(249, 229, 234), new Color(239, 43, 88));
-        JPanel panel3 = createQuickNumberPanel("Total Courses", "24142", new Color(223, 237, 247), new Color(0, 128, 255));
-        JPanel panel4 = createQuickNumberPanel("Total Programs", "24142", new Color(251, 237, 217), new Color(255, 165, 0));
-        JPanel panel5 = createQuickNumberPanel("School Years", "24142", new Color(222, 255, 229), new Color(34, 193, 195));
+        JPanel panel1 = createQuickNumberPanel("Total Students", "25", new Color(231, 230, 251), new Color(97, 81, 251));
+        JPanel panel2 = createQuickNumberPanel("Total Employees", "10", new Color(249, 229, 234), new Color(239, 43, 88));
+        JPanel panel3 = createQuickNumberPanel("Total Courses", "15", new Color(223, 237, 247), new Color(0, 128, 255));
+        JPanel panel4 = createQuickNumberPanel("Total Programs", "10", new Color(251, 237, 217), new Color(255, 165, 0));
+        JPanel panel5 = createQuickNumberPanel("School Years", "3", new Color(222, 255, 229), new Color(34, 193, 195));
 
         // Adding the Panels with some spacing
         quickNumberPanel.add(Box.createHorizontalStrut(3));

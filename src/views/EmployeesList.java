@@ -45,7 +45,7 @@ import views.components.BetterTextField;
 public class EmployeesList extends javax.swing.JPanel {
     JTextField txfSearch;
     JPanel grdEmployeesList;
-    JScrollPane scrlStudentList;
+    JScrollPane scrlEmployeeList;
     
     /**
      * Creates new form StudentsList
@@ -90,7 +90,7 @@ public class EmployeesList extends javax.swing.JPanel {
                 grdEmployeesList.setPreferredSize(new Dimension(800, (employeePanels.size() * (125 + 28)) / 3));
 
                 SwingUtilities.invokeLater(() -> {
-                    scrlStudentList.getViewport().setViewPosition(new Point(0, 0));
+                    scrlEmployeeList.getViewport().setViewPosition(new Point(0, 0));
                 });
 
                 return null;
@@ -166,25 +166,25 @@ public class EmployeesList extends javax.swing.JPanel {
         grdEmployeesList.setOpaque(false);
         grdEmployeesList.setLayout(new FlowLayout(FlowLayout.LEFT));
         
-        scrlStudentList = new JScrollPane(grdEmployeesList);
-            scrlStudentList.getHorizontalScrollBar().setUnitIncrement(10);
-            scrlStudentList.getVerticalScrollBar().setUnitIncrement(10);
-            scrlStudentList.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS); 
-            scrlStudentList.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-            scrlStudentList.setPreferredSize(new Dimension(820, 565));
-            scrlStudentList.setOpaque(false);
-            scrlStudentList.setBorder(BorderFactory.createEmptyBorder());
-            scrlStudentList.getVerticalScrollBar().putClientProperty(FlatClientProperties.STYLE, "" +
+        scrlEmployeeList = new JScrollPane(grdEmployeesList);
+            scrlEmployeeList.getHorizontalScrollBar().setUnitIncrement(10);
+            scrlEmployeeList.getVerticalScrollBar().setUnitIncrement(10);
+            scrlEmployeeList.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS); 
+            scrlEmployeeList.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+            scrlEmployeeList.setPreferredSize(new Dimension(820, 565));
+            scrlEmployeeList.setOpaque(false);
+            scrlEmployeeList.setBorder(BorderFactory.createEmptyBorder());
+            scrlEmployeeList.getVerticalScrollBar().putClientProperty(FlatClientProperties.STYLE, "" +
                 "trackArc:$ScrollBar.thumbArc;" +
                 "thumbInsets:0,0,0,0;" +
                 "width:5;");
-            scrlStudentList.getViewport().setOpaque(false);
+            scrlEmployeeList.getViewport().setOpaque(false);
         
         grdEmployeesList.setPreferredSize(new Dimension(800, (grdEmployeesList.getComponentCount() * (125 + 17)) / 3));
         SwingUtilities.invokeLater(() -> {
-            scrlStudentList.getViewport().setViewPosition( new Point(0, 0) );
+            scrlEmployeeList.getViewport().setViewPosition( new Point(0, 0) );
         });
-        return scrlStudentList;
+        return scrlEmployeeList;
     }
     
     private JPanel createGridRecord(String lastName, String firstName, String email, String status, Employee employee) {

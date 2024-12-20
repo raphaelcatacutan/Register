@@ -364,13 +364,14 @@ public final class ViewGrading extends javax.swing.JPanel {
             column2.addItem("5.00");
             column2.setPreferredSize(new Dimension(150, 30));
             column2.setSelectedItem(String.valueOf(gradeValue));
-            cbxSchoolYear.addActionListener(e -> {
-//                DBUpdate.updateGrades(
-//                        grade.getGradeId(), 
-//                        grade.getSemester(), 
-//                        grade.getSubjectCode(),
-//                        grade.getBlockNo(), 
-//                        Double.parseDouble((String) column2.getSelectedItem()));
+            column2.addActionListener(e -> {
+                System.out.println("Updating");
+                DBUpdate.updateGrades(
+                        grade.getGradeId(), 
+                        grade.getSemester(), 
+                        grade.getSubjectCode(),
+                        grade.getBlockNo(), 
+                        Double.parseDouble((String) column2.getSelectedItem()));
             });
             
         JPanel separator = new JPanel();
