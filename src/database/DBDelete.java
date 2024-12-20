@@ -51,7 +51,7 @@ public class DBDelete {
 
     public static String deleteCollege(String collegeCode) {
         Connection conn = DBConnection.getConnection();
-        String sql = "DELETE FROM College WHERE collegeCode = ?";
+        String sql = "DELETE FROM College WHERE college_code = ?";
         
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, collegeCode);
@@ -68,7 +68,7 @@ public class DBDelete {
 
     public static String deleteCourse(String courseCode) {
         Connection conn = DBConnection.getConnection();
-        String sql = "DELETE FROM Course WHERE courseCode = ?";
+        String sql = "DELETE FROM Course WHERE course_code = ?";
         
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, courseCode);
@@ -85,24 +85,48 @@ public class DBDelete {
 
     public static String deleteStudent(String studentNo) {
         Connection conn = DBConnection.getConnection();
-        String sql = "DELETE FROM Student WHERE studentNo = ?";
-        
-        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setString(1, studentNo);
-            int rowsAffected = stmt.executeUpdate();
-            if (rowsAffected > 0) {
-                return "Student with ID " + studentNo + " deleted successfully.";
-            } else {
-                return "Student with ID " + studentNo + " not found.";
+        String deleteGradesSql = "DELETE FROM GRADES WHERE student_no = ?";
+        String deleteStudentSql = "DELETE FROM STUDENT WHERE student_no = ?";
+
+        try {
+            conn.setAutoCommit(false);
+
+            try (PreparedStatement stmt = conn.prepareStatement(deleteGradesSql)) {
+                stmt.setString(1, studentNo);
+                stmt.executeUpdate();
+            }
+
+            try (PreparedStatement stmt = conn.prepareStatement(deleteStudentSql)) {
+                stmt.setString(1, studentNo);
+                int rowsAffected = stmt.executeUpdate();
+                if (rowsAffected > 0) {
+                    conn.commit();
+                    return "Student with ID " + studentNo + " deleted successfully.";
+                } else {
+                    conn.rollback();
+                    return "Student with ID " + studentNo + " not found.";
+                }
             }
         } catch (SQLException e) {
+            try {
+                conn.rollback();
+            } catch (SQLException ex) {
+                return "Error rolling back transaction: " + ex.getMessage();
+            }
             return "Error deleting Student: " + e.getMessage();
+        } finally {
+            try {
+                conn.setAutoCommit(true);
+            } catch (SQLException e) {
+                return "Error restoring auto-commit mode: " + e.getMessage();
+            }
         }
     }
 
+
     public static String deleteEmployee(String employeeId) {
         Connection conn = DBConnection.getConnection();
-        String sql = "DELETE FROM Employee WHERE employeeId = ?";
+        String sql = "DELETE FROM Employee WHERE employee_id = ?";
         
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, employeeId);
@@ -119,7 +143,7 @@ public class DBDelete {
 
     public static String deleteSubject(String subjectCode) {
         Connection conn = DBConnection.getConnection();
-        String sql = "DELETE FROM Subject WHERE subjectCode = ?";
+        String sql = "DELETE FROM Subject WHERE subject_code = ?";
         
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, subjectCode);
