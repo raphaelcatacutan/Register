@@ -155,21 +155,16 @@ public final class ViewColleges extends javax.swing.JPanel {
     }
 
     private JPanel createTableRecord(College college) {
-        JPanel recordsPanel = new BetterPanel(760, 50, Color.WHITE, 10, 0.05f);
+        JPanel recordsPanel = new BetterPanel(780, 50, Color.WHITE, 10, 0.05f);
         recordsPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
         
         JLabel column1 = new JLabel();
-        ImageIcon originalIcon = new ImageIcon("C:/Users/Raphael/Documents/Sync/Developments/Java/RegISTER/src/assets/icons/app (1).png");
-        Image originalImage = originalIcon.getImage(); 
-        Image resizedImage = originalImage.getScaledInstance(16, 16, Image.SCALE_SMOOTH);
-        ImageIcon resizedIcon = new ImageIcon(resizedImage);
         column1.setPreferredSize(new Dimension(200, 53));
         column1.setFont(new Font("Google Sans", Font.PLAIN, 12));
         column1.setOpaque(false);
         column1.setBackground(new Color(250, 250, 250));
         column1.setBorder(BorderFactory.createEmptyBorder(11, 10, 10, 10));
         column1.setText(college.getDescription());
-        column1.setIcon(resizedIcon);
         column1.setHorizontalAlignment(SwingConstants.LEFT);
         
         JLabel column2 = new JLabel();

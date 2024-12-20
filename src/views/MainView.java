@@ -21,7 +21,7 @@ public class MainView extends javax.swing.JPanel {
     public static JPanel viewDashboard;
     public static ViewGrading viewGrading;
     public static ViewColleges viewColleges;
-    public static JPanel viewCourses;
+    public static ViewCourses viewCourses;
     public static JPanel viewSubjects;
     public static JPanel viewSettings;
     
@@ -97,6 +97,7 @@ public class MainView extends javax.swing.JPanel {
         NavigationPanel.coursesItem.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
+                viewCourses.refreshData();
                 mainViewCardLayout.show(viewsPanel, "viewCourses");
             }
         });
