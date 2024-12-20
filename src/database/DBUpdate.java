@@ -63,16 +63,14 @@ public class DBUpdate {
         } 
     }
 
-    public static void updateStudent(String studentNo, String lastname, String firstname, String email, char gender, 
-                              String courseCode, String cpNum, String address, Date bday, String status, 
-                              Date dateStarted, Date dateGraduated) {
+    public static void updateStudent(String lastname, String firstname, String email, String courseCode, char gender, String cpNum, String address, String status, Date bday, Date dateStarted, Date dateGraduated, String studentNo) {
         String query = "UPDATE Student SET lastname = ?, firstname = ?, email = ?, gender = ?, course_code = ?, cp_num = ?, " +
                        "address = ?, bday = ?, status = ?, date_started = ?, date_graduated = ? WHERE student_no = ?";
         try (PreparedStatement stmt = DBConnection.getConnection().prepareStatement(query)) {
             stmt.setString(1, lastname);
             stmt.setString(2, firstname);
             stmt.setString(3, email);
-            stmt.setString(4, String.valueOf(gender));  // Convert gender to string
+            stmt.setString(4, String.valueOf(gender));  
             stmt.setString(5, courseCode);
             stmt.setString(6, cpNum);
             stmt.setString(7, address);

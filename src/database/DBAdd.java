@@ -65,11 +65,11 @@ public class DBAdd {
         }
     }
 
-    public static String addStudent(int studentNo, String lastname, String firstname, String email, char gender, String courseCode, String cpNum, String address, Date bday, String status, Date dateStarted, Date dateGraduated) {
+    public static String addStudent(String studentNo, String lastname, String firstname, String email, String courseCode, char gender, String cpNum, String address, String status, Date bday, Date dateStarted, Date dateGraduated) {
         String query = "INSERT INTO STUDENT (student_no, lastname, firstname, email, gender, course_code, cp_num, address, bday, status, date_started, date_graduated) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(query)) {
-            stmt.setInt(1, studentNo);
+            stmt.setString(1, studentNo);
             stmt.setString(2, lastname);
             stmt.setString(3, firstname);
             stmt.setString(4, email);
