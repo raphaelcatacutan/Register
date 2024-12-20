@@ -16,8 +16,8 @@ public class DBConnection {
     private static Connection connection;
 
     // Initialize and return connection
-    public static Connection initializeConnection(String url, String user, String password) {
-        if (connection == null) {
+    public static Connection initializeConnection(String url, String user, String password) throws SQLException {
+        if (connection == null || connection.isClosed()) {
             try {
                 connection = DriverManager.getConnection(url, user, password);
                 System.out.println("Database connection established.");
@@ -31,14 +31,19 @@ public class DBConnection {
 
     //get the existing connection
     public static Connection getConnection() {
-        if (connection == null) {
-            return initializeConnection(
-                    "jdbc:oracle:thin:@localhost:1521:xe",
-                    "plm",
-                    "plm"
-            );
+        try {
+            if (connection == null || connection.isClosed()) {
+                return initializeConnection(
+                        "jdbc:oracle:thin:@localhost:1521:xe",
+                        "plm",
+                        "plm"
+                );
+            }
+        } catch (Exception e) {
+            
         }
-        return connection;
+            return connection;
+        
     }
 
     //create the database

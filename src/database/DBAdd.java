@@ -73,7 +73,7 @@ public class DBAdd {
             stmt.setString(4, student.getEmail());
             stmt.setString(5, String.valueOf(student.getGender())); // gender is a VARCHAR(1)
             stmt.setString(6, student.getCourseCode()); // course_code is VARCHAR(10)
-            stmt.setInt(7, student.getCpNum()); // cp_num is an INTEGER
+            stmt.setLong(7, student.getCpNum()); // cp_num is an INTEGER
             stmt.setString(8, student.getAddress());
             stmt.setDate(9, new java.sql.Date(student.getBday().getTime())); // bday is a DATE
             stmt.setString(10, student.getStatus() != null ? student.getStatus() : "A"); // Default status is 'A'
