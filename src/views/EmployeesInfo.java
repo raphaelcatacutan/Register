@@ -4,6 +4,7 @@
  */
 package views;
 
+import com.formdev.flatlaf.FlatClientProperties;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
@@ -11,10 +12,15 @@ import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.Point;
+import java.awt.RenderingHints;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.time.LocalDate;
+import java.util.Random;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -23,8 +29,10 @@ import javax.swing.JComboBox;
 import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import raven.datetime.component.date.DatePicker;
 import views.components.BetterPanel;
@@ -98,18 +106,48 @@ public class EmployeesInfo extends javax.swing.JPanel {
     }
     
     private JPanel createInfoPanel() {
-        JPanel glowPanel = new BetterPanel(770, 250, new Color(250, 250, 250), 30, 0.2f);
+        JPanel glowPanel = new BetterPanel(770, 260, new Color(250, 250, 250), 30, 0.2f);
         glowPanel.setLayout(null);
         glowPanel.setOpaque(false);
         
-        ImageIcon icon = new ImageIcon(getClass().getResource("/assets/image/example image.png"));
-        Image img = icon.getImage();
-        Image scaledImg = img.getScaledInstance(120, 120, Image.SCALE_SMOOTH);
-        ImageIcon scaledIcon = new ImageIcon(scaledImg);
-        JLabel image = new JLabel();
-        image.setIcon(scaledIcon);
-        image.setBounds(40, 30, 120, 120); 
-        glowPanel.add(image);
+        Random rand = new Random();
+        int r = rand.nextInt(156) + 100; 
+        int g = rand.nextInt(156) + 100; 
+        int b = rand.nextInt(156) + 100;
+        Color randomDarkColor = new Color(r, g, b);
+
+       JPanel circlePanel = new JPanel() {
+            @Override
+            protected void paintComponent(Graphics g) {
+                 super.paintComponent(g);
+
+                Graphics2D g2d = (Graphics2D) g;
+                g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+
+                int diameter = Math.min(getWidth(), getHeight());  
+                g2d.setColor(randomDarkColor);
+                g2d.fillOval(0, 0, diameter, diameter); 
+            }
+        };
+
+
+        circlePanel.setOpaque(false);
+        circlePanel.setPreferredSize(new Dimension(120, 120));
+        circlePanel.setBounds(40, 30, 120, 120); 
+        circlePanel.setLayout(new BorderLayout());
+
+        String alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        StringBuilder letters = new StringBuilder();
+        for (int i = 0; i < 2; i++) {
+            int randomIndex = rand.nextInt(alphabet.length());
+            letters.append(alphabet.charAt(randomIndex));
+        }
+
+        JLabel letterLabel = new JLabel(letters.toString(), SwingConstants.CENTER);
+        letterLabel.setFont(new Font("Google Sans Medium", Font.BOLD, 40));
+        letterLabel.setForeground(Color.BLACK);
+        circlePanel.add(letterLabel);
+        glowPanel.add(circlePanel);
         
         JPanel forms = new JPanel();
         forms.setBackground(Color.RED);
@@ -118,25 +156,6 @@ public class EmployeesInfo extends javax.swing.JPanel {
         forms.setBounds(180, 25, 570, 215); 
         glowPanel.add(forms);
         
-        JLabel label1 = new JLabel("Student Number:");
-            label1.setFont(new java.awt.Font("Google Sans Medium", 0, 12));
-            label1.setBorder(BorderFactory.createEmptyBorder(0, 5, 0, 0));
-            label1.setAlignmentX(Component.LEFT_ALIGNMENT);
-            label1.setOpaque(false);
-            label1.setBackground(Color.red);
-        BetterTextField betterTextField1 = new BetterTextField(
-            130, 25, Color.WHITE, 13, 0.04f, new Color(220, 220, 224), 12, null, null
-        );
-            betterTextField1.setOpaque(false);
-            JTextField textfield1 = betterTextField1.textField;
-            textfield1.setForeground(Color.black);
-        JPanel fieldPanel1 = new JPanel();
-            fieldPanel1.setLayout(new BorderLayout());
-            fieldPanel1.setOpaque(false);
-            fieldPanel1.add(label1, BorderLayout.PAGE_START);
-            fieldPanel1.add(betterTextField1, BorderLayout.PAGE_END);
-            forms.add(fieldPanel1);
-            
         JLabel label2 = new JLabel("First Name:");
             label2.setFont(new java.awt.Font("Google Sans Medium", 0, 12));
             label2.setBorder(BorderFactory.createEmptyBorder(0, 5, 0, 0));
@@ -144,7 +163,7 @@ public class EmployeesInfo extends javax.swing.JPanel {
             label2.setOpaque(false);
             label2.setBackground(Color.red);
         BetterTextField betterTextField2 = new BetterTextField(
-            200, 25, Color.WHITE, 13, 0.04f, new Color(220, 220, 224), 12, null, null
+            190, 25, Color.WHITE, 13, 0.04f, new Color(220, 220, 224), 12, null, null
         );
             betterTextField2.setOpaque(false);
             JTextField textField2 = betterTextField2.textField;
@@ -163,7 +182,7 @@ public class EmployeesInfo extends javax.swing.JPanel {
             label3.setOpaque(false);
             label3.setBackground(Color.red);
         BetterTextField betterTextField3 = new BetterTextField(
-            200, 25, Color.WHITE, 13, 0.04f, new Color(220, 220, 224), 12, null, null
+            190, 25, Color.WHITE, 13, 0.04f, new Color(220, 220, 224), 12, null, null
         );
             betterTextField3.setOpaque(false);
             JTextField textField3 = betterTextField3.textField;
@@ -175,25 +194,6 @@ public class EmployeesInfo extends javax.swing.JPanel {
             fieldPanel3.add(betterTextField3, BorderLayout.PAGE_END);
             forms.add(fieldPanel3); 
             
-        JLabel label4 = new JLabel("Address:");
-            label4.setFont(new java.awt.Font("Google Sans Medium", 0, 12));
-            label4.setBorder(BorderFactory.createEmptyBorder(0, 5, 0, 0));
-            label4.setAlignmentX(Component.LEFT_ALIGNMENT);
-            label4.setOpaque(false);
-            label4.setBackground(Color.red);
-        BetterTextField betterTextField4 = new BetterTextField(
-            342, 25, Color.WHITE, 13, 0.04f, new Color(220, 220, 224), 12, null, null
-        );
-            betterTextField4.setOpaque(false);
-            JTextField textField4 = betterTextField4.textField;
-            textField4.setForeground(Color.black);
-        JPanel fieldPanel4 = new JPanel();
-            fieldPanel4.setLayout(new BorderLayout());
-            fieldPanel4.setOpaque(false);
-            fieldPanel4.add(label4, BorderLayout.PAGE_START);
-            fieldPanel4.add(betterTextField4, BorderLayout.PAGE_END);
-            forms.add(fieldPanel4);
-            
         JLabel label5 = new JLabel("Email:");
             label5.setFont(new java.awt.Font("Google Sans Medium", 0, 12));
             label5.setBorder(BorderFactory.createEmptyBorder(0, 5, 0, 0));
@@ -201,7 +201,7 @@ public class EmployeesInfo extends javax.swing.JPanel {
             label5.setOpaque(false);
             label5.setBackground(Color.red);
         BetterTextField betterTextField5 = new BetterTextField(
-            200, 25, Color.WHITE, 13, 0.04f, new Color(220, 220, 224), 12, null, null
+            140, 25, Color.WHITE, 13, 0.04f, new Color(220, 220, 224), 12, null, null
         );
             betterTextField5.setOpaque(false);
             JTextField textField5 = betterTextField5.textField;
@@ -213,6 +213,44 @@ public class EmployeesInfo extends javax.swing.JPanel {
             fieldPanel5.add(betterTextField5, BorderLayout.PAGE_END);
             forms.add(fieldPanel5);
             
+        JLabel label4 = new JLabel("Address:");
+            label4.setFont(new java.awt.Font("Google Sans Medium", 0, 12));
+            label4.setBorder(BorderFactory.createEmptyBorder(0, 5, 0, 0));
+            label4.setAlignmentX(Component.LEFT_ALIGNMENT);
+            label4.setOpaque(false);
+            label4.setBackground(Color.red);
+        BetterTextField betterTextField4 = new BetterTextField(
+            390, 25, Color.WHITE, 13, 0.04f, new Color(220, 220, 224), 12, null, null
+        );
+            betterTextField4.setOpaque(false);
+            JTextField textField4 = betterTextField4.textField;
+            textField4.setForeground(Color.black);
+        JPanel fieldPanel4 = new JPanel();
+            fieldPanel4.setLayout(new BorderLayout());
+            fieldPanel4.setOpaque(false);
+            fieldPanel4.add(label4, BorderLayout.PAGE_START);
+            fieldPanel4.add(betterTextField4, BorderLayout.PAGE_END);
+            forms.add(fieldPanel4);
+               
+        JLabel label12 = new JLabel("Phone Number:");
+            label12.setFont(new java.awt.Font("Google Sans Medium", 0, 12));
+            label12.setBorder(BorderFactory.createEmptyBorder(0, 5, 0, 0));
+            label12.setAlignmentX(Component.LEFT_ALIGNMENT);
+            label12.setOpaque(false);
+            label12.setBackground(Color.red);
+        BetterTextField betterTextField12 = new BetterTextField(
+            140, 25, Color.WHITE, 13, 0.04f, new Color(220, 220, 224), 12, null, null
+        );
+            betterTextField12.setOpaque(false);
+            JTextField textField12 = betterTextField12.textField;
+            textField12.setForeground(Color.black);
+        JPanel fieldPanel12 = new JPanel();
+            fieldPanel12.setLayout(new BorderLayout());
+            fieldPanel12.setOpaque(false);
+            fieldPanel12.add(label12, BorderLayout.PAGE_START);
+            fieldPanel12.add(betterTextField12, BorderLayout.PAGE_END);
+            forms.add(fieldPanel12);
+            
         UIManager.put("ComboBox.buttonBackground", new Color(224, 224, 224));
         UIManager.put("ComboBox.buttonHoverArrowColor", Color.gray);
         UIManager.put("ComboBox.buttonPressedArrowColor", Color.gray);
@@ -221,14 +259,14 @@ public class EmployeesInfo extends javax.swing.JPanel {
         UIManager.put("Component.focusedBorderColor", new Color(217, 217, 217));
         JLabel label6 = new JLabel("Gender:");
             label6.setFont(new java.awt.Font("Google Sans Medium", 0, 12));
-            label6.setBorder(BorderFactory.createEmptyBorder(2, 0, 2, 0));
+            label6.setBorder(BorderFactory.createEmptyBorder(0, 0, 2, 0));
             label6.setAlignmentX(Component.LEFT_ALIGNMENT);
             label6.setOpaque(false);
             label6.setBackground(Color.red);
         JComboBox comboBox6 = new JComboBox();
             comboBox6.addItem("Male");
             comboBox6.addItem("Female");
-            comboBox6.setPreferredSize(new Dimension(125, 30));
+            comboBox6.setPreferredSize(new Dimension(265, 30));
         JPanel fieldPanel6 = new JPanel();
             fieldPanel6.setLayout(new BorderLayout());
             fieldPanel6.setOpaque(false);
@@ -239,14 +277,14 @@ public class EmployeesInfo extends javax.swing.JPanel {
             
         JLabel label7 = new JLabel("Status:");
             label7.setFont(new java.awt.Font("Google Sans Medium", 0, 12));
-            label7.setBorder(BorderFactory.createEmptyBorder(2, 0, 2, 0));
+            label7.setBorder(BorderFactory.createEmptyBorder(0, 0, 2, 0));
             label7.setAlignmentX(Component.LEFT_ALIGNMENT);
             label7.setOpaque(false);
             label7.setBackground(Color.red);
         JComboBox comboBox7 = new JComboBox();
             comboBox7.addItem("Active");
             comboBox7.addItem("Inactive");
-            comboBox7.setPreferredSize(new Dimension(125, 30));
+            comboBox7.setPreferredSize(new Dimension(265, 30));
         JPanel fieldPanel7 = new JPanel();
             fieldPanel7.setLayout(new BorderLayout());
             fieldPanel7.setOpaque(false);
@@ -255,39 +293,13 @@ public class EmployeesInfo extends javax.swing.JPanel {
             fieldPanel7.setBorder(BorderFactory.createEmptyBorder(0, 13, 0, 0));
             forms.add(fieldPanel7);
             
-        JLabel label8 = new JLabel("Course:");
-            label8.setFont(new java.awt.Font("Google Sans Medium", 0, 12));
-            label8.setBorder(BorderFactory.createEmptyBorder(2, 0, 2, 0));
-            label8.setAlignmentX(Component.LEFT_ALIGNMENT);
-            label8.setOpaque(false);
-            label8.setBackground(Color.red);
-        JComboBox comboBox8 = new JComboBox();
-            comboBox8.addItem("United States");
-            comboBox8.addItem("Canada");
-            comboBox8.addItem("Brazil");
-            comboBox8.addItem("United Kingdom");
-            comboBox8.addItem("France");
-            comboBox8.addItem("Germany");
-            comboBox8.addItem("Australia");
-            comboBox8.addItem("Japan");
-            comboBox8.addItem("China");
-            comboBox8.addItem("India");
-            comboBox8.setPreferredSize(new Dimension(280, 30));
-        JPanel fieldPanel8 = new JPanel();
-            fieldPanel8.setLayout(new BorderLayout());
-            fieldPanel8.setOpaque(false);
-            fieldPanel8.add(label8, BorderLayout.PAGE_START);
-            fieldPanel8.add(comboBox8, BorderLayout.PAGE_END);
-            fieldPanel8.setBorder(BorderFactory.createEmptyBorder(0, 13, 0, 0));
-            forms.add(fieldPanel8);
-            
         JLabel label9 = new JLabel("Birthday:");
             label9.setFont(new java.awt.Font("Google Sans Medium", 0, 12));
             label9.setBorder(BorderFactory.createEmptyBorder(5, 5, 0, 0));
             label9.setAlignmentX(Component.LEFT_ALIGNMENT);
             label9.setOpaque(false);
             label9.setBackground(Color.red);
-        JPanel dateField9 = new BetterPanel(180, 28, new Color(250, 250, 250), 10, 0.2f, new Color(220, 220, 224));
+        JPanel dateField9 = new BetterPanel(170, 28, new Color(250, 250, 250), 10, 0.2f, new Color(220, 220, 224));
             JFormattedTextField formattedTextField9 = new JFormattedTextField();
             formattedTextField9.setBorder(null);
             formattedTextField9.setOpaque(false);
@@ -339,13 +351,13 @@ public class EmployeesInfo extends javax.swing.JPanel {
             fieldPanel10.setBorder(BorderFactory.createEmptyBorder(0, 5, 0, 0));
             forms.add(fieldPanel10);
             
-        JLabel label11 = new JLabel("Date Graduated:");
+        JLabel label11 = new JLabel("Date Resigned:");
             label11.setFont(new java.awt.Font("Google Sans Medium", 0, 12));
             label11.setBorder(BorderFactory.createEmptyBorder(5, 5, 0, 0));
             label11.setAlignmentX(Component.LEFT_ALIGNMENT);
             label11.setOpaque(false);
             label11.setBackground(Color.red);
-        JPanel dateField11 = new BetterPanel(170, 28, new Color(250, 250, 250), 10, 0.2f, new Color(220, 220, 224));
+        JPanel dateField11 = new BetterPanel(168, 28, new Color(250, 250, 250), 10, 0.2f, new Color(220, 220, 224));
             JFormattedTextField formattedTextField12 = new JFormattedTextField();
             formattedTextField12.setBorder(null);
             formattedTextField12.setOpaque(false);
@@ -402,25 +414,46 @@ public class EmployeesInfo extends javax.swing.JPanel {
         return actionsPanel;
     }
     
-    private JPanel createTablePanel() {
-        JPanel table = new JPanel();
-        table.setOpaque(false);
-        table.setLayout(new FlowLayout(FlowLayout.LEFT));
-        table.setPreferredSize(new Dimension(800, 500));
+    private JScrollPane createTablePanel() {
+        JPanel gridPanel = new JPanel();
+        gridPanel.setOpaque(false);
+        gridPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
         
-        table.add(createGradesPanel(1));
-        table.add(createGradesPanel(2));
-        table.add(createGradesPanel(3));
-        table.add(createGradesPanel(4));
-        table.add(createGradesPanel(5));
-        table.add(createGradesPanel(5));
-        table.add(createGradesPanel(5));
-        table.add(createGradesPanel(5));
+        JScrollPane scrollPane = new JScrollPane(gridPanel);
+            scrollPane.getHorizontalScrollBar().setUnitIncrement(10);
+            scrollPane.getVerticalScrollBar().setUnitIncrement(10);
+            scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS); 
+            scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+            scrollPane.setPreferredSize(new Dimension(820, 250));
+            scrollPane.setOpaque(false);
+            scrollPane.setBorder(BorderFactory.createEmptyBorder());
+            scrollPane.getVerticalScrollBar().putClientProperty(FlatClientProperties.STYLE, "" +
+                "trackArc:$ScrollBar.thumbArc;" +
+                "thumbInsets:0,0,0,0;" +
+                "width:5;");
+            scrollPane.getViewport().setOpaque(false);
+            
+        gridPanel.add(createGradesRecord(1));
+        gridPanel.add(createGradesRecord(2));
+        gridPanel.add(createGradesRecord(3));
+        gridPanel.add(createGradesRecord(4));
+        gridPanel.add(createGradesRecord(5));
+        gridPanel.add(createGradesRecord(5));
+        gridPanel.add(createGradesRecord(5));
+        gridPanel.add(createGradesRecord(5));
+        gridPanel.add(createGradesRecord(5));
+        gridPanel.add(createGradesRecord(5));
+        gridPanel.add(createGradesRecord(5));
+        gridPanel.add(createGradesRecord(5));
         
-        return table;
+        gridPanel.setPreferredSize(new Dimension(800, (gridPanel.getComponentCount() * (70 + 17)) / 3));
+        SwingUtilities.invokeLater(() -> {
+            scrollPane.getViewport().setViewPosition(new Point(0, 0));
+        });
+        return scrollPane;
     }
 
-    private JPanel createGradesPanel(int a) {
+    private JPanel createGradesRecord(int a) {
         JPanel recordPanel = new BetterPanel(240, 70, Color.WHITE, 10, 0.05f);
         recordPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
         
@@ -434,27 +467,16 @@ public class EmployeesInfo extends javax.swing.JPanel {
         column1.setHorizontalAlignment(SwingConstants.LEFT);
         
         JLabel column2 = new JLabel();
-        column2.setPreferredSize(new Dimension(55, 73));
+        column2.setPreferredSize(new Dimension(100, 73));
         column2.setFont(new Font("Google Sans Medium", Font.PLAIN, 15));
         column2.setOpaque(false);
         column2.setBackground(new Color(250, 250, 250));
         column2.setBorder(BorderFactory.createEmptyBorder(11, 10, 10, 10));
-        column2.setText("5.00");
+        column2.setText("8:00AM");
         column2.setHorizontalAlignment(SwingConstants.CENTER);
-        
-        boolean result = Math.random() < 0.5;
-        JPanel column3 = new BetterPanel(40, 20, result ? new Color(255, 200, 200) : new Color(174, 226, 200), 15, 0.5f);
-        column3.setLayout(new FlowLayout(FlowLayout.CENTER));
-        JLabel column3Label = new JLabel();
-        column3Label.setText(result ? "Failed" : "Passed");
-        column3Label.setFont(new Font("Google Sans", Font.PLAIN, 9));
-        column3Label.setBorder(BorderFactory.createEmptyBorder(6, 10, 10, 10));
-        column3.add(column3Label);
-        
         
         recordPanel.add(column1);
         recordPanel.add(column2);
-        recordPanel.add(column3);
         recordPanel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         
         return recordPanel;
