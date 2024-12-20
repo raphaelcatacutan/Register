@@ -63,6 +63,7 @@ public class MainView extends javax.swing.JPanel {
             @Override
             public void mouseClicked(MouseEvent e) {
                 mainViewCardLayout.show(viewsPanel, "viewStudents");
+                ViewStudents.studListPanel.refreshData(false);
             }
         });
         NavigationPanel.employeesItem.addMouseListener(new MouseAdapter() {
@@ -101,7 +102,6 @@ public class MainView extends javax.swing.JPanel {
                 mainViewCardLayout.show(viewsPanel, "viewSubjects");
             }
         });
-         mainViewCardLayout.show(viewsPanel, "viewStudents");
     }
 
     /**

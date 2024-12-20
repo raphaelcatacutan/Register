@@ -28,7 +28,7 @@ public class ViewStudents extends javax.swing.JPanel {
         add(studListPanel, "studListPanel");
         add(studInfoPanel, "studInfoPanel");
     }
-
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always

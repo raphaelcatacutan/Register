@@ -5,6 +5,10 @@
 package views;
 
 import com.formdev.flatlaf.FlatClientProperties;
+import database.DBAdd;
+import database.DBDelete;
+import database.DBReadMd;
+import database.DBUpdate;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
@@ -14,12 +18,15 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Image;
 import java.awt.Point;
 import java.awt.RenderingHints;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Date;
+import java.util.List;
+import java.util.Objects;
 import java.util.Random;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -34,15 +41,44 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
+import models.Course;
+import models.Grades;
+import models.Student;
+import models.Subject;
 import raven.datetime.component.date.DatePicker;
+import raven.modal.ModalDialog;
+import raven.modal.component.SimpleModalBorder;
+import utils.StaticVars;
 import views.components.BetterPanel;
 import views.components.BetterTextField;
+import views.components.SimpleMessageModal;
 
 /**
  *
  * @author Raphael
  */
 public class StudentsInfo extends javax.swing.JPanel {
+    public JLabel lblIconLabel;
+    public JTextField txfStudentNumber;
+    public JTextField txfFirstName; 
+    public JTextField txfLastName; 
+    public JTextField txfAddress; 
+    public JTextField txfEmail; 
+    public JTextField txfPhoneNumber; 
+
+    public JComboBox<String> cbxSex; 
+    public JComboBox<String> cbxStatus;
+    public JComboBox<String> cbxCourse; 
+
+    public DatePicker dtpBirthday; 
+    public DatePicker dtpStarted; 
+    public DatePicker dtpGraduated; 
+    
+    public JPanel pnlGradesContainer;
+    
+    public Student selectedStudent;
+    public List<Course> displayedCourses;
+
     /**
      * Creates new form StudentsList
      */
@@ -55,6 +91,70 @@ public class StudentsInfo extends javax.swing.JPanel {
         add(createTablePanel());
     }
     
+    public void refreshView() {
+        System.out.println("ss " + selectedStudent == null);
+        displayedCourses = DBReadMd.readCourses();
+        int index = -1;
+        cbxCourse.removeAllItems();
+        for (Course course: displayedCourses) {
+            if (selectedStudent != null && course.getCourseCode().equals(selectedStudent.getCourseCode())) index++;
+            cbxCourse.addItem(course.getDescription());
+        }
+        
+        if (selectedStudent != null) {
+            pnlGradesContainer.removeAll();
+            
+            lblIconLabel.setText((String.valueOf(selectedStudent.getLastname().charAt(0)) + String.valueOf(selectedStudent.getFirstname().charAt(0))).toUpperCase());
+            txfStudentNumber.setText(String.valueOf(selectedStudent.getStudentNo()));
+            txfFirstName.setText(selectedStudent.getFirstname());
+            txfLastName.setText(selectedStudent.getLastname());
+            txfAddress.setText(selectedStudent.getAddress());
+            txfEmail.setText(selectedStudent.getEmail());
+            txfPhoneNumber.setText(String.valueOf(selectedStudent.getCpNum()));
+            
+            cbxSex.setSelectedIndex("M".equals(selectedStudent.getGender()) ? 0 : 1);
+            cbxStatus.setSelectedIndex("A".equals(selectedStudent.getStatus()) ? 0 : 1);
+            cbxCourse.setSelectedIndex(index);
+            System.out.println(selectedStudent.getBday());
+            
+            if (selectedStudent.getBday() != null) dtpBirthday.setSelectedDate(new java.sql.Date(selectedStudent.getBday().getTime()).toLocalDate());
+            if (selectedStudent.getDateStarted() != null) dtpStarted.setSelectedDate(new java.sql.Date(selectedStudent.getDateStarted().getTime()).toLocalDate());
+            if (selectedStudent.getDateGraduated() != null) dtpGraduated.setSelectedDate(new java.sql.Date(selectedStudent.getDateGraduated().getTime()).toLocalDate());
+           
+            
+            List<Grades> grades = DBReadMd.readGrades();
+            
+            for (Grades grade: grades) {
+                if (!Objects.equals(grade.getStudentNo(), selectedStudent.getStudentNo())) continue;
+                String subjectCode = grade.getSubjectCode();
+                Subject subject = DBReadMd.readSubjectByCode(subjectCode);
+                JPanel gradePanel = createGradesRecord(subject.getDescription(), grade.getGrade());
+                pnlGradesContainer.add(gradePanel);
+            }
+        } else {
+            System.out.println("Clearing");
+            pnlGradesContainer.removeAll();
+            
+            lblIconLabel.setText("X");
+            txfStudentNumber.setText("");
+            txfFirstName.setText("");
+            txfLastName.setText("");
+            txfAddress.setText("");
+            txfEmail.setText("");
+            txfPhoneNumber.setText("");
+            
+            cbxSex.setSelectedIndex(-1);
+            cbxStatus.setSelectedIndex(-1);
+            cbxCourse.setSelectedIndex(-1);
+            
+            dtpBirthday.clearSelectedDate();
+            dtpStarted.clearSelectedDate();
+            dtpGraduated.clearSelectedDate();
+        }
+    }
+    
+    
+    // UI
     private JPanel createActionsPanel() {
         JPanel actionsPanel = new JPanel();
         actionsPanel.setLayout(new BoxLayout(actionsPanel, BoxLayout.X_AXIS));
@@ -74,6 +174,7 @@ public class StudentsInfo extends javax.swing.JPanel {
                 ViewStudents.viewStudentsCardLayout.show(MainView.viewStudents, "studListPanel");
             }
          });
+        lblBack.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         
         JPanel button1 = new BetterPanel(115, 30, new Color(174, 226, 200), 10, 0.5f);
         JPanel button2 = new BetterPanel(115, 30, new Color(255, 201, 207), 10, 0.5f);
@@ -85,6 +186,60 @@ public class StudentsInfo extends javax.swing.JPanel {
         button1.add(button1Label);
         button1.setBorder(BorderFactory.createEmptyBorder(9, 10, 10, 10));
         button1.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        button1.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                String studentNumber = txfStudentNumber.getText();
+                String firstName = txfFirstName.getText();
+                String lastName = txfLastName.getText();
+                String address = txfAddress.getText();
+                String email = txfEmail.getText();
+                String phoneNumber = txfPhoneNumber.getText();
+
+                char sex = cbxSex.getSelectedIndex() == 0 ? 'M' : 'F';
+                String status = cbxStatus.getSelectedIndex() == 0 ? "A" : "I";
+                String courseCode = cbxCourse.getSelectedIndex() == -1 ? null : displayedCourses.get(cbxCourse.getSelectedIndex()).getCourseCode();
+                
+                Date bday = Date.from(dtpBirthday.getSelectedDate().atStartOfDay(ZoneId.systemDefault()).toInstant());
+                Date dateStarted = Date.from(dtpStarted.getSelectedDate().atStartOfDay(ZoneId.systemDefault()).toInstant());
+                Date dateGraduated = Date.from(dtpGraduated.getSelectedDate().atStartOfDay(ZoneId.systemDefault()).toInstant());
+                
+                if (selectedStudent != null) {
+//                    DBUpdate.updateStudent(studentNumber, 
+//                        lastName, 
+//                        firstName, 
+//                        email, 
+//                        sex , 
+//                        courseCode,
+//                        phoneNumber, 
+//                        address, 
+//                        bday,
+//                        status, 
+//                        dateStarted, 
+//                        dateGraduated);
+                
+                } else {
+//                    DBAdd.addStudent(studentNumber, 
+//                        lastName, 
+//                        firstName, 
+//                        email, 
+//                        sex , 
+//                        courseCode,
+//                        phoneNumber, 
+//                        address, 
+//                        bday,
+//                        status, 
+//                        dateStarted, 
+//                        dateGraduated);
+                }
+                final SimpleMessageModal simpleMessageModal = new SimpleMessageModal(SimpleMessageModal.Type.DEFAULT, 
+                            "Data has been successfully saved to the database", 
+                            "Success", SimpleModalBorder.CANCEL_OPTION, (controller, action) -> {
+                    });
+                    ModalDialog.showModal(StaticVars.mainForm, simpleMessageModal);
+                
+            }
+         });
         
         JLabel button2Label = new JLabel("Delete Student");
         button2Label.setFont(new Font("Google Sans", Font.PLAIN, 12));
@@ -93,6 +248,32 @@ public class StudentsInfo extends javax.swing.JPanel {
         button2.add(button2Label);
         button2.setBorder(BorderFactory.createEmptyBorder(9, 10, 10, 10));
         button2.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        button2.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if (selectedStudent == null) {
+                    final SimpleMessageModal simpleMessageModal = new SimpleMessageModal(SimpleMessageModal.Type.DEFAULT, 
+                            "You can't delete this student as it hasn't"
+                                    + "\nbeen added to the database yet.", 
+                            "Invalid Action", SimpleModalBorder.CANCEL_OPTION, (controller, action) -> {
+                    });
+                    ModalDialog.showModal(StaticVars.mainForm, simpleMessageModal);
+                } else {
+                    final SimpleMessageModal simpleMessageModal = new SimpleMessageModal(SimpleMessageModal.Type.ERROR, 
+                            "Are you sure you want to delete this student?"
+                                    + "\nThis action is irreversible", 
+                            "Delete Student", SimpleModalBorder.YES_NO_OPTION, (controller, action) -> {
+                        if (action == SimpleModalBorder.YES_OPTION) {
+                            DBDelete.deleteStudent(String.valueOf(selectedStudent.getStudentNo()));
+                            ViewStudents.studListPanel.refreshData(false);
+                            ViewStudents.viewStudentsCardLayout.show(MainView.viewStudents, "studListPanel");
+                        }
+                    });
+                    ModalDialog.showModal(StaticVars.mainForm, simpleMessageModal);
+                }
+                
+            }
+         });
 
         actionsPanel.add(lblBack);
         actionsPanel.add(Box.createHorizontalStrut(5));
@@ -143,10 +324,10 @@ public class StudentsInfo extends javax.swing.JPanel {
             letters.append(alphabet.charAt(randomIndex));
         }
 
-        JLabel letterLabel = new JLabel(letters.toString(), SwingConstants.CENTER);
-        letterLabel.setFont(new Font("Google Sans Medium", Font.BOLD, 40));
-        letterLabel.setForeground(Color.BLACK);
-        circlePanel.add(letterLabel);
+        lblIconLabel = new JLabel(letters.toString(), SwingConstants.CENTER);
+        lblIconLabel.setFont(new Font("Google Sans Medium", Font.BOLD, 40));
+        lblIconLabel.setForeground(Color.BLACK);
+        circlePanel.add(lblIconLabel);
         glowPanel.add(circlePanel);
         
         JPanel forms = new JPanel();
@@ -166,8 +347,8 @@ public class StudentsInfo extends javax.swing.JPanel {
             130, 25, Color.WHITE, 13, 0.04f, new Color(220, 220, 224), 12, null, null
         );
             betterTextField1.setOpaque(false);
-            JTextField textfield1 = betterTextField1.textField;
-            textfield1.setForeground(Color.black);
+            txfStudentNumber = betterTextField1.textField;
+            txfStudentNumber.setForeground(Color.black);
         JPanel fieldPanel1 = new JPanel();
             fieldPanel1.setLayout(new BorderLayout());
             fieldPanel1.setOpaque(false);
@@ -185,8 +366,8 @@ public class StudentsInfo extends javax.swing.JPanel {
             200, 25, Color.WHITE, 13, 0.04f, new Color(220, 220, 224), 12, null, null
         );
             betterTextField2.setOpaque(false);
-            JTextField textField2 = betterTextField2.textField;
-            textField2.setForeground(Color.black);
+            txfFirstName = betterTextField2.textField;
+            txfFirstName.setForeground(Color.black);
         JPanel fieldPanel2 = new JPanel();
             fieldPanel2.setLayout(new BorderLayout());
             fieldPanel2.setOpaque(false);
@@ -204,8 +385,8 @@ public class StudentsInfo extends javax.swing.JPanel {
             200, 25, Color.WHITE, 13, 0.04f, new Color(220, 220, 224), 12, null, null
         );
             betterTextField3.setOpaque(false);
-            JTextField textField3 = betterTextField3.textField;
-            textField3.setForeground(Color.black);
+            txfLastName = betterTextField3.textField;
+            txfLastName.setForeground(Color.black);
         JPanel fieldPanel3 = new JPanel();
             fieldPanel3.setLayout(new BorderLayout());
             fieldPanel3.setOpaque(false);
@@ -223,8 +404,8 @@ public class StudentsInfo extends javax.swing.JPanel {
             250, 25, Color.WHITE, 13, 0.04f, new Color(220, 220, 224), 12, null, null
         );
             betterTextField4.setOpaque(false);
-            JTextField textField4 = betterTextField4.textField;
-            textField4.setForeground(Color.black);
+            txfAddress = betterTextField4.textField;
+            txfAddress.setForeground(Color.black);
         JPanel fieldPanel4 = new JPanel();
             fieldPanel4.setLayout(new BorderLayout());
             fieldPanel4.setOpaque(false);
@@ -242,8 +423,8 @@ public class StudentsInfo extends javax.swing.JPanel {
             140, 25, Color.WHITE, 13, 0.04f, new Color(220, 220, 224), 12, null, null
         );
             betterTextField5.setOpaque(false);
-            JTextField textField5 = betterTextField5.textField;
-            textField5.setForeground(Color.black);
+            txfEmail = betterTextField5.textField;
+            txfEmail.setForeground(Color.black);
         JPanel fieldPanel5 = new JPanel();
             fieldPanel5.setLayout(new BorderLayout());
             fieldPanel5.setOpaque(false);
@@ -261,8 +442,8 @@ public class StudentsInfo extends javax.swing.JPanel {
             140, 25, Color.WHITE, 13, 0.04f, new Color(220, 220, 224), 12, null, null
         );
             betterTextField12.setOpaque(false);
-            JTextField textField12 = betterTextField12.textField;
-            textField12.setForeground(Color.black);
+            txfPhoneNumber = betterTextField12.textField;
+            txfPhoneNumber.setForeground(Color.black);
         JPanel fieldPanel12 = new JPanel();
             fieldPanel12.setLayout(new BorderLayout());
             fieldPanel12.setOpaque(false);
@@ -282,15 +463,15 @@ public class StudentsInfo extends javax.swing.JPanel {
             label6.setAlignmentX(Component.LEFT_ALIGNMENT);
             label6.setOpaque(false);
             label6.setBackground(Color.red);
-        JComboBox comboBox6 = new JComboBox();
-            comboBox6.addItem("Male");
-            comboBox6.addItem("Female");
-            comboBox6.setPreferredSize(new Dimension(125, 30));
+        cbxSex = new JComboBox();
+            cbxSex.addItem("Male");
+            cbxSex.addItem("Female");
+            cbxSex.setPreferredSize(new Dimension(125, 30));
         JPanel fieldPanel6 = new JPanel();
             fieldPanel6.setLayout(new BorderLayout());
             fieldPanel6.setOpaque(false);
             fieldPanel6.add(label6, BorderLayout.PAGE_START);
-            fieldPanel6.add(comboBox6, BorderLayout.PAGE_END);
+            fieldPanel6.add(cbxSex, BorderLayout.PAGE_END);
             fieldPanel6.setBorder(BorderFactory.createEmptyBorder(0, 6, 0, 0));
             forms.add(fieldPanel6);
             
@@ -300,15 +481,15 @@ public class StudentsInfo extends javax.swing.JPanel {
             label7.setAlignmentX(Component.LEFT_ALIGNMENT);
             label7.setOpaque(false);
             label7.setBackground(Color.red);
-        JComboBox comboBox7 = new JComboBox();
-            comboBox7.addItem("Active");
-            comboBox7.addItem("Inactive");
-            comboBox7.setPreferredSize(new Dimension(125, 30));
+        cbxStatus = new JComboBox();
+            cbxStatus.addItem("Active");
+            cbxStatus.addItem("Inactive");
+            cbxStatus.setPreferredSize(new Dimension(125, 30));
         JPanel fieldPanel7 = new JPanel();
             fieldPanel7.setLayout(new BorderLayout());
             fieldPanel7.setOpaque(false);
             fieldPanel7.add(label7, BorderLayout.PAGE_START);
-            fieldPanel7.add(comboBox7, BorderLayout.PAGE_END);
+            fieldPanel7.add(cbxStatus, BorderLayout.PAGE_END);
             fieldPanel7.setBorder(BorderFactory.createEmptyBorder(0, 13, 0, 0));
             forms.add(fieldPanel7);
             
@@ -318,23 +499,23 @@ public class StudentsInfo extends javax.swing.JPanel {
             label8.setAlignmentX(Component.LEFT_ALIGNMENT);
             label8.setOpaque(false);
             label8.setBackground(Color.red);
-        JComboBox comboBox8 = new JComboBox();
-            comboBox8.addItem("United States");
-            comboBox8.addItem("Canada");
-            comboBox8.addItem("Brazil");
-            comboBox8.addItem("United Kingdom");
-            comboBox8.addItem("France");
-            comboBox8.addItem("Germany");
-            comboBox8.addItem("Australia");
-            comboBox8.addItem("Japan");
-            comboBox8.addItem("China");
-            comboBox8.addItem("India");
-            comboBox8.setPreferredSize(new Dimension(280, 30));
+        cbxCourse = new JComboBox();
+            cbxCourse.addItem("United States");
+            cbxCourse.addItem("Canada");
+            cbxCourse.addItem("Brazil");
+            cbxCourse.addItem("United Kingdom");
+            cbxCourse.addItem("France");
+            cbxCourse.addItem("Germany");
+            cbxCourse.addItem("Australia");
+            cbxCourse.addItem("Japan");
+            cbxCourse.addItem("China");
+            cbxCourse.addItem("India");
+            cbxCourse.setPreferredSize(new Dimension(280, 30));
         JPanel fieldPanel8 = new JPanel();
             fieldPanel8.setLayout(new BorderLayout());
             fieldPanel8.setOpaque(false);
             fieldPanel8.add(label8, BorderLayout.PAGE_START);
-            fieldPanel8.add(comboBox8, BorderLayout.PAGE_END);
+            fieldPanel8.add(cbxCourse, BorderLayout.PAGE_END);
             fieldPanel8.setBorder(BorderFactory.createEmptyBorder(0, 13, 0, 0));
             forms.add(fieldPanel8);
             
@@ -348,13 +529,13 @@ public class StudentsInfo extends javax.swing.JPanel {
             JFormattedTextField formattedTextField9 = new JFormattedTextField();
             formattedTextField9.setBorder(null);
             formattedTextField9.setOpaque(false);
-            DatePicker datePicker9 = new DatePicker();
-            datePicker9.setDateSelectionAble((date) -> !date.isAfter(LocalDate.now())); // TODO:
-            datePicker9.now();
-            datePicker9.setEditor(formattedTextField9);
-            datePicker9.setCloseAfterSelected(true);
-            datePicker9.setEditorValidation(false);
-            datePicker9.setAnimationEnabled(false);
+            dtpBirthday = new DatePicker();
+            dtpBirthday.setDateSelectionAble((date) -> !date.isAfter(LocalDate.now())); // TODO:
+            dtpBirthday.now();
+            dtpBirthday.setEditor(formattedTextField9);
+            dtpBirthday.setCloseAfterSelected(true);
+            dtpBirthday.setEditorValidation(false);
+            dtpBirthday.setAnimationEnabled(false);
             dateField9.setLayout(new BorderLayout());
             dateField9.add(formattedTextField9, BorderLayout.CENTER);
             dateField9.add(formattedTextField9);
@@ -377,13 +558,13 @@ public class StudentsInfo extends javax.swing.JPanel {
             JFormattedTextField formattedTextField10 = new JFormattedTextField();
             formattedTextField10.setBorder(null);
             formattedTextField10.setOpaque(false);
-            DatePicker datePicker10 = new DatePicker();
-            datePicker10.setDateSelectionAble((date) -> !date.isAfter(LocalDate.now())); // TODO:
-            datePicker10.now();
-            datePicker10.setEditor(formattedTextField10);
-            datePicker10.setCloseAfterSelected(true);
-            datePicker10.setEditorValidation(false);
-            datePicker10.setAnimationEnabled(false);
+            dtpStarted = new DatePicker();
+            dtpStarted.setDateSelectionAble((date) -> !date.isAfter(LocalDate.now())); // TODO:
+            dtpStarted.now();
+            dtpStarted.setEditor(formattedTextField10);
+            dtpStarted.setCloseAfterSelected(true);
+            dtpStarted.setEditorValidation(false);
+            dtpStarted.setAnimationEnabled(false);
             dateField10.setLayout(new BorderLayout());
             dateField10.add(formattedTextField10, BorderLayout.CENTER);
             dateField10.add(formattedTextField10);
@@ -406,13 +587,13 @@ public class StudentsInfo extends javax.swing.JPanel {
             JFormattedTextField formattedTextField12 = new JFormattedTextField();
             formattedTextField12.setBorder(null);
             formattedTextField12.setOpaque(false);
-            DatePicker datePicker11 = new DatePicker();
-            datePicker11.setDateSelectionAble((date) -> !date.isAfter(LocalDate.now())); // TODO:
-            datePicker11.now();
-            datePicker11.setEditor(formattedTextField12);
-            datePicker11.setCloseAfterSelected(true);
-            datePicker11.setEditorValidation(false);
-            datePicker11.setAnimationEnabled(false);
+            dtpGraduated = new DatePicker();
+            dtpGraduated.setDateSelectionAble((date) -> !date.isAfter(LocalDate.now())); // TODO:
+            dtpGraduated.now();
+            dtpGraduated.setEditor(formattedTextField12);
+            dtpGraduated.setCloseAfterSelected(true);
+            dtpGraduated.setEditorValidation(false);
+            dtpGraduated.setAnimationEnabled(false);
             dateField11.setLayout(new BorderLayout());
             dateField11.add(formattedTextField12, BorderLayout.CENTER);
             dateField11.add(formattedTextField12);
@@ -452,19 +633,19 @@ public class StudentsInfo extends javax.swing.JPanel {
 
         actionsPanel.add(lblTitle);
         actionsPanel.add(Box.createHorizontalStrut(240));
-        actionsPanel.add(searchPanel);
-        actionsPanel.add(Box.createHorizontalStrut(5));
-        actionsPanel.add(button1);
+//        actionsPanel.add(searchPanel);
+//        actionsPanel.add(Box.createHorizontalStrut(5));
+//        actionsPanel.add(button1);
         
         return actionsPanel;
     }
     
     private JScrollPane createTablePanel() {
-        JPanel gridPanel = new JPanel();
-        gridPanel.setOpaque(false);
-        gridPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
+        pnlGradesContainer = new JPanel();
+        pnlGradesContainer.setOpaque(false);
+        pnlGradesContainer.setLayout(new FlowLayout(FlowLayout.LEFT));
         
-        JScrollPane scrollPane = new JScrollPane(gridPanel);
+        JScrollPane scrollPane = new JScrollPane(pnlGradesContainer);
             scrollPane.getHorizontalScrollBar().setUnitIncrement(10);
             scrollPane.getVerticalScrollBar().setUnitIncrement(10);
             scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS); 
@@ -477,28 +658,15 @@ public class StudentsInfo extends javax.swing.JPanel {
                 "thumbInsets:0,0,0,0;" +
                 "width:5;");
             scrollPane.getViewport().setOpaque(false);
-            
-        gridPanel.add(createGradesRecord(1));
-        gridPanel.add(createGradesRecord(2));
-        gridPanel.add(createGradesRecord(3));
-        gridPanel.add(createGradesRecord(4));
-        gridPanel.add(createGradesRecord(5));
-        gridPanel.add(createGradesRecord(5));
-        gridPanel.add(createGradesRecord(5));
-        gridPanel.add(createGradesRecord(5));
-        gridPanel.add(createGradesRecord(5));
-        gridPanel.add(createGradesRecord(5));
-        gridPanel.add(createGradesRecord(5));
-        gridPanel.add(createGradesRecord(5));
         
-        gridPanel.setPreferredSize(new Dimension(800, (gridPanel.getComponentCount() * (70 + 17)) / 3));
+        pnlGradesContainer.setPreferredSize(new Dimension(800, (pnlGradesContainer.getComponentCount() * (70 + 17)) / 3));
         SwingUtilities.invokeLater(() -> {
             scrollPane.getViewport().setViewPosition(new Point(0, 0));
         });
         return scrollPane;
     }
 
-    private JPanel createGradesRecord(int a) {
+    private JPanel createGradesRecord(String subjectName, double grade) {
         JPanel recordPanel = new BetterPanel(240, 70, Color.WHITE, 10, 0.05f);
         recordPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
         
@@ -508,7 +676,7 @@ public class StudentsInfo extends javax.swing.JPanel {
         column1.setOpaque(false);
         column1.setBackground(new Color(250, 250, 250));
         column1.setBorder(BorderFactory.createEmptyBorder(11, 10, 10, 10));
-        column1.setText("<html>Interdisiplinaryong Pagbasa at Pagsulat<html>");
+        column1.setText("<html>" + subjectName + "</html>");
         column1.setHorizontalAlignment(SwingConstants.LEFT);
         
         JLabel column2 = new JLabel();
@@ -517,16 +685,16 @@ public class StudentsInfo extends javax.swing.JPanel {
         column2.setOpaque(false);
         column2.setBackground(new Color(250, 250, 250));
         column2.setBorder(BorderFactory.createEmptyBorder(11, 10, 10, 10));
-        column2.setText("5.00");
+        column2.setText(String.valueOf(grade));
         column2.setHorizontalAlignment(SwingConstants.CENTER);
         
-        boolean result = Math.random() < 0.5;
-        JPanel column3 = new BetterPanel(40, 20, result ? new Color(255, 200, 200) : new Color(174, 226, 200), 15, 0.5f);
+        boolean failed = grade > 3.00;
+        JPanel column3 = new BetterPanel(40, 20, failed ? new Color(255, 200, 200) : new Color(174, 226, 200), 15, 0.5f);
         column3.setLayout(new FlowLayout(FlowLayout.CENTER));
         JLabel column3Label = new JLabel();
-        column3Label.setText(result ? "Failed" : "Passed");
+        column3Label.setText(failed ? "Failed" : "Passed");
         column3Label.setFont(new Font("Google Sans", Font.PLAIN, 9));
-        column3Label.setBorder(BorderFactory.createEmptyBorder(6, 10, 10, 10));
+        column3Label.setBorder(BorderFactory.createEmptyBorder(5, 10, 10, 10));
         column3.add(column3Label);
         
         recordPanel.add(column1);
