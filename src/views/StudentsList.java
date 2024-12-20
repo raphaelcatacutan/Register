@@ -161,13 +161,6 @@ public class StudentsList extends javax.swing.JPanel {
         button2.add(button2Label);
         button2.setBorder(BorderFactory.createEmptyBorder(9, 10, 10, 10));
         button2.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-
-        actionsPanel.add(Box.createHorizontalStrut(95));
-        actionsPanel.add(searchPanel);
-        actionsPanel.add(Box.createHorizontalStrut(5));
-        actionsPanel.add(button1);
-        actionsPanel.add(Box.createHorizontalStrut(5));
-        actionsPanel.add(button2);
         button2.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -176,6 +169,13 @@ public class StudentsList extends javax.swing.JPanel {
                 ViewStudents.viewStudentsCardLayout.show(MainView.viewStudents, "studInfoPanel");
             }
         });
+
+        actionsPanel.add(Box.createHorizontalStrut(95));
+        actionsPanel.add(searchPanel);
+        actionsPanel.add(Box.createHorizontalStrut(5));
+        actionsPanel.add(button1);
+        actionsPanel.add(Box.createHorizontalStrut(5));
+        actionsPanel.add(button2);
         
         return actionsPanel;
     }

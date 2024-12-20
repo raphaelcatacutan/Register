@@ -70,6 +70,7 @@ public class MainView extends javax.swing.JPanel {
             @Override
             public void mouseClicked(MouseEvent e) {
                 mainViewCardLayout.show(viewsPanel, "viewEmployees");
+                ViewEmployees.empListPanel.refreshData(false);
             }
         });
         NavigationPanel.gradingItem.addMouseListener(new MouseAdapter() {
