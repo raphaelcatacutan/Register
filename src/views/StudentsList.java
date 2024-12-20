@@ -4,6 +4,7 @@
  */
 package views;
 
+import com.formdev.flatlaf.FlatClientProperties;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
@@ -12,6 +13,7 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Image;
+import java.awt.Point;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.BorderFactory;
@@ -20,7 +22,10 @@ import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import javax.swing.SwingUtilities;
+import net.miginfocom.swing.MigLayout;
 import views.components.BetterPanel;
 import views.components.BetterTextField;
 
@@ -77,21 +82,55 @@ public class StudentsList extends javax.swing.JPanel {
         return actionsPanel;
     }
     
-    private JPanel createGridPanel() {
+    private Component createGridPanel() {
         JPanel gridPanel = new JPanel();
-        gridPanel.setPreferredSize(new Dimension(850, 1000));
         gridPanel.setOpaque(false);
         gridPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
         
+        JScrollPane scrollPane = new JScrollPane(gridPanel);
+            scrollPane.getHorizontalScrollBar().setUnitIncrement(10);
+            scrollPane.getVerticalScrollBar().setUnitIncrement(10);
+            scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS); 
+            scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+            scrollPane.setPreferredSize(new Dimension(820, 565));
+            scrollPane.setOpaque(false);
+            scrollPane.setBorder(BorderFactory.createEmptyBorder());
+            scrollPane.getVerticalScrollBar().putClientProperty(FlatClientProperties.STYLE, "" +
+                "trackArc:$ScrollBar.thumbArc;" +
+                "thumbInsets:0,0,0,0;" +
+                "width:5;");
+            scrollPane.getViewport().setOpaque(false);
+            
         gridPanel.add(createGridRecord(1));
         gridPanel.add(createGridRecord(2));
         gridPanel.add(createGridRecord(3));
         gridPanel.add(createGridRecord(4));
         gridPanel.add(createGridRecord(5));
         gridPanel.add(createGridRecord(6));
-        gridPanel.add(createGridRecord(7));
+        gridPanel.add(createGridRecord(1));
+        gridPanel.add(createGridRecord(2));
+        gridPanel.add(createGridRecord(3));
+        gridPanel.add(createGridRecord(4));
+        gridPanel.add(createGridRecord(5));
+        gridPanel.add(createGridRecord(6));
+        gridPanel.add(createGridRecord(1));
+        gridPanel.add(createGridRecord(2));
+        gridPanel.add(createGridRecord(3));
+        gridPanel.add(createGridRecord(4));
+        gridPanel.add(createGridRecord(5));
+        gridPanel.add(createGridRecord(6));
+        gridPanel.add(createGridRecord(1));
+        gridPanel.add(createGridRecord(2));
+        gridPanel.add(createGridRecord(3));
+        gridPanel.add(createGridRecord(4));
+        gridPanel.add(createGridRecord(5));
+        gridPanel.add(createGridRecord(6));
         
-        return gridPanel;
+        gridPanel.setPreferredSize(new Dimension(800, (gridPanel.getComponentCount() * 125) / 3));
+        SwingUtilities.invokeLater(() -> {
+            scrollPane.getViewport().setViewPosition( new Point(0, 0) );
+        });
+        return scrollPane;
     }
 
     private JPanel createGridRecord(int a) {
