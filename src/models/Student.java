@@ -9,7 +9,7 @@ public class Student {
     private String email;
     private String gender;
     private String courseCode;
-    private Integer cpNum;
+    private Long cpNum;
     private String address;
     private Date bday;
     private String status;
@@ -64,11 +64,11 @@ public class Student {
         this.courseCode = courseCode;
     }
 
-    public Integer getCpNum() {
+    public Long getCpNum() {
         return cpNum;
     }
 
-    public void setCpNum(Integer cpNum) {
+    public void setCpNum(Long cpNum) {
         this.cpNum = cpNum;
     }
 
