@@ -53,4 +53,3 @@ public class College {
         this.status = status;
     }
 }
-
