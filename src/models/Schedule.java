@@ -1,15 +1,7 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package models;
 
-/**
- *
- * @author Robante
- */
 public class Schedule {
-    private int schedule_id;
+    private Integer scheduleId;
     private String syear;
     private String semester;
     private String collegeCode;
@@ -19,15 +11,15 @@ public class Schedule {
     private String time;
     private String room;
     private String type;
-    private int sequenceNo;
+    private Integer sequenceNo;
     private String employeeId;
 
-    public int getSchedule_id() {
-        return schedule_id;
+    public Integer getScheduleId() {
+        return scheduleId;
     }
 
-    public void setSchedule_id(int schedule_id) {
-        this.schedule_id = schedule_id;
+    public void setScheduleId(Integer scheduleId) {
+        this.scheduleId = scheduleId;
     }
 
     public String getSyear() {
@@ -102,11 +94,11 @@ public class Schedule {
         this.type = type;
     }
 
-    public int getSequenceNo() {
+    public Integer getSequenceNo() {
         return sequenceNo;
     }
 
-    public void setSequenceNo(int sequenceNo) {
+    public void setSequenceNo(Integer sequenceNo) {
         this.sequenceNo = sequenceNo;
     }
 
@@ -118,4 +110,3 @@ public class Schedule {
         this.employeeId = employeeId;
     }
 }
-
