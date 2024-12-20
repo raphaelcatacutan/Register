@@ -4,22 +4,18 @@
  */
 package views;
 
+import database.DBReadMd;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.time.LocalDate;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
-import javax.swing.JComboBox;
-import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
 import javax.swing.SwingConstants;
-import javax.swing.UIManager;
-import raven.datetime.component.date.DatePicker;
+import models.College;
 import views.components.BetterPanel;
 import views.components.BetterTextField;
 
@@ -28,15 +24,29 @@ import views.components.BetterTextField;
  * @author Raphael
  */
 public final class ViewColleges extends javax.swing.JPanel {
+    JPanel recordsTable;
+    
     /**
      * Creates new form NewJPanel
      */
     public ViewColleges() {
         initComponents();   
-        add(createActionsPanel());
+//        add(createActionsPanel());
         add(createTablePanel());
     }
     
+    public void refreshData() {
+        java.util.List<College> colleges = DBReadMd.readColleges();
+        recordsTable.removeAll();
+        
+        for (College college: colleges) {
+            JPanel recordPanel = createTableRecord(college);
+                    
+            recordsTable.add(recordPanel);
+        }
+    }
+    
+    // UI
     private JPanel createActionsPanel() {
         JPanel actionsPanel = new JPanel();
         actionsPanel.setLayout(new BoxLayout(actionsPanel, BoxLayout.X_AXIS));
@@ -48,7 +58,7 @@ public final class ViewColleges extends javax.swing.JPanel {
         JPanel button1 = new BetterPanel(115, 30, new Color(173, 204, 255), 10, 0.5f);
         JPanel button2 = new BetterPanel(115, 30, new Color(174, 226, 200), 10, 0.5f);
         
-        JLabel button1Label = new JLabel("Search Student");
+        JLabel button1Label = new JLabel("Search College");
         button1Label.setFont(new Font("Google Sans", Font.PLAIN, 12));
         button1Label.setAlignmentX(Component.LEFT_ALIGNMENT);
         button1Label.setIcon(new ImageIcon("C:/Users/Raphael/Documents/Sync/Developments/Java/RegISTER/src/assets/icons/app (1).png"));
@@ -75,9 +85,9 @@ public final class ViewColleges extends javax.swing.JPanel {
     }
     
     private JPanel createTablePanel() {
-        JPanel table = new JPanel();
-        table.setOpaque(false);
-        table.setLayout(new BoxLayout(table, BoxLayout.PAGE_AXIS));
+        recordsTable = new JPanel();
+        recordsTable.setOpaque(false);
+        recordsTable.setLayout(new BoxLayout(recordsTable, BoxLayout.PAGE_AXIS));
         
         // Titles
         JPanel title = new BetterPanel(775, 30, new Color(250, 247, 227), 10, 0.2f);
@@ -89,7 +99,7 @@ public final class ViewColleges extends javax.swing.JPanel {
         column1.setOpaque(false);
         column1.setBackground(new Color(205, 220, 220));
         column1.setBorder(BorderFactory.createEmptyBorder(11, 0, 10, 10));
-        column1.setText("Full Name");
+        column1.setText("College Name");
         column1.setHorizontalAlignment(SwingConstants.CENTER);
         column1.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         
@@ -99,7 +109,7 @@ public final class ViewColleges extends javax.swing.JPanel {
         column2.setOpaque(false);
         column2.setBackground(new Color(220, 220, 220));
         column2.setBorder(BorderFactory.createEmptyBorder(11, 10, 10, 10));
-        column2.setText("Email");
+        column2.setText("College Code");
         column2.setHorizontalAlignment(SwingConstants.CENTER);
         column2.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         
@@ -139,21 +149,14 @@ public final class ViewColleges extends javax.swing.JPanel {
         title.add(column5);
         title.add(column3);
         
-        table.add(title);
-        table.add(createTableRecord(1));
-        table.add(createTableRecord(2));
-        table.add(createTableRecord(3));
-        table.add(createTableRecord(4));
-        table.add(createTableRecord(5));
-        table.add(createTableRecord(6));
-        table.add(createTableRecord(7));
+        add(title);
         
-        return table;
+        return recordsTable;
     }
 
-    private JPanel createTableRecord(int a) {
-        JPanel recordPanel = new BetterPanel(760, 50, Color.WHITE, 10, 0.05f);
-        recordPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
+    private JPanel createTableRecord(College college) {
+        JPanel recordsPanel = new BetterPanel(760, 50, Color.WHITE, 10, 0.05f);
+        recordsPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
         
         JLabel column1 = new JLabel();
         ImageIcon originalIcon = new ImageIcon("C:/Users/Raphael/Documents/Sync/Developments/Java/RegISTER/src/assets/icons/app (1).png");
@@ -165,7 +168,7 @@ public final class ViewColleges extends javax.swing.JPanel {
         column1.setOpaque(false);
         column1.setBackground(new Color(250, 250, 250));
         column1.setBorder(BorderFactory.createEmptyBorder(11, 10, 10, 10));
-        column1.setText("Full Name");
+        column1.setText(college.getDescription());
         column1.setIcon(resizedIcon);
         column1.setHorizontalAlignment(SwingConstants.LEFT);
         
@@ -175,15 +178,15 @@ public final class ViewColleges extends javax.swing.JPanel {
         column2.setOpaque(false);
         column2.setBackground(new Color(220, 220, 220));
         column2.setBorder(BorderFactory.createEmptyBorder(11, 10, 10, 10));
-        column2.setText("Email");
+        column2.setText(college.getCollegeCode());
         column2.setHorizontalAlignment(SwingConstants.CENTER);
         
-        JPanel column3 = new BetterPanel(70, 20, new Color(255, 200, 200), 15, 0.5f);
+        JPanel column3 = new BetterPanel(70, 20, new Color(160, 200, 255), 15, 0.5f);
         column3.setLayout(new FlowLayout(FlowLayout.CENTER));
         JLabel column3Label = new JLabel();
-        column3Label.setText("Inactive");
+        column3Label.setText("A".equals(college.getStatus()) ? "Active": "Inactive");
         column3Label.setFont(new Font("Google Sans", Font.PLAIN, 11));
-        column3Label.setBorder(BorderFactory.createEmptyBorder(5, 10, 10, 10));
+        column3Label.setBorder(BorderFactory.createEmptyBorder(3, 10, 10, 10));
         column3.add(column3Label);
         
         JLabel column4 = new JLabel();
@@ -192,7 +195,7 @@ public final class ViewColleges extends javax.swing.JPanel {
         column4.setOpaque(false);
         column4.setBackground(new Color(250, 250, 250));
         column4.setBorder(BorderFactory.createEmptyBorder(11, 10, 10, 10));
-        column4.setText(String.valueOf(a));
+        column4.setText(college.getDateOpened().toString());
         column4.setHorizontalAlignment(SwingConstants.CENTER);
         
         JLabel column5 = new JLabel();
@@ -201,17 +204,17 @@ public final class ViewColleges extends javax.swing.JPanel {
         column5.setOpaque(false);
         column5.setBackground(new Color(250, 250, 250));
         column5.setBorder(BorderFactory.createEmptyBorder(11, 10, 10, 10));
-        column5.setText("Data Graduated");
+        column5.setText(college.getDateClosed().toString());
         column5.setHorizontalAlignment(SwingConstants.CENTER);
         
-        recordPanel.add(column1);
-        recordPanel.add(column2);
-        recordPanel.add(column4);
-        recordPanel.add(column5);
-        recordPanel.add(column3);
-        recordPanel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        recordsPanel.add(column1);
+        recordsPanel.add(column2);
+        recordsPanel.add(column4);
+        recordsPanel.add(column5);
+        recordsPanel.add(column3);
+        recordsPanel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         
-        recordPanel.addMouseListener(new MouseAdapter() {
+        recordsPanel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
                 column1.setForeground(Color.red);
@@ -236,7 +239,7 @@ public final class ViewColleges extends javax.swing.JPanel {
             }
         });
         
-        return recordPanel;
+        return recordsPanel;
     }
     /**
      * This method is called from within the constructor to initialize the form.
