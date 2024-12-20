@@ -1,14 +1,6 @@
--- Drop tables if they already exist
-BEGIN
-   EXECUTE IMMEDIATE 'DROP TABLE GRADES CASCADE CONSTRAINTS';
-EXCEPTION
-   WHEN OTHERS THEN
-      NULL; -- Ignore error if table does not exist
-END;
-/
 
 BEGIN
-   EXECUTE IMMEDIATE 'DROP TABLE SUBJECT_SCHEDULE CASCADE CONSTRAINTS';
+   EXECUTE IMMEDIATE 'DROP TABLE SCHEDULE CASCADE CONSTRAINTS';
 EXCEPTION
    WHEN OTHERS THEN
       NULL; -- Ignore error if table does not exist
@@ -140,8 +132,11 @@ CREATE TABLE SUBJECT (
     , date_closed   DATE
     , CONSTRAINT fk_subject_college FOREIGN KEY (college_code) REFERENCES COLLEGE (college_code)
 );
-
-CREATE TABLE SUBJECT_SCHEDULE (
+CREATE SEQUENCE sched_seq
+    START WITH 1
+    INCREMENT BY 1
+    NOCACHE;
+CREATE TABLE SCHEDULE (
     schedule_id             NUMBER PRIMARY KEY
     , syear                 VARCHAR(9) NOT NULL
     , semester              VARCHAR(1) NOT NULL
@@ -161,6 +156,28 @@ CREATE TABLE SUBJECT_SCHEDULE (
     , CONSTRAINT            fk_schedule_employee FOREIGN KEY (employee_id) REFERENCES EMPLOYEE (employee_id)
 );
 
+CREATE OR REPLACE TRIGGER trg_sched_id
+BEFORE INSERT ON SCHEDULE
+FOR EACH ROW
+BEGIN
+    :NEW.schedule_id := sched_seq.NEXTVAL;  -- Automatically set grade_id using the sequence
+END;
+/
+
+CREATE SEQUENCE grade_seq
+    START WITH 1
+    INCREMENT BY 1
+    NOCACHE;
+    
+    -- Drop tables if they already exist
+BEGIN
+   EXECUTE IMMEDIATE 'DROP TABLE GRADES CASCADE CONSTRAINTS';
+EXCEPTION
+   WHEN OTHERS THEN
+      NULL; -- Ignore error if table does not exist
+END;
+/
+
 CREATE TABLE GRADES (
     grade_id                NUMBER PRIMARY KEY
     , syear                 VARCHAR(9) NOT NULL
@@ -174,3 +191,12 @@ CREATE TABLE GRADES (
     , CONSTRAINT fk_grades_student FOREIGN KEY (student_no) REFERENCES STUDENT (student_no)
     , CONSTRAINT fk_grades_subject FOREIGN KEY (subject_code) REFERENCES SUBJECT (subject_code)
 );
+
+CREATE OR REPLACE TRIGGER trg_grade_id
+BEFORE INSERT ON GRADES
+FOR EACH ROW
+BEGIN
+    :NEW.grade_id := grade_seq.NEXTVAL;  -- Automatically set grade_id using the sequence
+END;
+/
+

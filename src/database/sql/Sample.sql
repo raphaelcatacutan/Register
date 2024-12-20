@@ -1,4 +1,3 @@
-
 INSERT INTO SCHOOLYEAR (syear) VALUES ('2023-2024');
 INSERT INTO SCHOOLYEAR (syear) VALUES ('2024-2025');
 INSERT INTO SCHOOLYEAR (syear) VALUES ('2025-2026');
@@ -167,46 +166,46 @@ INSERT INTO GRADES (syear, semester, student_no, subject_code, block_no, grade)
 VALUES ('2023-2024', '1', 10010, 'MED101', 'E2', 1.25);
 
 -- SCHEDULE
--- Sample data for SUBJECT_SCHEDULE
+-- Sample data for SCHEDULE
 
 -- Schedule 1
-INSERT INTO SUBJECT_SCHEDULE (syear, semester, college_code, block_no, subject_code, day, time, room, type, sequence_no, employee_id)
+INSERT INTO SCHEDULE (syear, semester, college_code, block_no, subject_code, day, time, room, type, sequence_no, employee_id)
 VALUES ('2023-2024', '1', 'ENG', 'A1', 'ENG101', 'Monday', '08:00-10:00', 'Room 101', 'Lecture', 1, 'E001');
 
 -- Schedule 2
-INSERT INTO SUBJECT_SCHEDULE (syear, semester, college_code, block_no, subject_code, day, time, room, type, sequence_no, employee_id)
+INSERT INTO SCHEDULE (syear, semester, college_code, block_no, subject_code, day, time, room, type, sequence_no, employee_id)
 VALUES ('2023-2024', '1', 'ENG', 'A2', 'ENG102', 'Tuesday', '10:00-12:00', 'Room 102', 'Lecture', 1, 'E002');
 
 -- Schedule 3
-INSERT INTO SUBJECT_SCHEDULE (syear, semester, college_code, block_no, subject_code, day, time, room, type, sequence_no, employee_id)
+INSERT INTO SCHEDULE (syear, semester, college_code, block_no, subject_code, day, time, room, type, sequence_no, employee_id)
 VALUES ('2023-2024', '1', 'SCI', 'B1', 'SCI101', 'Wednesday', '08:00-10:00', 'Room 201', 'Lecture', 1, 'E003');
 
 -- Schedule 4
-INSERT INTO SUBJECT_SCHEDULE (syear, semester, college_code, block_no, subject_code, day, time, room, type, sequence_no, employee_id)
+INSERT INTO SCHEDULE (syear, semester, college_code, block_no, subject_code, day, time, room, type, sequence_no, employee_id)
 VALUES ('2023-2024', '2', 'ENG', 'A1', 'ENG101', 'Monday', '13:00-15:00', 'Room 103', 'Lecture', 2, 'E004');
 
 -- Schedule 5
-INSERT INTO SUBJECT_SCHEDULE (syear, semester, college_code, block_no, subject_code, day, time, room, type, sequence_no, employee_id)
+INSERT INTO SCHEDULE (syear, semester, college_code, block_no, subject_code, day, time, room, type, sequence_no, employee_id)
 VALUES ('2023-2024', '2', 'SCI', 'B2', 'SCI102', 'Thursday', '09:00-11:00', 'Room 202', 'Lecture', 1, 'E005');
 
 -- Schedule 6
-INSERT INTO SUBJECT_SCHEDULE (syear, semester, college_code, block_no, subject_code, day, time, room, type, sequence_no, employee_id)
+INSERT INTO SCHEDULE (syear, semester, college_code, block_no, subject_code, day, time, room, type, sequence_no, employee_id)
 VALUES ('2023-2024', '1', 'BUS', 'C1', 'ART101', 'Monday', '10:00-12:00', 'Room 301', 'Lecture', 1, 'E006');
 
 -- Schedule 7
-INSERT INTO SUBJECT_SCHEDULE (syear, semester, college_code, block_no, subject_code, day, time, room, type, sequence_no, employee_id)
+INSERT INTO SCHEDULE (syear, semester, college_code, block_no, subject_code, day, time, room, type, sequence_no, employee_id)
 VALUES ('2023-2024', '2', 'BUS', 'D1', 'ART102', 'Friday', '11:00-13:00', 'Room 401', 'Lecture', 1, 'E007');
 
 -- Schedule 8
-INSERT INTO SUBJECT_SCHEDULE (syear, semester, college_code, block_no, subject_code, day, time, room, type, sequence_no, employee_id)
+INSERT INTO SCHEDULE (syear, semester, college_code, block_no, subject_code, day, time, room, type, sequence_no, employee_id)
 VALUES ('2023-2024', '1', 'ENG', 'C2', 'ENG102', 'Tuesday', '14:00-16:00', 'Room 302', 'Lecture', 2, 'E008');
 
 -- Schedule 9
-INSERT INTO SUBJECT_SCHEDULE (syear, semester, college_code, block_no, subject_code, day, time, room, type, sequence_no, employee_id)
+INSERT INTO SCHEDULE (syear, semester, college_code, block_no, subject_code, day, time, room, type, sequence_no, employee_id)
 VALUES ('2023-2024', '2', 'BUS', 'D2', 'BUS102', 'Wednesday', '12:00-14:00', 'Room 402', 'Lecture', 1, 'E009');
 
 -- Schedule 10
-INSERT INTO SUBJECT_SCHEDULE (syear, semester, college_code, block_no, subject_code, day, time, room, type, sequence_no, employee_id)
+INSERT INTO SCHEDULE (syear, semester, college_code, block_no, subject_code, day, time, room, type, sequence_no, employee_id)
 VALUES ('2023-2024', '1', 'ENG', 'A1', 'ENG102', 'Friday', '09:00-11:00', 'Room 103', 'Lecture', 1, 'E010');
 
 
