@@ -244,7 +244,8 @@ public class EmployeesList extends javax.swing.JPanel {
         label2.setBounds(95, 50, 140, 20); 
         glowPanel.add(label2);
 
-        JPanel column3 = new BetterPanel(65, 18, new Color(255, 200, 200), 15, 0.5f);
+        Color color = "A".equals(status) ? new Color(150, 255, 150) : new Color(255, 200, 200);
+        JPanel column3 = new BetterPanel(65, 18, color, 15, 0.5f);
         column3.setLayout(new FlowLayout(FlowLayout.CENTER));
         JLabel column3Label = new JLabel();
         column3Label.setText("A".equals(status) ? "Active" : "Inactive");

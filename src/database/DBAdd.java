@@ -33,7 +33,7 @@ public class DBAdd {
     }
 
     public static String addCollege(String collegeCode, String description, Date dateOpened, Date dateClosed, String status) {
-        String query = "INSERT INTO College (collegeCode, description, dateOpened, dateClosed, status) VALUES (?, ?, ?, ?, ?)";
+        String query = "INSERT INTO College (college_code, description, date_opened, date_closed, status) VALUES (?, ?, ?, ?, ?)";
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(query)) {
             stmt.setString(1, collegeCode);
@@ -49,7 +49,7 @@ public class DBAdd {
     }
 
     public static String addCourse(String courseCode, String description, String collegeCode, Date dateOpened, Date dateClosed, String status) {
-        String query = "INSERT INTO Course (courseCode, description, collegeCode, dateOpened, dateClosed, status) VALUES (?, ?, ?, ?, ?, ?)";
+        String query = "INSERT INTO Course (courseCode, description, college_code, date_opened, dateClosed, status) VALUES (?, ?, ?, ?, ?, ?)";
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(query)) {
             stmt.setString(1, courseCode);

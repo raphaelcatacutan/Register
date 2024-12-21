@@ -137,7 +137,7 @@ public class MainView extends javax.swing.JPanel {
         navigationPanel.setLayout(new java.awt.BorderLayout(0, 20));
 
         lblAppName.setFont(new java.awt.Font("Google Sans Medium", 0, 18)); // NOI18N
-        lblAppName.setText("🥲✅ App Name");
+        lblAppName.setText("🥲✅ School DB");
         lblAppName.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 5, 5, 5));
         navigationPanel.add(lblAppName, java.awt.BorderLayout.PAGE_START);
 
