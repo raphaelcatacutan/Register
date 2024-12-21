@@ -151,12 +151,15 @@ public class SubjectsList extends javax.swing.JPanel {
                 Date dateStarted = Date.from(dtpDateStarted.getSelectedDate().atStartOfDay(ZoneId.systemDefault()).toInstant());
                 Date dateGraduated = Date.from(dtpDateGraduated.getSelectedDate().atStartOfDay(ZoneId.systemDefault()).toInstant());
                 
-                if (txfSubjectCode.isEnabled()) {
+                if (!txfSubjectCode.isEnabled()) {
+                    System.out.println("Updating");
                     DBUpdate.updateSubject(subjectCode, description, units, curriculum, collegeCode, status, dateStarted, dateGraduated);
                     
                 } else {
-                    DBAdd.addSubject(subjectCode, description, units, curriculum, collegeCode, status, dateStarted, dateGraduated);
+                    System.out.println("Adding");
+                    System.out.println(DBAdd.addSubject(subjectCode, description, units, curriculum, collegeCode, status, dateStarted, dateGraduated));
                 }
+                refreshData();
                 
                 
                 final SimpleMessageModal simpleMessageModal = new SimpleMessageModal(SimpleMessageModal.Type.DEFAULT, 
@@ -184,19 +187,19 @@ public class SubjectsList extends javax.swing.JPanel {
         subjectListPanel.setLayout(new BoxLayout(subjectListPanel, BoxLayout.PAGE_AXIS));
         subjectListPanel.setPreferredSize(new Dimension(220, 570));
         
-            JScrollPane scrlStudentList = new JScrollPane(subjectListPanel);
-                scrlStudentList.getHorizontalScrollBar().setUnitIncrement(10);
-                scrlStudentList.getVerticalScrollBar().setUnitIncrement(10);
-                scrlStudentList.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS); 
-                scrlStudentList.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-                scrlStudentList.setPreferredSize(new Dimension(220, 500));
-                scrlStudentList.setOpaque(false);
-                scrlStudentList.setBorder(BorderFactory.createEmptyBorder());
-                scrlStudentList.getVerticalScrollBar().putClientProperty(FlatClientProperties.STYLE, "" +
-                    "trackArc:$ScrollBar.thumbArc;" +
-                    "thumbInsets:0,0,0,0;" +
-                    "width:5;");
-                scrlStudentList.getViewport().setOpaque(false);
+        JScrollPane scrlStudentList = new JScrollPane(subjectListPanel);
+            scrlStudentList.getHorizontalScrollBar().setUnitIncrement(10);
+            scrlStudentList.getVerticalScrollBar().setUnitIncrement(10);
+            scrlStudentList.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS); 
+            scrlStudentList.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+            scrlStudentList.setPreferredSize(new Dimension(220, 500));
+            scrlStudentList.setOpaque(false);
+            scrlStudentList.setBorder(BorderFactory.createEmptyBorder());
+            scrlStudentList.getVerticalScrollBar().putClientProperty(FlatClientProperties.STYLE, "" +
+                "trackArc:$ScrollBar.thumbArc;" +
+                "thumbInsets:0,0,0,0;" +
+                "width:5;");
+            scrlStudentList.getViewport().setOpaque(false);
             
         
         return scrlStudentList;

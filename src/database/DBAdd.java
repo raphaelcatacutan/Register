@@ -112,7 +112,7 @@ public class DBAdd {
     }
 
     public static String addSubject(String subjectCode, String description, int units, String curriculum, String collegeCode, String status, Date dateOpened, Date dateClosed) {
-        String query = "INSERT INTO Subject (subjectCode, description, units, curriculum, collegeCode, status, dateOpened, dateClosed) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        String query = "INSERT INTO Subject (subject_code, description, units, curriculum, college_code, status, date_opened, date_closed) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(query)) {
             stmt.setString(1, subjectCode);
