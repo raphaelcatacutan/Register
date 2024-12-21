@@ -175,7 +175,6 @@ public class SubjectsInfo extends javax.swing.JPanel {
         button1.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                studentListPanel.getComponents();
                 String year = (String) cbxYear.getSelectedItem();
                 String semester = (String) cbxSemester.getSelectedItem();
                 String employee = listedEmployee.get(cbxEmployee.getSelectedIndex()).getEmployeeId();
@@ -187,8 +186,10 @@ public class SubjectsInfo extends javax.swing.JPanel {
                 String room = txfRoom.getText();
                 int seq = Integer.parseInt(txfSeq.getText());
                 
+                Component[] components = studentListPanel.getComponents();
+                List<Grades> allGrades = DBReadMd.readGrades();
+                
                 if (selectedSchedule != null) {
-                    //test
                     DBUpdate.updateSchedule(
                             selectedSchedule.getScheduleId(), 
                             semester, collage,  blockNumber, selectedSchedule.getSubjectCode(), 
@@ -200,6 +201,35 @@ public class SubjectsInfo extends javax.swing.JPanel {
                     DBAdd.addSchedule(year, semester, collage, blockNumber,
                             subject.getSubjectCode(),
                             day, time, room, type, seq, employee);
+                }
+                
+                int index = 0;
+                for (Component c: components) {
+                    JCheckBox checkBox = (JCheckBox) c;
+                    String studentId = checkBox.getName();
+                    boolean isSelected = checkBox.isSelected();
+                    
+                    boolean found = false;
+                    for (Grades grade: allGrades) {
+                        if (String.valueOf(grade.getStudentNo()) == null ? studentId != null : !String.valueOf(grade.getStudentNo()).equals(studentId)) continue;
+                        found = true;
+                        break;
+                    }
+                    if (found) break;
+                        
+                    
+                    if (isSelected) {
+                        if (found) continue;
+                        DBAdd.addGrade(year, semester, Integer.parseInt(studentId), selectedSchedule.getSubjectCode(), blockNumber, 0.0);
+                    } else {
+                        if (!found) continue;
+                        for (Grades grade: allGrades) {
+                            if (String.valueOf(grade.getStudentNo()) == null ? studentId != null : !String.valueOf(grade.getStudentNo()).equals(studentId)) continue;
+                             DBDelete.deleteGrades(grade.getGradeId());
+                        }
+                       
+                    }
+                    index++;
                 }
                 
                 ViewSubjects.subListPanel.refreshData();
@@ -440,6 +470,11 @@ public class SubjectsInfo extends javax.swing.JPanel {
             glowPanel.setOpaque(false); 
             glowPanel.setBorder(BorderFactory.createEmptyBorder(30, 30, 30, 30));
             
+        JLabel lblTitle = new javax.swing.JLabel();
+        lblTitle.setFont(new java.awt.Font("Google Sans", 0, 20)); // NOI18N
+        lblTitle.setText("Enroll Student");
+        
+        glowPanel.add(lblTitle);
 //        glowPanel.add(createStudentSearchPanel());
         glowPanel.add(createStudentListPanel());
             
@@ -453,10 +488,6 @@ public class SubjectsInfo extends javax.swing.JPanel {
             actionsPanel.setAlignmentX(Component.RIGHT_ALIGNMENT);
             actionsPanel.setPreferredSize(new Dimension(330, 80));
 
-        JLabel lblTitle = new javax.swing.JLabel();
-        lblTitle.setFont(new java.awt.Font("Google Sans", 0, 20)); // NOI18N
-        lblTitle.setText("Enroll Student");
-        
         BetterTextField searchPanel = new BetterTextField(200, 32, Color.WHITE, 13, 0.04f, new Color(220, 220, 224), 12, getClass().getResource("/assets/icons/app (1).png").toString(), "Search");
         
         JPanel button1 = new BetterPanel(90, 30, new Color(173, 204, 255), 10, 0.5f);
@@ -469,7 +500,7 @@ public class SubjectsInfo extends javax.swing.JPanel {
         button1.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         button1.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 
-        actionsPanel.add(lblTitle);
+//        actionsPanel.add(lblTitle);
         actionsPanel.add(searchPanel);
         actionsPanel.add(button1);
         

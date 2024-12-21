@@ -175,7 +175,6 @@ public class SubjectsList extends javax.swing.JPanel {
                 }
                 refreshData();
                 
-                
                 final SimpleMessageModal simpleMessageModal = new SimpleMessageModal(SimpleMessageModal.Type.DEFAULT, 
                             "Data has been successfully saved to the database", 
                             "Success", SimpleModalBorder.CANCEL_OPTION, (controller, action) -> {
@@ -183,7 +182,6 @@ public class SubjectsList extends javax.swing.JPanel {
                     ModalDialog.showModal(StaticVars.mainForm, simpleMessageModal);
             }
         });
-        
         
         JLabel button3Label = new JLabel("Add Schedule");
         button3Label.setFont(new Font("Google Sans", Font.PLAIN, 12));
