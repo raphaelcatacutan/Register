@@ -51,6 +51,8 @@ import views.components.SimpleMessageModal;
  * @author Raphael
  */
 public class SubjectsList extends javax.swing.JPanel {
+    Subject selectedSubject;
+    
     JPanel subjectListPanel;
     JPanel scheduleListPanel;
     
@@ -117,6 +119,7 @@ public class SubjectsList extends javax.swing.JPanel {
         
         JPanel button1 = new BetterPanel(115, 30, new Color(173, 204, 255), 10, 0.5f);
         JPanel button2 = new BetterPanel(115, 30, new Color(174, 226, 200), 10, 0.5f);
+        JPanel button3 = new BetterPanel(115, 30, new Color(250, 247, 227), 10, 0.5f);
         
         JLabel button1Label = new JLabel("Clear Form");
         button1Label.setFont(new Font("Google Sans", Font.PLAIN, 12));
@@ -181,13 +184,37 @@ public class SubjectsList extends javax.swing.JPanel {
             }
         });
         
+        
+        JLabel button3Label = new JLabel("Add Schedule");
+        button3Label.setFont(new Font("Google Sans", Font.PLAIN, 12));
+        button3Label.setAlignmentX(Component.LEFT_ALIGNMENT);
+        button3Label.setIcon(new ImageIcon("C:/Users/Raphael/Documents/Sync/Developments/Java/RegISTER/src/assets/icons/app (1).png"));
+        button3.add(button3Label);
+        button3.setBorder(BorderFactory.createEmptyBorder(9, 10, 10, 10));
+        button3.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        button3.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                // cant add if there's no subject
+                Subject subject = DBReadMd.readSubjectByCode(txfSubjectCode.getText());
+                if (subject == null) return;
+                ViewSubjects.subInfoPanel.selectedSchedule = null;
+                ViewSubjects.subInfoPanel.selectedSubject = subject;
+                ViewSubjects.subInfoPanel.refreshData();
+                ViewSubjects.viewSubjectsCardLayout.show(MainView.viewSubjects, "subInfoPanel");
+            }
+        });
+        
 
-        actionsPanel.add(Box.createHorizontalStrut(500));
+        actionsPanel.add(Box.createHorizontalStrut(400));
 //        actionsPanel.add(searchPanel);
         actionsPanel.add(Box.createHorizontalStrut(5));
         actionsPanel.add(button1);
         actionsPanel.add(Box.createHorizontalStrut(5));
         actionsPanel.add(button2);
+        actionsPanel.add(Box.createHorizontalStrut(5));
+        actionsPanel.add(button3);
+        
         
         return actionsPanel;
     }

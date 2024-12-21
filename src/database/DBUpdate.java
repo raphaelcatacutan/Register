@@ -126,8 +126,8 @@ public class DBUpdate {
 
 
     public static void updateSchedule(int scheduleId, String semester, String collegeCode, String blockNo, String subjectCode, 
-                               String day, String time, String room, String type, int sequenceNo, String employeeId) {
-        String query = "UPDATE Schedule SET semester = ?, college_code = ?, block_no = ?, subject_code = ?, day = ?, time = ?, room = ?, type = ?, sequence_no = ?, employee_id = ? WHERE schedule_id = ?";
+                               String day, String time, String room, String type, int sequenceNo, String employeeId, String year) {
+        String query = "UPDATE Schedule SET  semester = ?, college_code = ?, block_no = ?, subject_code = ?, day = ?, time = ?, room = ?, type = ?, sequence_no = ?, employee_id = ?, year = ? WHERE schedule_id = ?";
         try (PreparedStatement stmt = DBConnection.getConnection().prepareStatement(query)) {
             stmt.setString(1, semester);
             stmt.setString(2, collegeCode);
@@ -139,7 +139,8 @@ public class DBUpdate {
             stmt.setString(8, type);
             stmt.setInt(9, sequenceNo);
             stmt.setString(10, employeeId);
-            stmt.setInt(11, scheduleId);  // Using schedule_id for the WHERE clause
+            stmt.setString(11, year);
+            stmt.setInt(12, scheduleId);  // Using schedule_id for the WHERE clause
             stmt.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(DBUpdate.class.getName()).log(Level.SEVERE, null, ex);

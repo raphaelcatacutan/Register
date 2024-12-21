@@ -5,7 +5,10 @@
 package views;
 
 import com.formdev.flatlaf.FlatClientProperties;
+import database.DBAdd;
+import database.DBDelete;
 import database.DBReadMd;
+import database.DBUpdate;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
@@ -19,6 +22,7 @@ import java.awt.RenderingHints;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.List;
+import java.util.Objects;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -32,6 +36,7 @@ import javax.swing.JTextField;
 import javax.swing.UIManager;
 import models.College;
 import models.Employee;
+import models.Grades;
 import models.Schedule;
 import models.SchoolYear;
 import models.Semester;
@@ -47,6 +52,7 @@ import views.components.NumericField;
  */
 public class SubjectsInfo extends javax.swing.JPanel {
     public Schedule selectedSchedule; 
+    public Subject selectedSubject;
     
     JComboBox cbxYear;
     JComboBox cbxSemester;
@@ -66,6 +72,7 @@ public class SubjectsInfo extends javax.swing.JPanel {
     List<Student> listedStudents;
     List<SchoolYear> listedSchoolYear;
     List<Semester> listedSemester;
+    List<Grades> listedGrades;
     
     public void refreshData() {
         listedEmployee = DBReadMd.readEmployees();
@@ -73,6 +80,7 @@ public class SubjectsInfo extends javax.swing.JPanel {
         listedStudents = DBReadMd.readStudents();
         listedSchoolYear = DBReadMd.readSchoolYears();
         listedSemester = DBReadMd.readSemesters();
+        listedGrades = DBReadMd.readGrades();
         
         cbxEmployee.removeAllItems();
         cbxCollege.removeAllItems();
@@ -109,8 +117,17 @@ public class SubjectsInfo extends javax.swing.JPanel {
             txfSeq.setText("");
         }
         studentListPanel.removeAll();
+        
         for (Student student: listedStudents) {
-            studentListPanel.add(createStudent(student));
+            boolean isCheck = false;
+            for (Grades grade: listedGrades) {
+                if (selectedSchedule.getBlockNo() == null ? grade.getBlockNo() != null : !selectedSchedule.getBlockNo().equals(grade.getBlockNo())) continue;
+                if (!Objects.equals(grade.getStudentNo(), student.getStudentNo())) continue;
+                isCheck = true;
+                break;
+            }
+            System.out.println(student.getLastname() + (isCheck ? "Yes": "No"));
+            studentListPanel.add(createStudent(student, isCheck));
             studentListPanel.add(Box.createVerticalStrut(5));
         }
     }
@@ -165,15 +182,24 @@ public class SubjectsInfo extends javax.swing.JPanel {
                 String collage = listedCollege.get(cbxCollege.getSelectedIndex()).getCollegeCode();
                 String type = (String) cbxType.getSelectedItem();
                 String day = (String) cbxDay.getSelectedItem();
-                int blockNumber = Integer.parseInt(txfBlockNumber.getText());
+                String blockNumber = txfBlockNumber.getText();
                 String time = txfTime.getText();
                 String room = txfRoom.getText();
-                String seq = txfSeq.getText();
+                int seq = Integer.parseInt(txfSeq.getText());
                 
                 if (selectedSchedule != null) {
-                    // update
+                    //test
+                    DBUpdate.updateSchedule(
+                            selectedSchedule.getScheduleId(), 
+                            semester, collage,  blockNumber, selectedSchedule.getSubjectCode(), 
+                            day, time, room, type, seq, employee, year
+                    );
                 } else {
-                    // add
+                    // test
+                    Subject subject = ViewSubjects.subListPanel.selectedSubject;
+                    DBAdd.addSchedule(year, semester, collage, blockNumber,
+                            subject.getSubjectCode(),
+                            day, time, room, type, seq, employee);
                 }
                 
                 ViewSubjects.subListPanel.refreshData();
@@ -191,6 +217,8 @@ public class SubjectsInfo extends javax.swing.JPanel {
             @Override
             public void mouseClicked(MouseEvent e) {
                 // Delete `selectedStudent.getId`
+                if (selectedSchedule == null) return;
+                DBDelete.deleteSchedule(selectedSchedule.getScheduleId());
                 ViewSubjects.subListPanel.refreshData();
                 ViewSubjects.viewSubjectsCardLayout.show(MainView.viewSubjects, "subListPanel");
             }
@@ -339,7 +367,6 @@ public class SubjectsInfo extends javax.swing.JPanel {
             betterTextField1.setOpaque(false);
             txfBlockNumber = betterTextField1.textField;
             txfBlockNumber.setForeground(Color.black);
-            NumericField.makeNumericOnly(txfBlockNumber);
         JPanel fieldPanel1 = new JPanel();
             fieldPanel1.setLayout(new BorderLayout());
             fieldPanel1.setOpaque(false);
@@ -473,7 +500,7 @@ public class SubjectsInfo extends javax.swing.JPanel {
         return scrlStudentList;
     }
 
-    private JCheckBox createStudent(Student student) {
+    private JCheckBox createStudent(Student student, boolean isCheck) {
         JCheckBox checkBox = new JCheckBox(student.getLastname() + ", " + student.getFirstname()) {
             @Override
             protected void paintComponent(Graphics g) {
@@ -491,6 +518,7 @@ public class SubjectsInfo extends javax.swing.JPanel {
         checkBox.setMinimumSize(new Dimension(500, 40));
         checkBox.setMaximumSize(new Dimension(500, 40));
         checkBox.setPreferredSize(new Dimension(500, 40));
+        checkBox.setSelected(isCheck);
         return checkBox;
     }
     
