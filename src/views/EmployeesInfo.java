@@ -192,7 +192,7 @@ public class EmployeesInfo extends javax.swing.JPanel {
                         dateResigned);
                 
                 } else {
-                    DBAdd.addEmployee(employeeId, 
+                    System.out.println(DBAdd.addEmployee(employeeId, 
                         lastName, 
                         firstName, 
                         email, 
@@ -202,8 +202,9 @@ public class EmployeesInfo extends javax.swing.JPanel {
                         bday,
                         status, 
                         dateStarted, 
-                        dateResigned);
+                        dateResigned));
                 }
+                ViewEmployees.empListPanel.refreshData(false);
                 final SimpleMessageModal simpleMessageModal = new SimpleMessageModal(SimpleMessageModal.Type.DEFAULT, 
                             "Data has been successfully saved to the database", 
                             "Success", SimpleModalBorder.CANCEL_OPTION, (controller, action) -> {
@@ -213,7 +214,7 @@ public class EmployeesInfo extends javax.swing.JPanel {
             }
          });
         
-        JLabel button2Label = new JLabel("Delete Student");
+        JLabel button2Label = new JLabel("Delete Employee");
         button2Label.setFont(new Font("Google Sans", Font.PLAIN, 12));
         button2Label.setAlignmentX(Component.LEFT_ALIGNMENT);
         button2Label.setIcon(new ImageIcon(getClass().getResource("/assets/icons/app (1).png")));
@@ -236,7 +237,7 @@ public class EmployeesInfo extends javax.swing.JPanel {
                                     + "\nThis action is irreversible", 
                             "Delete Employee", SimpleModalBorder.YES_NO_OPTION, (controller, action) -> {
                         if (action == SimpleModalBorder.YES_OPTION) {
-//                            DBDelete.deleteStudent(String.valueOf(selectedStudent.getStudentNo()));
+                            DBDelete.deleteEmployee(selectedEmployee.getEmployeeId());
                             ViewEmployees.empListPanel.refreshData(false);
                             ViewEmployees.viewEmployeesCardLayout.show(MainView.viewEmployees, "empListPanel");
                         }

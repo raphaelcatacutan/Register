@@ -175,7 +175,7 @@ public class StudentsInfo extends javax.swing.JPanel {
         lblBack.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                System.out.println("Hello");
+                ViewStudents.studListPanel.refreshData(false);
                 ViewStudents.viewStudentsCardLayout.show(MainView.viewStudents, "studListPanel");
             }
          });
