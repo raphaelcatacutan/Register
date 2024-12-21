@@ -43,6 +43,7 @@ import models.Schedule;
 import raven.modal.ModalDialog;
 import raven.modal.component.SimpleModalBorder;
 import utils.StaticVars;
+import views.components.NumericField;
 import views.components.SimpleMessageModal;
 
 /**
@@ -74,6 +75,16 @@ public class SubjectsList extends javax.swing.JPanel {
         for (Subject subject: subjects) {
             subjectListPanel.add(createSubjectRecord(subject));
         }
+        txfSubjectCode.setText("");
+        txfUnits.setText("");
+        txfCurriculum.setText("");
+        txfDescription.setText("");
+        cbxCollege.setSelectedIndex(-1);
+        cbxStatus.setSelectedIndex(-1);
+
+        dtpDateStarted.clearSelectedDate();
+        dtpDateGraduated.clearSelectedDate();
+        txfSubjectCode.setEnabled(true);
     }
     
     /**
@@ -327,6 +338,7 @@ public class SubjectsList extends javax.swing.JPanel {
             fieldPanel3.add(label3, BorderLayout.PAGE_START);
             fieldPanel3.add(betterTextField3, BorderLayout.PAGE_END);
             glowPanel.add(fieldPanel3); 
+            NumericField.makeNumericOnly(txfUnits);
             
         JLabel label4 = new JLabel("Curriculum");
             label4.setFont(new java.awt.Font("Google Sans Medium", 0, 12));
@@ -526,8 +538,9 @@ public class SubjectsList extends javax.swing.JPanel {
         schedulePanel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                System.out.println("Subject Record Click");
-               // ViewSubjects.viewSubjectsCardLayout.show(MainView.viewSubjects, "subInfoPanel");
+                ViewSubjects.subInfoPanel.selectedSchedule = schedule;
+                ViewSubjects.subInfoPanel.refreshData();
+                ViewSubjects.viewSubjectsCardLayout.show(MainView.viewSubjects, "subInfoPanel");
             }
         });
         

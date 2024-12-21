@@ -23,7 +23,7 @@ public class MainView extends javax.swing.JPanel {
     public static ViewGrading viewGrading;
     public static ViewColleges viewColleges;
     public static ViewCourses viewCourses;
-    public static JPanel viewSubjects;
+    public static ViewSubjects viewSubjects;
     public static ViewSettings viewSettings;
     
     /**

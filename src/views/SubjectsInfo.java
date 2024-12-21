@@ -4,6 +4,8 @@
  */
 package views;
 
+import com.formdev.flatlaf.FlatClientProperties;
+import database.DBReadMd;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
@@ -16,6 +18,7 @@ import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.List;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -24,16 +27,93 @@ import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.UIManager;
+import models.College;
+import models.Employee;
+import models.Schedule;
+import models.SchoolYear;
+import models.Semester;
+import models.Student;
+import models.Subject;
 import views.components.BetterPanel;
 import views.components.BetterTextField;
+import views.components.NumericField;
 
 /**
  *
  * @author Raphael
  */
 public class SubjectsInfo extends javax.swing.JPanel {
+    public Schedule selectedSchedule; 
+    
+    JComboBox cbxYear;
+    JComboBox cbxSemester;
+    JComboBox cbxEmployee;
+    JComboBox cbxCollege;
+    JComboBox cbxType;
+    JComboBox cbxDay;
+    JTextField txfBlockNumber;
+    JTextField txfTime;
+    JTextField txfRoom;
+    JTextField txfSeq;
+    
+    JPanel studentListPanel;
+    
+    List<Employee> listedEmployee;
+    List<College> listedCollege;
+    List<Student> listedStudents;
+    List<SchoolYear> listedSchoolYear;
+    List<Semester> listedSemester;
+    
+    public void refreshData() {
+        listedEmployee = DBReadMd.readEmployees();
+        listedCollege = DBReadMd.readColleges();
+        listedStudents = DBReadMd.readStudents();
+        listedSchoolYear = DBReadMd.readSchoolYears();
+        listedSemester = DBReadMd.readSemesters();
+        
+        cbxEmployee.removeAllItems();
+        cbxCollege.removeAllItems();
+        cbxYear.removeAllItems();
+        cbxSemester.removeAllItems();
+        for (Employee employee: listedEmployee) cbxEmployee.addItem(employee.getLastname() + ", " + employee.getFirstname());
+        for (College college: listedCollege) cbxCollege.addItem(college.getDescription());
+        for (Semester semester: listedSemester) cbxSemester.addItem(semester.getSemester());
+        for (SchoolYear year: listedSchoolYear) cbxYear.addItem(year.getSyear());
+        if (selectedSchedule != null ){
+            Employee employee = DBReadMd.readEmployeeById(selectedSchedule.getEmployeeId());
+            College college = DBReadMd.readCollegeByCode(selectedSchedule.getCollegeCode());
+            
+            cbxYear.setSelectedItem(selectedSchedule.getSyear());
+            cbxSemester.setSelectedItem(selectedSchedule.getSemester());
+            cbxEmployee.setSelectedItem(employee.getLastname() + ", " + employee.getFirstname());
+            cbxCollege.setSelectedItem(college.getDescription());
+            cbxType.setSelectedItem(selectedSchedule.getType());
+            cbxDay.setSelectedItem(selectedSchedule.getDay());
+            txfBlockNumber.setText(selectedSchedule.getBlockNo());
+            txfTime.setText(selectedSchedule.getTime());
+            txfRoom.setText(selectedSchedule.getRoom());
+            txfSeq.setText(String.valueOf(selectedSchedule.getSequenceNo()));
+        } else {
+            cbxYear.setSelectedItem(-1);
+            cbxSemester.setSelectedItem(-1);
+            cbxEmployee.setSelectedItem(-1);
+            cbxCollege.setSelectedItem(-1);
+            cbxType.setSelectedItem(-1);
+            cbxDay.setSelectedItem(-1);
+            txfBlockNumber.setText("");
+            txfTime.setText("");
+            txfRoom.setText("");
+            txfSeq.setText("");
+        }
+        studentListPanel.removeAll();
+        for (Student student: listedStudents) {
+            studentListPanel.add(createStudent(student));
+            studentListPanel.add(Box.createVerticalStrut(5));
+        }
+    }
     /**
      * Creates new form StudentsList
      */
@@ -63,6 +143,7 @@ public class SubjectsInfo extends javax.swing.JPanel {
                 ViewSubjects.viewSubjectsCardLayout.show(MainView.viewSubjects, "subListPanel");
             }
          });
+        lblBack.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         
         JPanel button1 = new BetterPanel(115, 30, new Color(174, 226, 200), 10, 0.5f);
         JPanel button2 = new BetterPanel(115, 30, new Color(255, 201, 207), 10, 0.5f);
@@ -74,14 +155,46 @@ public class SubjectsInfo extends javax.swing.JPanel {
         button1.add(button1Label);
         button1.setBorder(BorderFactory.createEmptyBorder(9, 10, 10, 10));
         button1.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        button1.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                studentListPanel.getComponents();
+                String year = (String) cbxYear.getSelectedItem();
+                String semester = (String) cbxSemester.getSelectedItem();
+                String employee = listedEmployee.get(cbxEmployee.getSelectedIndex()).getEmployeeId();
+                String collage = listedCollege.get(cbxCollege.getSelectedIndex()).getCollegeCode();
+                String type = (String) cbxType.getSelectedItem();
+                String day = (String) cbxDay.getSelectedItem();
+                int blockNumber = Integer.parseInt(txfBlockNumber.getText());
+                String time = txfTime.getText();
+                String room = txfRoom.getText();
+                String seq = txfSeq.getText();
+                
+                if (selectedSchedule != null) {
+                    // update
+                } else {
+                    // add
+                }
+                
+                ViewSubjects.subListPanel.refreshData();
+            }
+        });
         
-        JLabel button2Label = new JLabel("Delete Student");
+        JLabel button2Label = new JLabel("Delete Schedule");
         button2Label.setFont(new Font("Google Sans", Font.PLAIN, 12));
         button2Label.setAlignmentX(Component.LEFT_ALIGNMENT);
         button2Label.setIcon(new ImageIcon(getClass().getResource("/assets/icons/app (1).png")));
         button2.add(button2Label);
         button2.setBorder(BorderFactory.createEmptyBorder(9, 10, 10, 10));
         button2.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        button2.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                // Delete `selectedStudent.getId`
+                ViewSubjects.subListPanel.refreshData();
+                ViewSubjects.viewSubjectsCardLayout.show(MainView.viewSubjects, "subListPanel");
+            }
+        });
 
         actionsPanel.add(lblBack);
         actionsPanel.add(Box.createHorizontalStrut(5));
@@ -113,15 +226,13 @@ public class SubjectsInfo extends javax.swing.JPanel {
             label6.setAlignmentX(Component.LEFT_ALIGNMENT);
             label6.setOpaque(false);
             label6.setBackground(Color.red);
-        JComboBox comboBox6 = new JComboBox();
-            comboBox6.addItem("Male");
-            comboBox6.addItem("Female");
-            comboBox6.setPreferredSize(new Dimension(90, 25));
+        cbxYear = new JComboBox();
+            cbxYear.setPreferredSize(new Dimension(120, 25));
         JPanel fieldPanel6 = new JPanel();
             fieldPanel6.setLayout(new BorderLayout());
             fieldPanel6.setOpaque(false);
             fieldPanel6.add(label6, BorderLayout.PAGE_START);
-            fieldPanel6.add(comboBox6, BorderLayout.PAGE_END);
+            fieldPanel6.add(cbxYear, BorderLayout.PAGE_END);
             fieldPanel6.setBorder(BorderFactory.createEmptyBorder(0, 6, 0, 0));
             glowPanel.add(fieldPanel6);
             
@@ -131,15 +242,13 @@ public class SubjectsInfo extends javax.swing.JPanel {
             label7.setAlignmentX(Component.LEFT_ALIGNMENT);
             label7.setOpaque(false);
             label7.setBackground(Color.red);
-        JComboBox comboBox7 = new JComboBox();
-            comboBox7.addItem("Active");
-            comboBox7.addItem("Inactive");
-            comboBox7.setPreferredSize(new Dimension(90, 25));
+        cbxSemester = new JComboBox();
+            cbxSemester.setPreferredSize(new Dimension(90, 25));
         JPanel fieldPanel7 = new JPanel();
             fieldPanel7.setLayout(new BorderLayout());
             fieldPanel7.setOpaque(false);
             fieldPanel7.add(label7, BorderLayout.PAGE_START);
-            fieldPanel7.add(comboBox7, BorderLayout.PAGE_END);
+            fieldPanel7.add(cbxSemester, BorderLayout.PAGE_END);
             fieldPanel7.setBorder(BorderFactory.createEmptyBorder(0, 13, 0, 0));
             glowPanel.add(fieldPanel7);
             
@@ -149,23 +258,13 @@ public class SubjectsInfo extends javax.swing.JPanel {
             label8.setAlignmentX(Component.LEFT_ALIGNMENT);
             label8.setOpaque(false);
             label8.setBackground(Color.red);
-        JComboBox comboBox8 = new JComboBox();
-            comboBox8.addItem("United States");
-            comboBox8.addItem("Canada");
-            comboBox8.addItem("Brazil");
-            comboBox8.addItem("United Kingdom");
-            comboBox8.addItem("France");
-            comboBox8.addItem("Germany");
-            comboBox8.addItem("Australia");
-            comboBox8.addItem("Japan");
-            comboBox8.addItem("China");
-            comboBox8.addItem("India");
-            comboBox8.setPreferredSize(new Dimension(235, 25));
+        cbxEmployee = new JComboBox();
+            cbxEmployee.setPreferredSize(new Dimension(235, 25));
         JPanel fieldPanel8 = new JPanel();
             fieldPanel8.setLayout(new BorderLayout());
             fieldPanel8.setOpaque(false);
             fieldPanel8.add(label8, BorderLayout.PAGE_START);
-            fieldPanel8.add(comboBox8, BorderLayout.PAGE_END);
+            fieldPanel8.add(cbxEmployee, BorderLayout.PAGE_END);
             fieldPanel8.setBorder(BorderFactory.createEmptyBorder(0, 13, 0, 0));
             glowPanel.add(fieldPanel8);
             
@@ -175,23 +274,13 @@ public class SubjectsInfo extends javax.swing.JPanel {
             label9.setAlignmentX(Component.LEFT_ALIGNMENT);
             label9.setOpaque(false);
             label9.setBackground(Color.red);
-        JComboBox comboBox9 = new JComboBox();
-            comboBox9.addItem("United States");
-            comboBox9.addItem("Canada");
-            comboBox9.addItem("Brazil");
-            comboBox9.addItem("United Kingdom");
-            comboBox9.addItem("France");
-            comboBox9.addItem("Germany");
-            comboBox9.addItem("Australia");
-            comboBox9.addItem("Japan");
-            comboBox9.addItem("China");
-            comboBox9.addItem("India");
-            comboBox9.setPreferredSize(new Dimension(235, 25));
+        cbxCollege = new JComboBox();
+            cbxCollege.setPreferredSize(new Dimension(235, 25));
         JPanel fieldPanel9 = new JPanel();
             fieldPanel9.setLayout(new BorderLayout());
             fieldPanel9.setOpaque(false);
             fieldPanel9.add(label9, BorderLayout.PAGE_START);
-            fieldPanel9.add(comboBox9, BorderLayout.PAGE_END);
+            fieldPanel9.add(cbxCollege, BorderLayout.PAGE_END);
             fieldPanel9.setBorder(BorderFactory.createEmptyBorder(0, 13, 0, 0));
             glowPanel.add(fieldPanel9);
             
@@ -201,16 +290,16 @@ public class SubjectsInfo extends javax.swing.JPanel {
             label10.setAlignmentX(Component.LEFT_ALIGNMENT);
             label10.setOpaque(false);
             label10.setBackground(Color.red);
-        JComboBox comboBox10 = new JComboBox();
-            comboBox10.addItem("Online");
-            comboBox10.addItem("Onsite");
-            comboBox10.setPreferredSize(new Dimension(90, 26));
-            comboBox10.setSelectedIndex(-1);
+        cbxType = new JComboBox();
+            cbxType.addItem("Online");
+            cbxType.addItem("Onsite");
+            cbxType.setPreferredSize(new Dimension(90, 26));
+            cbxType.setSelectedIndex(-1);
         JPanel fieldPanel10 = new JPanel();
             fieldPanel10.setLayout(new BorderLayout());
             fieldPanel10.setOpaque(false);
             fieldPanel10.add(label10, BorderLayout.PAGE_START);
-            fieldPanel10.add(comboBox10, BorderLayout.PAGE_END);
+            fieldPanel10.add(cbxType, BorderLayout.PAGE_END);
             fieldPanel10.setBorder(BorderFactory.createEmptyBorder(0, 6, 0, 0));
             glowPanel.add(fieldPanel10);
             
@@ -220,16 +309,21 @@ public class SubjectsInfo extends javax.swing.JPanel {
             label11.setAlignmentX(Component.LEFT_ALIGNMENT);
             label11.setOpaque(false);
             label11.setBackground(Color.red);
-        JComboBox comboBox11 = new JComboBox();
-            comboBox11.addItem("Online");
-            comboBox11.addItem("Onsite");
-            comboBox11.setPreferredSize(new Dimension(150, 26));
-            comboBox11.setSelectedIndex(-1);
+        cbxDay = new JComboBox();
+            cbxDay.addItem("Sunday");
+            cbxDay.addItem("Monday");
+            cbxDay.addItem("Tuesday");
+            cbxDay.addItem("Wednesday");
+            cbxDay.addItem("Thursday");
+            cbxDay.addItem("Friday");
+            cbxDay.addItem("Saturday");
+            cbxDay.setPreferredSize(new Dimension(150, 26));
+            cbxDay.setSelectedIndex(-1);
         JPanel fieldPanel11 = new JPanel();
             fieldPanel11.setLayout(new BorderLayout());
             fieldPanel11.setOpaque(false);
             fieldPanel11.add(label11, BorderLayout.PAGE_START);
-            fieldPanel11.add(comboBox11, BorderLayout.PAGE_END);
+            fieldPanel11.add(cbxDay, BorderLayout.PAGE_END);
             fieldPanel11.setBorder(BorderFactory.createEmptyBorder(0, 13, 0, 0));
             glowPanel.add(fieldPanel11);
             
@@ -243,8 +337,9 @@ public class SubjectsInfo extends javax.swing.JPanel {
             130, 25, Color.WHITE, 13, 0.04f, new Color(220, 220, 224), 12, null, null
         );
             betterTextField1.setOpaque(false);
-            JTextField textfield1 = betterTextField1.textField;
-            textfield1.setForeground(Color.black);
+            txfBlockNumber = betterTextField1.textField;
+            txfBlockNumber.setForeground(Color.black);
+            NumericField.makeNumericOnly(txfBlockNumber);
         JPanel fieldPanel1 = new JPanel();
             fieldPanel1.setLayout(new BorderLayout());
             fieldPanel1.setOpaque(false);
@@ -262,8 +357,8 @@ public class SubjectsInfo extends javax.swing.JPanel {
             200, 25, Color.WHITE, 13, 0.04f, new Color(220, 220, 224), 12, null, null
         );
             betterTextField2.setOpaque(false);
-            JTextField textField2 = betterTextField2.textField;
-            textField2.setForeground(Color.black);
+            txfTime = betterTextField2.textField;
+            txfTime.setForeground(Color.black);
         JPanel fieldPanel2 = new JPanel();
             fieldPanel2.setLayout(new BorderLayout());
             fieldPanel2.setOpaque(false);
@@ -281,8 +376,8 @@ public class SubjectsInfo extends javax.swing.JPanel {
             200, 25, Color.WHITE, 13, 0.04f, new Color(220, 220, 224), 12, null, null
         );
             betterTextField3.setOpaque(false);
-            JTextField textField3 = betterTextField3.textField;
-            textField3.setForeground(Color.black);
+            txfRoom = betterTextField3.textField;
+            txfRoom.setForeground(Color.black);
         JPanel fieldPanel3 = new JPanel();
             fieldPanel3.setLayout(new BorderLayout());
             fieldPanel3.setOpaque(false);
@@ -300,8 +395,8 @@ public class SubjectsInfo extends javax.swing.JPanel {
             342, 25, Color.WHITE, 13, 0.04f, new Color(220, 220, 224), 12, null, null
         );
             betterTextField4.setOpaque(false);
-            JTextField textField4 = betterTextField4.textField;
-            textField4.setForeground(Color.black);
+            txfSeq = betterTextField4.textField;
+            txfSeq.setForeground(Color.black);
         JPanel fieldPanel4 = new JPanel();
             fieldPanel4.setLayout(new BorderLayout());
             fieldPanel4.setOpaque(false);
@@ -318,7 +413,7 @@ public class SubjectsInfo extends javax.swing.JPanel {
             glowPanel.setOpaque(false); 
             glowPanel.setBorder(BorderFactory.createEmptyBorder(30, 30, 30, 30));
             
-        glowPanel.add(createStudentSearchPanel());
+//        glowPanel.add(createStudentSearchPanel());
         glowPanel.add(createStudentListPanel());
             
         return glowPanel;
@@ -354,35 +449,32 @@ public class SubjectsInfo extends javax.swing.JPanel {
         return actionsPanel;
     }
     
-    private JPanel createStudentListPanel() {
-        JPanel listPanel = new JPanel();
-        listPanel.setOpaque(false);
-        listPanel.setLayout(new BoxLayout(listPanel, BoxLayout.Y_AXIS));
-        listPanel.setPreferredSize(new Dimension(305, 500));
+    private JScrollPane createStudentListPanel() {
         
-        listPanel.add(createStudent("Hello"));
-        listPanel.add(Box.createVerticalStrut(5));
-        listPanel.add(createStudent("Hello"));
-        listPanel.add(Box.createVerticalStrut(5));
-        listPanel.add(createStudent("Hello"));
-        listPanel.add(Box.createVerticalStrut(5));
-        listPanel.add(createStudent("Hello"));
-        listPanel.add(Box.createVerticalStrut(5));
-        listPanel.add(createStudent("Hello"));
-        listPanel.add(Box.createVerticalStrut(5));
-        listPanel.add(createStudent("Hello"));
-        listPanel.add(Box.createVerticalStrut(5));
-        listPanel.add(createStudent("Hello"));
-        listPanel.add(Box.createVerticalStrut(5));
-        listPanel.add(createStudent("Hello"));
-        listPanel.add(Box.createVerticalStrut(5));
-        listPanel.add(createStudent("Hello"));
+        studentListPanel = new JPanel();
+        studentListPanel.setOpaque(false);
+        studentListPanel.setLayout(new BoxLayout(studentListPanel, BoxLayout.Y_AXIS));
+        studentListPanel.setPreferredSize(new Dimension(305, 500));
         
-        return listPanel;
+        JScrollPane scrlStudentList = new JScrollPane(studentListPanel);
+            scrlStudentList.getHorizontalScrollBar().setUnitIncrement(10);
+            scrlStudentList.getVerticalScrollBar().setUnitIncrement(10);
+            scrlStudentList.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS); 
+            scrlStudentList.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+            scrlStudentList.setPreferredSize(new Dimension(305, 450));
+            scrlStudentList.setOpaque(false);
+            scrlStudentList.setBorder(BorderFactory.createEmptyBorder());
+            scrlStudentList.getVerticalScrollBar().putClientProperty(FlatClientProperties.STYLE, "" +
+                "trackArc:$ScrollBar.thumbArc;" +
+                "thumbInsets:0,0,0,0;" +
+                "width:5;");
+            scrlStudentList.getViewport().setOpaque(false);
+            
+        return scrlStudentList;
     }
 
-    private JCheckBox createStudent(String a) {
-        JCheckBox checkBox = new JCheckBox("Catacutan, Raphael James C.") {
+    private JCheckBox createStudent(Student student) {
+        JCheckBox checkBox = new JCheckBox(student.getLastname() + ", " + student.getFirstname()) {
             @Override
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
@@ -392,7 +484,9 @@ public class SubjectsInfo extends javax.swing.JPanel {
                 g2d.fillRect(0, getHeight() - 1, getWidth(), 1);
                 g2d.dispose();
             }
+            
         };
+        checkBox.setName(String.valueOf(student.getStudentNo()));
         checkBox.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
         checkBox.setMinimumSize(new Dimension(500, 40));
         checkBox.setMaximumSize(new Dimension(500, 40));

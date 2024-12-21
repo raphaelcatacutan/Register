@@ -237,7 +237,7 @@ public class EmployeesInfo extends javax.swing.JPanel {
                                     + "\nThis action is irreversible", 
                             "Delete Employee", SimpleModalBorder.YES_NO_OPTION, (controller, action) -> {
                         if (action == SimpleModalBorder.YES_OPTION) {
-                            DBDelete.deleteEmployee(selectedEmployee.getEmployeeId());
+                            System.out.println(DBDelete.deleteEmployee(selectedEmployee.getEmployeeId()));
                             ViewEmployees.empListPanel.refreshData(false);
                             ViewEmployees.viewEmployeesCardLayout.show(MainView.viewEmployees, "empListPanel");
                         }
@@ -263,8 +263,6 @@ public class EmployeesInfo extends javax.swing.JPanel {
         JPanel glowPanel = new BetterPanel(770, 260, new Color(250, 250, 250), 30, 0.2f);
         glowPanel.setLayout(null);
         glowPanel.setOpaque(false);
-        
-        
         
         Random rand = new Random();
         int r = rand.nextInt(156) + 100; 

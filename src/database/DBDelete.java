@@ -126,18 +126,47 @@ public class DBDelete {
 
     public static String deleteEmployee(String employeeId) {
         Connection conn = DBConnection.getConnection();
-        String sql = "DELETE FROM Employee WHERE employee_id = ?";
-        
-        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setString(1, employeeId);
-            int rowsAffected = stmt.executeUpdate();
-            if (rowsAffected > 0) {
+        String deleteScheduleSql = "DELETE FROM SCHEDULE WHERE employee_id = ?";
+        String deleteEmployeeSql = "DELETE FROM EMPLOYEE WHERE employee_id = ?";
+
+        try {
+            // Begin a transaction to ensure data consistency
+            conn.setAutoCommit(false);
+
+            try (PreparedStatement stmt1 = conn.prepareStatement(deleteScheduleSql);
+                 PreparedStatement stmt2 = conn.prepareStatement(deleteEmployeeSql)) {
+
+                // Delete from SCHEDULE
+                stmt1.setString(1, employeeId);
+                stmt1.executeUpdate();
+
+                // Delete from EMPLOYEE
+                stmt2.setString(1, employeeId);
+                stmt2.executeUpdate();
+
+                // Commit the transaction if both deletions are successful
+                conn.commit();
                 return "Employee with ID " + employeeId + " deleted successfully.";
-            } else {
-                return "Employee with ID " + employeeId + " not found.";
+            } catch (SQLException e) {
+                // Rollback in case of an error during the deletion
+                conn.rollback();
+                return "Error deleting Employee: " + e.getMessage();
             }
         } catch (SQLException e) {
+            // Handle connection or other errors
+            try {
+                conn.rollback();
+            } catch (SQLException ex) {
+                return "Error rolling back transaction: " + ex.getMessage();
+            }
             return "Error deleting Employee: " + e.getMessage();
+        } finally {
+            try {
+                conn.setAutoCommit(true); // Reset auto-commit to true
+                conn.close(); // Ensure the connection is closed after the operation
+            } catch (SQLException e) {
+                return "Error resetting auto-commit or closing connection: " + e.getMessage();
+            }
         }
     }
 
