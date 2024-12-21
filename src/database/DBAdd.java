@@ -131,7 +131,7 @@ public class DBAdd {
     }
 
     public static String addSchedule(String syear, String semester, String collegeCode, String blockNo, String subjectCode, String day, String time, String room, String type, int sequenceNo, String employeeId) {
-        String query = "INSERT INTO Schedule (syear, semester, collegeCode, blockNo, subjectCode, day, time, room, type, sequenceNo, employeeId) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String query = "INSERT INTO Schedule (syear, semester, college_code, block_no, subject_code, day, time, room, type, sequence_no, employee_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(query)) {
             stmt.setString(1, syear);

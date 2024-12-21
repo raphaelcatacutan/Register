@@ -42,9 +42,13 @@ import models.SchoolYear;
 import models.Semester;
 import models.Student;
 import models.Subject;
+import raven.modal.ModalDialog;
+import raven.modal.component.SimpleModalBorder;
+import utils.StaticVars;
 import views.components.BetterPanel;
 import views.components.BetterTextField;
 import views.components.NumericField;
+import views.components.SimpleMessageModal;
 
 /**
  *
@@ -121,12 +125,12 @@ public class SubjectsInfo extends javax.swing.JPanel {
         for (Student student: listedStudents) {
             boolean isCheck = false;
             for (Grades grade: listedGrades) {
+                if (selectedSchedule == null) break;
                 if (selectedSchedule.getBlockNo() == null ? grade.getBlockNo() != null : !selectedSchedule.getBlockNo().equals(grade.getBlockNo())) continue;
                 if (!Objects.equals(grade.getStudentNo(), student.getStudentNo())) continue;
                 isCheck = true;
                 break;
             }
-            System.out.println(student.getLastname() + (isCheck ? "Yes": "No"));
             studentListPanel.add(createStudent(student, isCheck));
             studentListPanel.add(Box.createVerticalStrut(5));
         }
@@ -186,9 +190,6 @@ public class SubjectsInfo extends javax.swing.JPanel {
                 String room = txfRoom.getText();
                 int seq = Integer.parseInt(txfSeq.getText());
                 
-                Component[] components = studentListPanel.getComponents();
-                List<Grades> allGrades = DBReadMd.readGrades();
-                
                 if (selectedSchedule != null) {
                     DBUpdate.updateSchedule(
                             selectedSchedule.getScheduleId(), 
@@ -196,42 +197,61 @@ public class SubjectsInfo extends javax.swing.JPanel {
                             day, time, room, type, seq, employee, year
                     );
                 } else {
-                    // test
-                    Subject subject = ViewSubjects.subListPanel.selectedSubject;
-                    DBAdd.addSchedule(year, semester, collage, blockNumber,
+                    Subject subject = selectedSubject;
+                    System.out.println(DBAdd.addSchedule(year, semester, collage, blockNumber,
                             subject.getSubjectCode(),
-                            day, time, room, type, seq, employee);
+                            day, time, room, type, seq, employee));
+                    
+                    
                 }
                 
+                
+                // GRADES
+                Component[] components = studentListPanel.getComponents();
+                List<Grades> allGrades = DBReadMd.readGrades();
                 int index = 0;
                 for (Component c: components) {
-                    JCheckBox checkBox = (JCheckBox) c;
+                    JCheckBox checkBox;
+                    try {
+                        checkBox = (JCheckBox) c;
+                    } catch (Exception i) {
+                        continue;
+                    }
                     String studentId = checkBox.getName();
+                    System.out.println(studentId + " " + checkBox.getText());
                     boolean isSelected = checkBox.isSelected();
                     
-                    boolean found = false;
-                    for (Grades grade: allGrades) {
-                        if (String.valueOf(grade.getStudentNo()) == null ? studentId != null : !String.valueOf(grade.getStudentNo()).equals(studentId)) continue;
-                        found = true;
+
+                    Grades grade = null;
+                    for (Grades gradei: allGrades) {
+                        if (selectedSchedule == null) break;
+                        if (gradei.getSyear() == null ? year != null : !gradei.getSyear().equals(year)) continue;
+                        if (gradei.getSemester() == null ? semester != null : !gradei.getSemester().equals(semester)) continue;
+                        if (gradei.getSubjectCode() == null ? selectedSchedule.getSubjectCode() != null : !gradei.getSubjectCode().equals(selectedSchedule.getSubjectCode())) continue;
+                        if (String.valueOf(gradei.getStudentNo()) == null ? studentId != null : !String.valueOf(gradei.getStudentNo()).equals(studentId)) continue;
+                        if (gradei.getBlockNo() == null ? blockNumber != null : !gradei.getBlockNo().equals(blockNumber)) continue;
+                        grade = gradei;
                         break;
                     }
-                    if (found) break;
-                        
+                    
+                    
                     
                     if (isSelected) {
-                        if (found) continue;
+                        if (grade!= null) continue; // found in database already
                         DBAdd.addGrade(year, semester, Integer.parseInt(studentId), selectedSchedule.getSubjectCode(), blockNumber, 0.0);
                     } else {
-                        if (!found) continue;
-                        for (Grades grade: allGrades) {
-                            if (String.valueOf(grade.getStudentNo()) == null ? studentId != null : !String.valueOf(grade.getStudentNo()).equals(studentId)) continue;
-                             DBDelete.deleteGrades(grade.getGradeId());
-                        }
+                        if (grade == null) continue;
+                        DBDelete.deleteGrades(grade.getGradeId());
                        
                     }
                     index++;
                 }
                 
+                final SimpleMessageModal simpleMessageModal = new SimpleMessageModal(SimpleMessageModal.Type.DEFAULT, 
+                            "Data has been successfully saved to the database", 
+                            "Success", SimpleModalBorder.CANCEL_OPTION, (controller, action) -> {
+                    });
+                    ModalDialog.showModal(StaticVars.mainForm, simpleMessageModal);
                 ViewSubjects.subListPanel.refreshData();
             }
         });
@@ -247,7 +267,14 @@ public class SubjectsInfo extends javax.swing.JPanel {
             @Override
             public void mouseClicked(MouseEvent e) {
                 // Delete `selectedStudent.getId`
-                if (selectedSchedule == null) return;
+                if (selectedSchedule == null) {
+                    final SimpleMessageModal simpleMessageModal = new SimpleMessageModal(SimpleMessageModal.Type.ERROR, 
+                            "You can't delete a data that hasn't been added to the database yet", 
+                            "Invalid Action", SimpleModalBorder.CANCEL_OPTION, (controller, action) -> {
+                    });
+                    ModalDialog.showModal(StaticVars.mainForm, simpleMessageModal);
+                    return;
+                };
                 DBDelete.deleteSchedule(selectedSchedule.getScheduleId());
                 ViewSubjects.subListPanel.refreshData();
                 ViewSubjects.viewSubjectsCardLayout.show(MainView.viewSubjects, "subListPanel");
@@ -460,6 +487,7 @@ public class SubjectsInfo extends javax.swing.JPanel {
             fieldPanel4.add(label4, BorderLayout.PAGE_START);
             fieldPanel4.add(betterTextField4, BorderLayout.PAGE_END);
             glowPanel.add(fieldPanel4);
+            NumericField.makeNumericOnly(txfSeq);
             
         return glowPanel;
     }

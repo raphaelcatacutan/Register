@@ -283,7 +283,7 @@ public final class ViewGrading extends javax.swing.JPanel {
             column1.setOpaque(false);
             column1.setBackground(new Color(205, 220, 220));
             column1.setBorder(BorderFactory.createEmptyBorder(11, 10, 10, 10));
-            column1.setText("Course");
+            column1.setText("Full Name");
             column1.setHorizontalAlignment(SwingConstants.CENTER);
             column1.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 
@@ -352,6 +352,7 @@ public final class ViewGrading extends javax.swing.JPanel {
         double gradeValue = grade.getGrade();
         
         JComboBox column2 = new JComboBox();
+            column2.addItem("0.0");
             column2.addItem("1.00");
             column2.addItem("1.25");
             column2.addItem("1.50");
@@ -363,7 +364,7 @@ public final class ViewGrading extends javax.swing.JPanel {
             column2.addItem("3.00");
             column2.addItem("5.00");
             column2.setPreferredSize(new Dimension(150, 30));
-            column2.setSelectedItem(String.valueOf(gradeValue));
+            column2.setSelectedItem(String.format("%.2f", gradeValue));
             column2.addActionListener(e -> {
                 System.out.println("Updating");
                 DBUpdate.updateGrades(

@@ -127,7 +127,7 @@ public class DBUpdate {
 
     public static void updateSchedule(int scheduleId, String semester, String collegeCode, String blockNo, String subjectCode, 
                                String day, String time, String room, String type, int sequenceNo, String employeeId, String year) {
-        String query = "UPDATE Schedule SET  semester = ?, college_code = ?, block_no = ?, subject_code = ?, day = ?, time = ?, room = ?, type = ?, sequence_no = ?, employee_id = ?, year = ? WHERE schedule_id = ?";
+        String query = "UPDATE Schedule SET  semester = ?, college_code = ?, block_no = ?, subject_code = ?, day = ?, time = ?, room = ?, type = ?, sequence_no = ?, employee_id = ?, syear = ? WHERE schedule_id = ?";
         try (PreparedStatement stmt = DBConnection.getConnection().prepareStatement(query)) {
             stmt.setString(1, semester);
             stmt.setString(2, collegeCode);

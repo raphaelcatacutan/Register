@@ -276,15 +276,16 @@ public class SubjectsList extends javax.swing.JPanel {
                 txfSubjectCode.setEnabled(false);
                 
                 List<Schedule> schedules = DBReadMd.readSchedules();
+                System.out.println(schedules.size());
                 scheduleListPanel.removeAll();
                 for (Schedule schedule: schedules) {
                     System.out.println(schedule.getSubjectCode() + " " + subject.getSubjectCode());
                     if (!schedule.getSubjectCode().equals(subject.getSubjectCode())) continue;
                     scheduleListPanel.add(createScheduleRecordPanel(schedule));
-                    scheduleListPanel.revalidate(); 
-                    scheduleListPanel.repaint(); 
                     System.out.println("Adding " + schedule.getSubjectCode());
                 }
+                scheduleListPanel.revalidate(); 
+                scheduleListPanel.repaint(); 
             }
         });
         
