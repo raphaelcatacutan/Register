@@ -4,18 +4,65 @@
  */
 package views;
 
+import database.DBAdd;
+import database.DBReadMd;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import javax.swing.*;
+import models.SchoolYear;
+import models.Semester;
+import raven.modal.ModalDialog;
+import raven.modal.component.SimpleModalBorder;
+import utils.StaticVars;
 import views.components.BetterPanel;
 import views.components.BetterPasswordField;
 import views.components.BetterTextField;
+import views.components.SimpleMessageModal;
 
 /**
  *
  * @author Raphael
  */
 public final class ViewSettings extends javax.swing.JPanel {
-
+    JPanel yearListPanel;
+    JPanel semesterListPanel;
+    
+    public void refreshData() {
+        java.util.List<SchoolYear> schoolYears = DBReadMd.readSchoolYears();
+        yearListPanel.removeAll();
+        JLabel label = new JLabel();
+            label.setMinimumSize(new Dimension(692, 40));
+            label.setFont(new Font("Google Sans", Font.PLAIN, 16));
+            label.setOpaque(false);
+            label.setBackground(Color.GREEN);
+            label.setText("School Years");
+            label.setHorizontalAlignment(SwingConstants.LEFT);
+            
+        yearListPanel.add(label);
+        for (SchoolYear schoolYear: schoolYears) {
+            yearListPanel.add(createYearsPanel(schoolYear));
+            yearListPanel.revalidate();
+        }
+        
+        
+        java.util.List<Semester> semesters = DBReadMd.readSemesters();
+        semesterListPanel.removeAll();
+        JLabel label2 = new JLabel();
+            label2.setMinimumSize(new Dimension(692, 40));
+            label2.setFont(new Font("Google Sans", Font.PLAIN, 16));
+            label2.setOpaque(false);
+            label2.setBackground(Color.GREEN);
+            label2.setText("Semesters");
+            label2.setHorizontalAlignment(SwingConstants.LEFT);
+            
+        semesterListPanel.add(label2);
+        for (Semester semester: semesters) {
+            semesterListPanel.add(createSemesterPanel(semester));
+            semesterListPanel.revalidate();
+        }
+    }
+    
     /**
      * Creates new form NewJPanel
      */
@@ -30,7 +77,7 @@ public final class ViewSettings extends javax.swing.JPanel {
     private JPanel createActionsPanel() {
         JPanel actions = new JPanel();
             actions.setLayout(new FlowLayout(FlowLayout.LEFT));
-            actions.setPreferredSize(new Dimension(850, 250));
+            actions.setPreferredSize(new Dimension(850, 150));
             
         JLabel aboutLabel = new JLabel();
             aboutLabel.setPreferredSize(new Dimension(692, 33));
@@ -54,7 +101,7 @@ public final class ViewSettings extends javax.swing.JPanel {
             aboutPanel.add(aboutLabel);
             aboutPanel.add(Box.createHorizontalStrut(5));
             aboutPanel.add(aboutButton);
-        actions.add(aboutPanel);
+//        actions.add(aboutPanel);
         
         JLabel databaseLabel = new JLabel();
             databaseLabel.setPreferredSize(new Dimension(525, 33));
@@ -87,7 +134,7 @@ public final class ViewSettings extends javax.swing.JPanel {
             databasePanel.add(databaseButton1);
             databasePanel.add(Box.createHorizontalStrut(5));
             databasePanel.add(databaseButton2);
-        actions.add(databasePanel);
+//        actions.add(databasePanel);
         
         JLabel yearLabel = new JLabel();
             yearLabel.setPreferredSize(new Dimension(420, 33));
@@ -114,6 +161,21 @@ public final class ViewSettings extends javax.swing.JPanel {
             yearPanel.add(Box.createHorizontalStrut(5));
             yearPanel.add(yearButton);
         actions.add(yearPanel);
+        yearButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                String newYear = yearTextfieldPanel.textField.getText();
+                if (newYear.isEmpty()) return;
+                DBAdd.addSchoolYear(newYear);
+                refreshData();
+                yearTextfieldPanel.textField.setText("");
+                final SimpleMessageModal simpleMessageModal = new SimpleMessageModal(SimpleMessageModal.Type.DEFAULT, 
+                            "Data has been successfully saved to the database", 
+                            "Success", SimpleModalBorder.CANCEL_OPTION, (controller, action) -> {
+                    });
+                    ModalDialog.showModal(StaticVars.mainForm, simpleMessageModal);
+            }
+        });
         
         JLabel semesterLabel = new JLabel();
             semesterLabel.setPreferredSize(new Dimension(420, 33));
@@ -140,6 +202,22 @@ public final class ViewSettings extends javax.swing.JPanel {
             semesterPanel.add(Box.createHorizontalStrut(5));
             semesterPanel.add(semesterButton);
         actions.add(semesterPanel);
+        semesterButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                String newSemester = semesterTextfieldPanel.textField.getText();
+                if (newSemester.isEmpty()) return;
+                DBAdd.addSemester(newSemester);
+                refreshData();
+                semesterTextfieldPanel.textField.setText("");
+                
+                final SimpleMessageModal simpleMessageModal = new SimpleMessageModal(SimpleMessageModal.Type.DEFAULT, 
+                            "Data has been successfully saved to the database", 
+                            "Success", SimpleModalBorder.CANCEL_OPTION, (controller, action) -> {
+                    });
+                    ModalDialog.showModal(StaticVars.mainForm, simpleMessageModal);
+            }
+        });
         
         JLabel passwordLabel = new JLabel();
             passwordLabel.setPreferredSize(new Dimension(110, 33));
@@ -170,18 +248,18 @@ public final class ViewSettings extends javax.swing.JPanel {
             passwordPanel.add(passTextfieldNewPassword2Panel);
             passwordPanel.add(Box.createHorizontalStrut(5));
             passwordPanel.add(passwordButton);
-        actions.add(passwordPanel);
+//        actions.add(passwordPanel);
         
         actions.setOpaque(false);
         return actions;
     }
     
     private JPanel createYearsTablePanel() {
-        JPanel table = new BetterPanel(300, 320, new Color(250, 250, 250), 30, 0.2f);
-            table.setOpaque(false);
-            table.setLayout(new FlowLayout(FlowLayout.CENTER, 1, 1));
-            table.setBorder(BorderFactory.createEmptyBorder(25, 25, 25, 25));
-        
+        yearListPanel = new BetterPanel(300, 400, new Color(250, 250, 250), 30, 0.2f);
+            yearListPanel.setOpaque(false);
+            yearListPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 1, 1));
+            yearListPanel.setBorder(BorderFactory.createEmptyBorder(25, 25, 25, 25));
+       
         JLabel label = new JLabel();
             label.setMinimumSize(new Dimension(692, 40));
             label.setFont(new Font("Google Sans", Font.PLAIN, 16));
@@ -190,18 +268,12 @@ public final class ViewSettings extends javax.swing.JPanel {
             label.setText("School Years");
             label.setHorizontalAlignment(SwingConstants.LEFT);
             
-        table.add(label);
-        table.add(createYearsPanel(1));
-        table.add(createYearsPanel(2));
-        table.add(createYearsPanel(3));
-        table.add(createYearsPanel(4));
-        table.add(createYearsPanel(4));
-        table.add(createYearsPanel(4));
+        yearListPanel.add(label);
         
-        return table;
+        return yearListPanel;
     }
     
-    private JPanel createYearsPanel(int a) {
+    private JPanel createYearsPanel(SchoolYear sy) {
         JPanel recordPanel = new BetterPanel(230, 33, Color.WHITE, 10, 0.1f);
         recordPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
         
@@ -210,8 +282,8 @@ public final class ViewSettings extends javax.swing.JPanel {
         column1.setFont(new Font("Google Sans", Font.PLAIN, 12));
         column1.setOpaque(false);
         column1.setBackground(new Color(250, 250, 250));
-        column1.setBorder(BorderFactory.createEmptyBorder(17, 30, 10, 10));
-        column1.setText("Full Name");
+        column1.setBorder(BorderFactory.createEmptyBorder(15, 30, 10, 10));
+        column1.setText(sy.getSyear());
         column1.setHorizontalAlignment(SwingConstants.LEFT);
         
         recordPanel.add(column1);
@@ -221,10 +293,10 @@ public final class ViewSettings extends javax.swing.JPanel {
     }
 
     private JPanel createSemesterTablePanel() {
-        JPanel table = new BetterPanel(300, 320, new Color(250, 250, 250), 30, 0.2f);
-        table.setOpaque(false);
-        table.setLayout(new BoxLayout(table, BoxLayout.Y_AXIS));
-        table.setBorder(BorderFactory.createEmptyBorder(25, 25, 25, 25));
+        semesterListPanel = new BetterPanel(300, 400, new Color(250, 250, 250), 30, 0.2f);
+        semesterListPanel.setOpaque(false);
+            semesterListPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 1, 1));
+            semesterListPanel.setBorder(BorderFactory.createEmptyBorder(25, 25, 25, 25));
         
         JLabel label = new JLabel();
             label.setMinimumSize(new Dimension(692, 33));
@@ -234,17 +306,12 @@ public final class ViewSettings extends javax.swing.JPanel {
             label.setText("School Years");
             label.setHorizontalAlignment(SwingConstants.LEFT);
             
-        table.add(label);
-        table.add(createSemesterPanel(1));
-        table.add(createSemesterPanel(2));
-        table.add(createSemesterPanel(3));
-        table.add(createSemesterPanel(4));
-        table.add(createSemesterPanel(4));
+        semesterListPanel.add(label);
         
-        return table;
+        return semesterListPanel;
     }
     
-    private JPanel createSemesterPanel(int a) {
+    private JPanel createSemesterPanel(Semester sem) {
         JPanel recordPanel = new BetterPanel(230, 33, Color.WHITE, 10, 0.1f);
         recordPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
         
@@ -253,8 +320,8 @@ public final class ViewSettings extends javax.swing.JPanel {
         column1.setFont(new Font("Google Sans", Font.PLAIN, 12));
         column1.setOpaque(false);
         column1.setBackground(new Color(250, 250, 250));
-        column1.setBorder(BorderFactory.createEmptyBorder(17, 30, 10, 10));
-        column1.setText("Full Name");
+        column1.setBorder(BorderFactory.createEmptyBorder(15, 30, 10, 10));
+        column1.setText(sem.getSemester());
         column1.setHorizontalAlignment(SwingConstants.LEFT);
         
         recordPanel.add(column1);
@@ -283,7 +350,7 @@ public final class ViewSettings extends javax.swing.JPanel {
         setPreferredSize(new java.awt.Dimension(1040, 720));
 
         lblDashboard.setFont(new java.awt.Font("Google Sans Medium", 0, 24)); // NOI18N
-        lblDashboard.setText("Settings                                                                                                                            ");
+        lblDashboard.setText("Year and Semester                                                                                                                     ");
         add(lblDashboard);
     }// </editor-fold>//GEN-END:initComponents
 

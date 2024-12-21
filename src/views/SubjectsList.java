@@ -14,6 +14,7 @@ import java.awt.Font;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.time.LocalDate;
+import java.util.List;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -26,16 +27,52 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
+import models.Subject;
 import raven.datetime.component.date.DatePicker;
 import views.components.BetterPanel;
 import views.components.BetterTextField;
+import database.*;
+import java.time.ZoneId;
+import java.util.Date;
+import models.College;
+import models.Course;
+import models.Schedule;
+import raven.modal.ModalDialog;
+import raven.modal.component.SimpleModalBorder;
+import utils.StaticVars;
+import views.components.SimpleMessageModal;
 
 /**
  *
  * @author Raphael
  */
 public class SubjectsList extends javax.swing.JPanel {
-
+    JPanel subjectListPanel;
+    JPanel scheduleListPanel;
+    
+    JTextField txfSubjectCode;
+    JTextField txfUnits;
+    JTextField txfCurriculum;
+    JTextField txfDescription;
+    JComboBox cbxCollege;
+    JComboBox cbxStatus;
+    DatePicker dtpDateStarted;
+    DatePicker dtpDateGraduated;
+    public List<College> displayedColleges;
+    
+    public void refreshData() {
+        List<Subject> subjects = DBReadMd.readSubjects();
+        displayedColleges = DBReadMd.readColleges();
+        cbxCollege.removeAllItems();
+        for (College college: displayedColleges) {
+            cbxCollege.addItem(college.getDescription());
+        }
+        subjectListPanel.removeAll();
+        for (Subject subject: subjects) {
+            subjectListPanel.add(createSubjectRecord(subject));
+        }
+    }
+    
     /**
      * Creates new form StudentsList
      */
@@ -49,6 +86,7 @@ public class SubjectsList extends javax.swing.JPanel {
         rightPanel.setLayout(new FlowLayout(FlowLayout.LEFT)); 
         rightPanel.setPreferredSize(new Dimension(570, 570));
         rightPanel.add(createInfoPanel());
+        rightPanel.setOpaque(false);
         rightPanel.add(createScheduleActionsPanel());
         rightPanel.add(createScheduleGridPanel());
         
@@ -66,26 +104,71 @@ public class SubjectsList extends javax.swing.JPanel {
         JPanel button1 = new BetterPanel(115, 30, new Color(173, 204, 255), 10, 0.5f);
         JPanel button2 = new BetterPanel(115, 30, new Color(174, 226, 200), 10, 0.5f);
         
-        JLabel button1Label = new JLabel("Search Subject");
+        JLabel button1Label = new JLabel("Clear Form");
         button1Label.setFont(new Font("Google Sans", Font.PLAIN, 12));
         button1Label.setAlignmentX(Component.LEFT_ALIGNMENT);
         button1Label.setIcon(new ImageIcon("C:/Users/Raphael/Documents/Sync/Developments/Java/RegISTER/src/assets/icons/app (1).png"));
         button1.add(button1Label);
-        button1.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        button1.setBorder(BorderFactory.createEmptyBorder(9, 10, 10, 10));
         button1.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        button1.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                txfSubjectCode.setText("");
+                txfUnits.setText("");
+                txfCurriculum.setText("");
+                txfDescription.setText("");
+                cbxCollege.setSelectedIndex(-1);
+                cbxStatus.setSelectedIndex(-1);
+                
+                dtpDateStarted.clearSelectedDate();
+                dtpDateGraduated.clearSelectedDate();
+                txfSubjectCode.setEnabled(true);
+            }
+        });
         
-        JLabel button2Label = new JLabel("Add Subject");
+        JLabel button2Label = new JLabel("Save Subject");
         button2Label.setFont(new Font("Google Sans", Font.PLAIN, 12));
         button2Label.setAlignmentX(Component.LEFT_ALIGNMENT);
         button2Label.setIcon(new ImageIcon("C:/Users/Raphael/Documents/Sync/Developments/Java/RegISTER/src/assets/icons/app (1).png"));
         button2.add(button2Label);
         button2.setBorder(BorderFactory.createEmptyBorder(9, 10, 10, 10));
         button2.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        button2.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                String subjectCode = txfSubjectCode.getText();
+                int units = Integer.parseInt(txfUnits.getText());
+                String curriculum = txfCurriculum.getText();
+                String description = txfDescription.getText();
+                String collegeCode = cbxCollege.getSelectedIndex() == -1 ? null : displayedColleges.get(cbxCollege.getSelectedIndex()).getCollegeCode();
+                
+                String status = cbxStatus.getSelectedIndex() == 0 ? "A" : "I";
+                
+                Date dateStarted = Date.from(dtpDateStarted.getSelectedDate().atStartOfDay(ZoneId.systemDefault()).toInstant());
+                Date dateGraduated = Date.from(dtpDateGraduated.getSelectedDate().atStartOfDay(ZoneId.systemDefault()).toInstant());
+                
+                if (txfSubjectCode.isEnabled()) {
+                    DBUpdate.updateSubject(subjectCode, description, units, curriculum, collegeCode, status, dateStarted, dateGraduated);
+                    
+                } else {
+                    DBAdd.addSubject(subjectCode, description, units, curriculum, collegeCode, status, dateStarted, dateGraduated);
+                }
+                
+                
+                final SimpleMessageModal simpleMessageModal = new SimpleMessageModal(SimpleMessageModal.Type.DEFAULT, 
+                            "Data has been successfully saved to the database", 
+                            "Success", SimpleModalBorder.CANCEL_OPTION, (controller, action) -> {
+                    });
+                    ModalDialog.showModal(StaticVars.mainForm, simpleMessageModal);
+            }
+        });
+        
 
         actionsPanel.add(Box.createHorizontalStrut(500));
 //        actionsPanel.add(searchPanel);
         actionsPanel.add(Box.createHorizontalStrut(5));
-//        actionsPanel.add(button1);
+        actionsPanel.add(button1);
         actionsPanel.add(Box.createHorizontalStrut(5));
         actionsPanel.add(button2);
         
@@ -93,28 +176,21 @@ public class SubjectsList extends javax.swing.JPanel {
     }
     
     private JPanel createSubjectListPanel() {
-        JPanel table = new JPanel();
-        table.setOpaque(true);
-        table.setLayout(new BoxLayout(table, BoxLayout.PAGE_AXIS));
+        subjectListPanel = new JPanel();
+        subjectListPanel.setOpaque(false);
+        subjectListPanel.setLayout(new BoxLayout(subjectListPanel, BoxLayout.PAGE_AXIS));
+        subjectListPanel.setPreferredSize(new Dimension(220, 570));
         
-        table.add(createSubjectRecord(1));
-        table.add(createSubjectRecord(2));
-        table.add(createSubjectRecord(3));
-        table.add(createSubjectRecord(4));
-        table.add(createSubjectRecord(5));
-        table.add(createSubjectRecord(6));
-        table.add(createSubjectRecord(7));
-        
-        return table;
+        return subjectListPanel;
     }
 
-    private JPanel createSubjectRecord(int a) {
+    private JPanel createSubjectRecord(Subject subject) {
         JPanel recordPanel = new BetterPanel(200, 50, Color.WHITE, 10, 0.06f);
             recordPanel.setLayout(new BorderLayout(0, 0));
             recordPanel.setBorder(BorderFactory.createEmptyBorder(14, 15, 15, 15));
         
         JTextArea subjectLabel = new JTextArea(2, 20);
-            subjectLabel.setText("Catacutan, Raphael James Casdasdassadas dasdsadada dadasdasdasdasd. a dad jaskdl adklasjdlasdhsajkd aksdajsdhak,dhaskhakashdaksdhakd asasj");
+            subjectLabel.setText(subject.getDescription());
             subjectLabel.setWrapStyleWord(true);
             subjectLabel.setLineWrap(true);
             subjectLabel.setOpaque(false);
@@ -128,35 +204,59 @@ public class SubjectsList extends javax.swing.JPanel {
         
         recordPanel.addMouseListener(new MouseAdapter() {
             @Override
-            public void mouseEntered(MouseEvent e) {
-                subjectLabel.setForeground(Color.red);
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-                subjectLabel.setForeground(Color.black);
-            }
-            @Override
             public void mouseClicked(MouseEvent e) {
-                System.out.println("Subject Record Click");
-                ViewSubjects.viewSubjectsCardLayout.show(MainView.viewSubjects, "subInfoPanel");
+                College college = DBReadMd.readCollegeByCode(subject.getCollegeCode());
+                
+                txfSubjectCode.setText(subject.getSubjectCode());
+                txfUnits.setText(String.valueOf(subject.getUnits()));
+                txfCurriculum.setText(subject.getCurriculum());
+                txfDescription.setText(subject.getDescription());
+                cbxCollege.setSelectedItem(college.getDescription());
+                cbxStatus.setSelectedItem("A".equals(subject.getStatus())? "Active": "Inactive");
+                
+                if (subject.getDateOpened() != null) dtpDateStarted.setSelectedDate(new java.sql.Date(subject.getDateOpened().getTime()).toLocalDate());
+                if (subject.getDateClosed() != null) dtpDateGraduated.setSelectedDate(new java.sql.Date(subject.getDateClosed().getTime()).toLocalDate());
+                txfSubjectCode.setEnabled(false);
+                
+                List<Schedule> schedules = DBReadMd.readSchedules();
+                scheduleListPanel.removeAll();
+                for (Schedule schedule: schedules) {
+                    System.out.println(schedule.getSubjectCode() + " " + subject.getSubjectCode());
+                    if (!schedule.getSubjectCode().equals(subject.getSubjectCode())) continue;
+                    scheduleListPanel.add(createScheduleRecordPanel(schedule));
+                    scheduleListPanel.revalidate(); 
+                    scheduleListPanel.repaint(); 
+                    System.out.println("Adding " + schedule.getSubjectCode());
+                }
             }
         });
         
         subjectLabel.addMouseListener(new MouseAdapter() {
             @Override
-            public void mouseEntered(MouseEvent e) {
-                subjectLabel.setForeground(Color.red);
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-                subjectLabel.setForeground(Color.black);
-            }
-            @Override
             public void mouseClicked(MouseEvent e) {
-                System.out.println("Subject Record Click");
-                ViewSubjects.viewSubjectsCardLayout.show(MainView.viewSubjects, "subInfoPanel");
+                College college = DBReadMd.readCollegeByCode(subject.getCollegeCode());
+                
+                txfSubjectCode.setText(subject.getSubjectCode());
+                txfUnits.setText(String.valueOf(subject.getUnits()));
+                txfCurriculum.setText(subject.getCurriculum());
+                txfDescription.setText(subject.getDescription());
+                cbxCollege.setSelectedItem(college.getDescription());
+                cbxStatus.setSelectedItem("A".equals(subject.getStatus())? "Active": "Inactive");
+                
+                if (subject.getDateOpened() != null) dtpDateStarted.setSelectedDate(new java.sql.Date(subject.getDateOpened().getTime()).toLocalDate());
+                if (subject.getDateClosed() != null) dtpDateGraduated.setSelectedDate(new java.sql.Date(subject.getDateClosed().getTime()).toLocalDate());
+                txfSubjectCode.setEnabled(false);
+                
+                List<Schedule> schedules = DBReadMd.readSchedules();
+                scheduleListPanel.removeAll();
+                for (Schedule schedule: schedules) {
+                    System.out.println(schedule.getSubjectCode() + " " + subject.getSubjectCode());
+                    if (!schedule.getSubjectCode().equals(subject.getSubjectCode())) continue;
+                    scheduleListPanel.add(createScheduleRecordPanel(schedule));
+                    scheduleListPanel.revalidate(); 
+                    scheduleListPanel.repaint(); 
+                    System.out.println("Adding " + schedule.getSubjectCode());
+                }
             }
         });
         
@@ -176,11 +276,11 @@ public class SubjectsList extends javax.swing.JPanel {
             label1.setOpaque(false);
             label1.setBackground(Color.red);
         BetterTextField betterTextField1 = new BetterTextField(
-            130, 30, Color.WHITE, 13, 0.04f, new Color(220, 220, 224), 12, null, null
+            230, 30, Color.WHITE, 13, 0.04f, new Color(220, 220, 224), 12, null, null
         );
             betterTextField1.setOpaque(false);
-            JTextField textfield1 = betterTextField1.textField;
-            textfield1.setForeground(Color.black);
+            txfSubjectCode = betterTextField1.textField;
+            txfSubjectCode.setForeground(Color.black);
         JPanel fieldPanel1 = new JPanel();
             fieldPanel1.setLayout(new BorderLayout());
             fieldPanel1.setOpaque(false);
@@ -198,8 +298,8 @@ public class SubjectsList extends javax.swing.JPanel {
             70, 30, Color.WHITE, 13, 0.04f, new Color(220, 220, 224), 12, null, null
         );
             betterTextField3.setOpaque(false);
-            JTextField textField3 = betterTextField3.textField;
-            textField3.setForeground(Color.black);
+            txfUnits = betterTextField3.textField;
+            txfUnits.setForeground(Color.black);
         JPanel fieldPanel3 = new JPanel();
             fieldPanel3.setLayout(new BorderLayout());
             fieldPanel3.setOpaque(false);
@@ -217,8 +317,8 @@ public class SubjectsList extends javax.swing.JPanel {
             70, 30, Color.WHITE, 13, 0.04f, new Color(220, 220, 224), 12, null, null
         );
             betterTextField4.setOpaque(false);
-            JTextField textField4 = betterTextField4.textField;
-            textField4.setForeground(Color.black);
+            txfCurriculum = betterTextField4.textField;
+            txfCurriculum.setForeground(Color.black);
         JPanel fieldPanel4 = new JPanel();
             fieldPanel4.setLayout(new BorderLayout());
             fieldPanel4.setOpaque(false);
@@ -233,11 +333,11 @@ public class SubjectsList extends javax.swing.JPanel {
             label2.setOpaque(false);
             label2.setBackground(Color.red);
         BetterTextField betterTextField2 = new BetterTextField(
-            400, 30, Color.WHITE, 13, 0.04f, new Color(220, 220, 224), 12, null, null
+            430, 30, Color.WHITE, 13, 0.04f, new Color(220, 220, 224), 12, null, null
         );
             betterTextField2.setOpaque(false);
-            JTextField textField2 = betterTextField2.textField;
-            textField2.setForeground(Color.black);
+            txfDescription = betterTextField2.textField;
+            txfDescription.setForeground(Color.black);
         JPanel fieldPanel2 = new JPanel();
             fieldPanel2.setLayout(new BorderLayout());
             fieldPanel2.setOpaque(false);
@@ -252,21 +352,21 @@ public class SubjectsList extends javax.swing.JPanel {
         UIManager.put("Component.focusWidth", 0);
         UIManager.put("Component.focusedBorderColor", new Color(217, 217, 217));
         
-        JLabel label6 = new JLabel("Gender:");
+        JLabel label6 = new JLabel("College:");
             label6.setFont(new java.awt.Font("Google Sans Medium", 0, 12));
             label6.setBorder(BorderFactory.createEmptyBorder(2, 0, 2, 0));
             label6.setAlignmentX(Component.LEFT_ALIGNMENT);
             label6.setOpaque(false);
             label6.setBackground(Color.red);
-        JComboBox comboBox6 = new JComboBox();
-            comboBox6.addItem("Male");
-            comboBox6.addItem("Female");
-            comboBox6.setPreferredSize(new Dimension(300, 32));
+        cbxCollege = new JComboBox();
+            cbxCollege.addItem("Male");
+            cbxCollege.addItem("Female");
+            cbxCollege.setPreferredSize(new Dimension(300, 32));
         JPanel fieldPanel6 = new JPanel();
             fieldPanel6.setLayout(new BorderLayout());
             fieldPanel6.setOpaque(false);
             fieldPanel6.add(label6, BorderLayout.PAGE_START);
-            fieldPanel6.add(comboBox6, BorderLayout.PAGE_END);
+            fieldPanel6.add(cbxCollege, BorderLayout.PAGE_END);
             fieldPanel6.setBorder(BorderFactory.createEmptyBorder(0, 6, 0, 0));
             glowPanel.add(fieldPanel6);
             
@@ -276,15 +376,15 @@ public class SubjectsList extends javax.swing.JPanel {
             label7.setAlignmentX(Component.LEFT_ALIGNMENT);
             label7.setOpaque(false);
             label7.setBackground(Color.red);
-        JComboBox comboBox7 = new JComboBox();
-            comboBox7.addItem("Active");
-            comboBox7.addItem("Inactive");
-            comboBox7.setPreferredSize(new Dimension(125, 30));
+        cbxStatus = new JComboBox();
+            cbxStatus.addItem("Active");
+            cbxStatus.addItem("Inactive");
+            cbxStatus.setPreferredSize(new Dimension(125, 30));
         JPanel fieldPanel7 = new JPanel();
             fieldPanel7.setLayout(new BorderLayout());
             fieldPanel7.setOpaque(false);
             fieldPanel7.add(label7, BorderLayout.PAGE_START);
-            fieldPanel7.add(comboBox7, BorderLayout.PAGE_END);
+            fieldPanel7.add(cbxStatus, BorderLayout.PAGE_END);
             fieldPanel7.setBorder(BorderFactory.createEmptyBorder(0, 13, 0, 0));
             glowPanel.add(fieldPanel7);
             
@@ -294,17 +394,17 @@ public class SubjectsList extends javax.swing.JPanel {
             label10.setAlignmentX(Component.LEFT_ALIGNMENT);
             label10.setOpaque(false);
             label10.setBackground(Color.red);
-        JPanel dateField10 = new BetterPanel(170, 30, new Color(250, 250, 250), 10, 0.05f, new Color(220, 220, 224));
+        JPanel dateField10 = new BetterPanel(185, 30, new Color(250, 250, 250), 10, 0.05f, new Color(220, 220, 224));
             JFormattedTextField formattedTextField10 = new JFormattedTextField();
             formattedTextField10.setBorder(null);
             formattedTextField10.setOpaque(false);
-            DatePicker datePicker10 = new DatePicker();
-            datePicker10.setDateSelectionAble((date) -> !date.isAfter(LocalDate.now())); // TODO:
-            datePicker10.now();
-            datePicker10.setEditor(formattedTextField10);
-            datePicker10.setCloseAfterSelected(true);
-            datePicker10.setEditorValidation(false);
-            datePicker10.setAnimationEnabled(false);
+            dtpDateStarted = new DatePicker();
+            dtpDateStarted.setDateSelectionAble((date) -> !date.isAfter(LocalDate.now())); // TODO:
+            dtpDateStarted.now();
+            dtpDateStarted.setEditor(formattedTextField10);
+            dtpDateStarted.setCloseAfterSelected(true);
+            dtpDateStarted.setEditorValidation(false);
+            dtpDateStarted.setAnimationEnabled(false);
             dateField10.setLayout(new BorderLayout());
             dateField10.add(formattedTextField10, BorderLayout.CENTER);
             dateField10.add(formattedTextField10);
@@ -323,17 +423,17 @@ public class SubjectsList extends javax.swing.JPanel {
             label11.setAlignmentX(Component.LEFT_ALIGNMENT);
             label11.setOpaque(false);
             label11.setBackground(Color.red);
-        JPanel dateField11 = new BetterPanel(170, 30, new Color(250, 250, 250), 10, 0.05f, new Color(220, 220, 224));
+        JPanel dateField11 = new BetterPanel(185, 30, new Color(250, 250, 250), 10, 0.05f, new Color(220, 220, 224));
             JFormattedTextField formattedTextField12 = new JFormattedTextField();
             formattedTextField12.setBorder(null);
             formattedTextField12.setOpaque(false);
-            DatePicker datePicker11 = new DatePicker();
-            datePicker11.setDateSelectionAble((date) -> !date.isAfter(LocalDate.now())); // TODO:
-            datePicker11.now();
-            datePicker11.setEditor(formattedTextField12);
-            datePicker11.setCloseAfterSelected(true);
-            datePicker11.setEditorValidation(false);
-            datePicker11.setAnimationEnabled(false);
+            dtpDateGraduated = new DatePicker();
+            dtpDateGraduated.setDateSelectionAble((date) -> !date.isAfter(LocalDate.now())); // TODO:
+            dtpDateGraduated.now();
+            dtpDateGraduated.setEditor(formattedTextField12);
+            dtpDateGraduated.setCloseAfterSelected(true);
+            dtpDateGraduated.setEditorValidation(false);
+            dtpDateGraduated.setAnimationEnabled(false);
             dateField11.setLayout(new BorderLayout());
             dateField11.add(formattedTextField12, BorderLayout.CENTER);
             dateField11.add(formattedTextField12);
@@ -357,7 +457,7 @@ public class SubjectsList extends javax.swing.JPanel {
 
         JLabel lblTitle = new javax.swing.JLabel();
             lblTitle.setFont(new java.awt.Font("Google Sans", 0, 20)); // NOI18N
-            lblTitle.setText("Course Grades");
+            lblTitle.setText("Schedules");
         
         BetterTextField searchPanel = new BetterTextField(260, 32, Color.WHITE, 13, 0.04f, new Color(220, 220, 224), 12, getClass().getResource("/assets/icons/app (1).png").toString(), "Search");
         
@@ -372,70 +472,48 @@ public class SubjectsList extends javax.swing.JPanel {
             button1.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 
         actionsPanel.add(lblTitle);
-        actionsPanel.add(Box.createHorizontalStrut(0));
-        actionsPanel.add(searchPanel);
-        actionsPanel.add(Box.createHorizontalStrut(5));
-        actionsPanel.add(button1);
+//        actionsPanel.add(Box.createHorizontalStrut(0));
+//        actionsPanel.add(searchPanel);
+//        actionsPanel.add(Box.createHorizontalStrut(5));
+//        actionsPanel.add(button1);
         
         return actionsPanel;
     }
     
     private JPanel createScheduleGridPanel() {
-        JPanel table = new JPanel();
-        table.setOpaque(false);
-        table.setLayout(new FlowLayout(FlowLayout.LEFT));
-        table.setPreferredSize(new Dimension(545, 500));
+        scheduleListPanel = new JPanel();
+        scheduleListPanel.setOpaque(false);
+        scheduleListPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
+        scheduleListPanel.setPreferredSize(new Dimension(545, 200));
         
-        table.add(createScheduleRecordPanel(1));
-        table.add(createScheduleRecordPanel(2));
-        table.add(createScheduleRecordPanel(3));
-        table.add(createScheduleRecordPanel(4));
-        table.add(createScheduleRecordPanel(5));
-        table.add(createScheduleRecordPanel(5));
-        table.add(createScheduleRecordPanel(5));
-        table.add(createScheduleRecordPanel(5));
-        
-        return table;
+        return scheduleListPanel;
     }
 
-    private JPanel createScheduleRecordPanel(int a) {
-        JPanel recordPanel = new BetterPanel(240, 70, Color.WHITE, 10, 0.05f);
-        recordPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
-        
+    private JPanel createScheduleRecordPanel(Schedule schedule) {
+        JPanel schedulePanel = new BetterPanel(240, 35, Color.WHITE, 10, 0.05f);
+        schedulePanel.setLayout(new FlowLayout(FlowLayout.CENTER));
+        System.out.println(schedule.getBlockNo());
         JLabel column1 = new JLabel();
-        column1.setPreferredSize(new Dimension(120, 73));
+        column1.setPreferredSize(new Dimension(240, 35));
         column1.setFont(new Font("Google Sans", Font.PLAIN, 12));
         column1.setOpaque(false);
         column1.setBackground(new Color(250, 250, 250));
         column1.setBorder(BorderFactory.createEmptyBorder(11, 10, 10, 10));
-        column1.setText("<html>Interdisiplinaryong Pagbasa at Pagsulat<html>");
+        column1.setText("<html>" + schedule.getRoom() + " - " + schedule.getTime() + " " + schedule.getDay()+ "</html>");
         column1.setHorizontalAlignment(SwingConstants.LEFT);
         
-        JLabel column2 = new JLabel();
-        column2.setPreferredSize(new Dimension(55, 73));
-        column2.setFont(new Font("Google Sans Medium", Font.PLAIN, 15));
-        column2.setOpaque(false);
-        column2.setBackground(new Color(250, 250, 250));
-        column2.setBorder(BorderFactory.createEmptyBorder(11, 10, 10, 10));
-        column2.setText("5.00");
-        column2.setHorizontalAlignment(SwingConstants.CENTER);
+        schedulePanel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                System.out.println("Subject Record Click");
+               // ViewSubjects.viewSubjectsCardLayout.show(MainView.viewSubjects, "subInfoPanel");
+            }
+        });
         
-        boolean result = Math.random() < 0.5;
-        JPanel column3 = new BetterPanel(40, 20, result ? new Color(255, 200, 200) : new Color(174, 226, 200), 15, 0.5f);
-        column3.setLayout(new FlowLayout(FlowLayout.CENTER));
-        JLabel column3Label = new JLabel();
-        column3Label.setText(result ? "Failed" : "Passed");
-        column3Label.setFont(new Font("Google Sans", Font.PLAIN, 9));
-        column3Label.setBorder(BorderFactory.createEmptyBorder(6, 10, 10, 10));
-        column3.add(column3Label);
+        schedulePanel.add(column1);
+        schedulePanel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         
-        
-        recordPanel.add(column1);
-        recordPanel.add(column2);
-        recordPanel.add(column3);
-        recordPanel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-        
-        return recordPanel;
+        return schedulePanel;
     }
     
     

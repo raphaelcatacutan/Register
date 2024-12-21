@@ -23,7 +23,7 @@ public class MainView extends javax.swing.JPanel {
     public static ViewColleges viewColleges;
     public static ViewCourses viewCourses;
     public static JPanel viewSubjects;
-    public static JPanel viewSettings;
+    public static ViewSettings viewSettings;
     
     /**
      * Creates new form MainView
@@ -91,6 +91,7 @@ public class MainView extends javax.swing.JPanel {
         NavigationPanel.settingsItem.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
+                viewSettings.refreshData();
                 mainViewCardLayout.show(viewsPanel, "viewSettings");
             }
         });
@@ -104,6 +105,7 @@ public class MainView extends javax.swing.JPanel {
         NavigationPanel.subjectsItem.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
+                ViewSubjects.subListPanel.refreshData();
                 mainViewCardLayout.show(viewsPanel, "viewSubjects");
             }
         });
