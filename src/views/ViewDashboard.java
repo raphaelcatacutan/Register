@@ -4,17 +4,20 @@
  */
 package views;
 
+import database.DBReadMd;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.*;
-import raven.modal.ModalDialog;
-import raven.modal.component.SimpleModalBorder;
+import models.Course;
+import models.Employee;
+import models.SchoolYear;
+import models.Student;
+import models.Subject;
 import utils.StaticVars;
 import views.components.BetterPanel;
-import views.components.SimpleMessageModal;
 
 /**
  *
@@ -22,6 +25,22 @@ import views.components.SimpleMessageModal;
  */
 public final class ViewDashboard extends javax.swing.JPanel {
 
+    
+    public void refreshData() {
+        List<Student> students = DBReadMd.readStudents();
+        List<Employee> employees = DBReadMd.readEmployees();
+        List<Course> courses = DBReadMd.readCourses();
+        List<Subject> subjects = DBReadMd.readSubjects();
+        List<SchoolYear> schoolYears = DBReadMd.readSchoolYears();
+        
+        int male = 0;
+        int female = 0;
+        
+        for (Student student: students) {
+            if ("M".equals(student.getGender())) male++;
+            else female++;
+        }
+    }
     /**
      * Creates new form NewJPanel
      */
@@ -66,20 +85,6 @@ public final class ViewDashboard extends javax.swing.JPanel {
 
         JPanel button1 = new BetterPanel(100, 30, new Color(204, 194, 255), 10, 0.5f);
         JPanel button2 = new BetterPanel(100, 30, new Color(174, 226, 200), 10, 0.5f);
-        button2.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                String message = "Hello! I hope you're having a wonderful day.";
-                
-                final SimpleMessageModal simpleMessageModal = new SimpleMessageModal(SimpleMessageModal.Type.ERROR, message, "This is a modal custom message", SimpleModalBorder.YES_NO_OPTION, (controller, action) -> {
-                    if (action == SimpleModalBorder.YES_OPTION) {
-                        System.out.println("Hello");
-                    }
-                });
-                
-                ModalDialog.showModal(StaticVars.mainForm, simpleMessageModal);
-            }
-        });
 
         JPanel button3 = new BetterPanel(100, 30, new Color(255, 216, 158), 10, 0.5f);
         
@@ -89,6 +94,16 @@ public final class ViewDashboard extends javax.swing.JPanel {
         button1.add(button1Label);
         button1.setBorder(BorderFactory.createEmptyBorder(21, 10, 10, 10));
         button1.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        button1.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                ViewStudents.studInfoPanel.selectedStudent = null;
+                ViewStudents.studInfoPanel.refreshView();
+                ViewStudents.studListPanel.refreshData(false);
+                ViewStudents.viewStudentsCardLayout.show(MainView.viewStudents, "studInfoPanel");
+                MainView.mainViewCardLayout.show(StaticVars.viewPanel, "viewStudents");
+            }
+        });
         
         JLabel button2Label = new JLabel("Add Employee");
         button2Label.setFont(new Font("Google Sans", Font.PLAIN, 12));
@@ -96,6 +111,16 @@ public final class ViewDashboard extends javax.swing.JPanel {
         button2.add(button2Label);
         button2.setBorder(BorderFactory.createEmptyBorder(21, 10, 10, 10));
         button2.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        button2.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                ViewEmployees.empInfoPanel.selectedEmployee = null;
+                ViewEmployees.empInfoPanel.refreshView();
+                ViewEmployees.empListPanel.refreshData(false);
+                ViewEmployees.viewEmployeesCardLayout.show(MainView.viewEmployees, "empInfoPanel");
+                MainView.mainViewCardLayout.show(StaticVars.viewPanel, "viewEmployees");
+            }
+        });
         
         JLabel button3Label = new JLabel("Grade Students");
         button3Label.setFont(new Font("Google Sans", Font.PLAIN, 12));
@@ -103,6 +128,13 @@ public final class ViewDashboard extends javax.swing.JPanel {
         button3.add(button3Label);
         button3.setBorder(BorderFactory.createEmptyBorder(21, 10, 10, 10));
         button3.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        button3.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                MainView.viewGrading.refreshData();
+                MainView.mainViewCardLayout.show(StaticVars.viewPanel, "viewGrading");
+            }
+        });
 
         bottomPanel.add(Box.createHorizontalStrut(-5));
         bottomPanel.add(button1);
@@ -146,11 +178,11 @@ public final class ViewDashboard extends javax.swing.JPanel {
         quickNumberPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
 
         // The 5 panels
-        JPanel panel1 = createQuickNumberPanel("Total Students", "25", new Color(231, 230, 251), new Color(97, 81, 251));
+        JPanel panel1 = createQuickNumberPanel("Total Students", "24", new Color(231, 230, 251), new Color(97, 81, 251));
         JPanel panel2 = createQuickNumberPanel("Total Employees", "10", new Color(249, 229, 234), new Color(239, 43, 88));
-        JPanel panel3 = createQuickNumberPanel("Total Courses", "15", new Color(223, 237, 247), new Color(0, 128, 255));
-        JPanel panel4 = createQuickNumberPanel("Total Programs", "10", new Color(251, 237, 217), new Color(255, 165, 0));
-        JPanel panel5 = createQuickNumberPanel("School Years", "3", new Color(222, 255, 229), new Color(34, 193, 195));
+        JPanel panel3 = createQuickNumberPanel("Total Courses", "10", new Color(223, 237, 247), new Color(0, 128, 255));
+        JPanel panel4 = createQuickNumberPanel("Total Subjects", "10", new Color(251, 237, 217), new Color(255, 165, 0));
+        JPanel panel5 = createQuickNumberPanel("School Years", "4", new Color(222, 255, 229), new Color(34, 193, 195));
 
         // Adding the Panels with some spacing
         quickNumberPanel.add(Box.createHorizontalStrut(3));
@@ -276,7 +308,7 @@ public final class ViewDashboard extends javax.swing.JPanel {
         
         int[] values = {50, 50}; 
 
-        String text = "20%";
+        String text = "50%";
 
         List<String> flowTextLabels = new ArrayList<>();
         flowTextLabels.add("Male");
@@ -289,7 +321,7 @@ public final class ViewDashboard extends javax.swing.JPanel {
         JPanel donutPanel = createDonutCircle(60, 25, 110, 70, values, text, flowTextLabels, flowTextColors);
         donutPanel.setOpaque(false);
         
-        JLabel pieGraphTitle = new JLabel("Some statistics");
+        JLabel pieGraphTitle = new JLabel("Sex Distribution");
         pieGraphTitle.setFont(new Font("Google Sans Medium", Font.PLAIN, 14));
         pieGraphTitle.setAlignmentX(Component.LEFT_ALIGNMENT);
         pieGraphTitle.setBackground(Color.green);

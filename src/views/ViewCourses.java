@@ -138,7 +138,7 @@ public final class ViewCourses extends javax.swing.JPanel {
         column5.setOpaque(false);
         column5.setBackground(new Color(220, 220, 220));
         column5.setBorder(BorderFactory.createEmptyBorder(11, 10, 10, 10));
-        column5.setText("Data Resigned");
+        column5.setText("Data Closed");
         column5.setHorizontalAlignment(SwingConstants.CENTER);
         column5.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         

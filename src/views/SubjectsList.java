@@ -4,6 +4,7 @@
  */
 package views;
 
+import com.formdev.flatlaf.FlatClientProperties;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
@@ -32,8 +33,10 @@ import raven.datetime.component.date.DatePicker;
 import views.components.BetterPanel;
 import views.components.BetterTextField;
 import database.*;
+import java.awt.ScrollPane;
 import java.time.ZoneId;
 import java.util.Date;
+import javax.swing.JScrollPane;
 import models.College;
 import models.Course;
 import models.Schedule;
@@ -175,13 +178,28 @@ public class SubjectsList extends javax.swing.JPanel {
         return actionsPanel;
     }
     
-    private JPanel createSubjectListPanel() {
+    private JScrollPane createSubjectListPanel() {
         subjectListPanel = new JPanel();
         subjectListPanel.setOpaque(false);
         subjectListPanel.setLayout(new BoxLayout(subjectListPanel, BoxLayout.PAGE_AXIS));
         subjectListPanel.setPreferredSize(new Dimension(220, 570));
         
-        return subjectListPanel;
+            JScrollPane scrlStudentList = new JScrollPane(subjectListPanel);
+                scrlStudentList.getHorizontalScrollBar().setUnitIncrement(10);
+                scrlStudentList.getVerticalScrollBar().setUnitIncrement(10);
+                scrlStudentList.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS); 
+                scrlStudentList.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+                scrlStudentList.setPreferredSize(new Dimension(220, 500));
+                scrlStudentList.setOpaque(false);
+                scrlStudentList.setBorder(BorderFactory.createEmptyBorder());
+                scrlStudentList.getVerticalScrollBar().putClientProperty(FlatClientProperties.STYLE, "" +
+                    "trackArc:$ScrollBar.thumbArc;" +
+                    "thumbInsets:0,0,0,0;" +
+                    "width:5;");
+                scrlStudentList.getViewport().setOpaque(false);
+            
+        
+        return scrlStudentList;
     }
 
     private JPanel createSubjectRecord(Subject subject) {

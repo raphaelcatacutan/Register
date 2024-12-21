@@ -8,6 +8,7 @@ import java.awt.CardLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.JPanel;
+import utils.StaticVars;
 import views.panels.NavigationPanel;
 
 /**
@@ -42,6 +43,7 @@ public class MainView extends javax.swing.JPanel {
         viewSettings = new ViewSettings();
         viewSubjects = new ViewSubjects();
         
+        StaticVars.viewPanel = viewsPanel;
         viewsPanel.add(viewDashboard, "viewDashboard");
         viewsPanel.add(viewStudents, "viewStudents");
         viewsPanel.add(viewEmployees, "viewEmployees");
@@ -167,6 +169,6 @@ public class MainView extends javax.swing.JPanel {
     private javax.swing.JLabel lblAppName;
     private javax.swing.JPanel navigationItems;
     private javax.swing.JPanel navigationPanel;
-    private javax.swing.JPanel viewsPanel;
+    public javax.swing.JPanel viewsPanel;
     // End of variables declaration//GEN-END:variables
 }

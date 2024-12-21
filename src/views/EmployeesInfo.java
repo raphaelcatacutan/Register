@@ -5,8 +5,10 @@
 package views;
 
 import com.formdev.flatlaf.FlatClientProperties;
+import database.DBAdd;
 import database.DBDelete;
 import database.DBReadMd;
+import database.DBUpdate;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
@@ -50,6 +52,7 @@ import raven.modal.component.SimpleModalBorder;
 import utils.StaticVars;
 import views.components.BetterPanel;
 import views.components.BetterTextField;
+import views.components.NumericField;
 import views.components.SimpleMessageModal;
 
 /**
@@ -76,6 +79,8 @@ public class EmployeesInfo extends javax.swing.JPanel {
     public Employee selectedEmployee;
     
     public void refreshView() {
+        NumericField.makeNumericOnly(txfPhoneNumber);
+        
         if (selectedEmployee != null) {
             lblIconLabel.setText((String.valueOf(selectedEmployee.getLastname().charAt(0)) + String.valueOf(selectedEmployee.getFirstname().charAt(0))).toUpperCase());
             txfEmployeeId.setText(selectedEmployee.getEmployeeId());
@@ -174,32 +179,30 @@ public class EmployeesInfo extends javax.swing.JPanel {
                 Date dateResigned = Date.from(dtpResigned.getSelectedDate().atStartOfDay(ZoneId.systemDefault()).toInstant());
                 
                 if (selectedEmployee != null) {
-//                    DBUpdate.updateStudent(studentNumber, 
-//                        lastName, 
-//                        firstName, 
-//                        email, 
-//                        sex , 
-//                        courseCode,
-//                        phoneNumber, 
-//                        address, 
-//                        bday,
-//                        status, 
-//                        dateStarted, 
-//                        dateGraduated);
+                    DBUpdate.updateEmployee(employeeId, 
+                        lastName, 
+                        firstName, 
+                        email, 
+                        sex , 
+                        phoneNumber, 
+                        address, 
+                        bday,
+                        status, 
+                        dateStarted, 
+                        dateResigned);
                 
                 } else {
-//                    DBAdd.addStudent(studentNumber, 
-//                        lastName, 
-//                        firstName, 
-//                        email, 
-//                        sex , 
-//                        courseCode,
-//                        phoneNumber, 
-//                        address, 
-//                        bday,
-//                        status, 
-//                        dateStarted, 
-//                        dateGraduated);
+                    DBAdd.addEmployee(employeeId, 
+                        lastName, 
+                        firstName, 
+                        email, 
+                        sex , 
+                        phoneNumber, 
+                        address, 
+                        bday,
+                        status, 
+                        dateStarted, 
+                        dateResigned);
                 }
                 final SimpleMessageModal simpleMessageModal = new SimpleMessageModal(SimpleMessageModal.Type.DEFAULT, 
                             "Data has been successfully saved to the database", 

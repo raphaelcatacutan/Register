@@ -37,6 +37,8 @@ public class Register extends JFrame{
         JPanel mainLogin = new MainLogin();
         JPanel mainView = new MainView();
         
+        StaticVars.mainView = mainView;
+        
         getContentPane().add(mainView, "mainView");
         getContentPane().add(mainLogin, "mainLogin");
         

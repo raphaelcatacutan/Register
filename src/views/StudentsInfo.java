@@ -51,6 +51,7 @@ import raven.modal.component.SimpleModalBorder;
 import utils.StaticVars;
 import views.components.BetterPanel;
 import views.components.BetterTextField;
+import views.components.NumericField;
 import views.components.SimpleMessageModal;
 
 /**
@@ -100,6 +101,9 @@ public class StudentsInfo extends javax.swing.JPanel {
             if (selectedStudent != null && course.getCourseCode().equals(selectedStudent.getCourseCode())) index++;
             cbxCourse.addItem(course.getDescription());
         }
+        
+        NumericField.makeNumericOnly(txfPhoneNumber);
+        NumericField.makeNumericOnly(txfStudentNumber);
         
         if (selectedStudent != null) {
             pnlGradesContainer.removeAll();

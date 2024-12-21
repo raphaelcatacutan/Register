@@ -5,7 +5,9 @@
 package utils;
 
 import java.awt.CardLayout;
+import java.awt.Container;
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 
 /**
  *
@@ -14,4 +16,6 @@ import javax.swing.JFrame;
 public class StaticVars {
     public static JFrame mainForm;
     public static CardLayout mainCardLayout;
+    public static JPanel mainView;
+    public static Container viewPanel;
 }
