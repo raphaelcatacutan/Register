@@ -19,7 +19,7 @@ public class MainView extends javax.swing.JPanel {
     public static CardLayout mainViewCardLayout;
     public static JPanel viewStudents;
     public static JPanel viewEmployees;
-    public static JPanel viewDashboard;
+    public static ViewDashboard viewDashboard;
     public static ViewGrading viewGrading;
     public static ViewColleges viewColleges;
     public static ViewCourses viewCourses;
@@ -58,6 +58,7 @@ public class MainView extends javax.swing.JPanel {
         NavigationPanel.dashboardItem.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
+                viewDashboard.refreshData();
                 mainViewCardLayout.show(viewsPanel, "viewDashboard");
             }
         });
@@ -111,6 +112,7 @@ public class MainView extends javax.swing.JPanel {
                 mainViewCardLayout.show(viewsPanel, "viewSubjects");
             }
         });
+        viewDashboard.refreshData();
     }
 
     /**

@@ -7,8 +7,8 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 public class NavigationPanel {
-    private static JPanel previousPanel = null; 
-    private static JPanel exitItem;
+    public static JPanel previousPanel = null; 
+    public static JPanel exitItem;
     public static JPanel dashboardItem;
     public static JPanel studentItem;
     public static JPanel employeesItem;
