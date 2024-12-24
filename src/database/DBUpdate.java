@@ -34,7 +34,7 @@ public class DBUpdate {
     }
 
     public static void updateCollege(String collegeCode, String description, Date dateOpened, Date dateClosed, String status) {
-        String query = "UPDATE College SET description = ?, dateOpened = ?, dateClosed = ?, status = ? WHERE collegeCode = ?";
+        String query = "UPDATE College SET description = ?, date_opened = ?, date_closed = ?, status = ? WHERE college_code = ?";
         try (PreparedStatement stmt = DBConnection.getConnection().prepareStatement(query)) {
             stmt.setString(1, description);
             stmt.setDate(2, new java.sql.Date(dateOpened.getTime()));
@@ -42,8 +42,9 @@ public class DBUpdate {
             stmt.setString(4, status);
             stmt.setString(5, collegeCode);
             stmt.executeUpdate();
-        } catch (SQLException ex) {
-            Logger.getLogger(DBUpdate.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            Logger.getLogger(DBUpdate.class.getName()).log(Level.SEVERE, null, e);
         } 
     }
 
