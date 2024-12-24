@@ -4,48 +4,73 @@
  */
 package views;
 
+import com.formdev.flatlaf.FlatClientProperties;
+import database.DBAdd;
+import database.DBDelete;
 import database.DBReadMd;
+import database.DBUpdate;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Date;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
+import javax.swing.JComboBox;
+import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 import models.College;
+import raven.datetime.component.date.DatePicker;
+import raven.modal.ModalDialog;
+import raven.modal.component.SimpleModalBorder;
+import utils.StaticVars;
 import views.components.BetterPanel;
 import views.components.BetterTextField;
+import views.components.SimpleMessageModal;
 
 /**
  *
  * @author Raphael
  */
 public final class ViewColleges extends javax.swing.JPanel {
+
     JPanel recordsTable;
-    
+    JScrollPane scrlEmployeeList;
+    boolean isAdding;
+
     /**
      * Creates new form NewJPanel
      */
     public ViewColleges() {
-        initComponents();   
-//        add(createActionsPanel());
+        initComponents();
+        add(createActionsPanel());
         add(createTablePanel());
     }
-    
+
     public void refreshData() {
         java.util.List<College> colleges = DBReadMd.readColleges();
         recordsTable.removeAll();
-        
-        for (College college: colleges) {
+
+        for (College college : colleges) {
             JPanel recordPanel = createTableRecord(college);
-                    
+
             recordsTable.add(recordPanel);
         }
+        recordsTable.setPreferredSize(new Dimension(800, (recordsTable.getComponentCount() * (50 + 17))));
+        SwingUtilities.invokeLater(() -> {
+            scrlEmployeeList.getViewport().setViewPosition(new Point(0, 0));
+            recordsTable.revalidate();
+        });
     }
-    
+
     // UI
     private JPanel createActionsPanel() {
         JPanel actionsPanel = new JPanel();
@@ -53,19 +78,8 @@ public final class ViewColleges extends javax.swing.JPanel {
         actionsPanel.setOpaque(false);
         actionsPanel.setAlignmentX(Component.RIGHT_ALIGNMENT);
 
-        BetterTextField searchPanel = new BetterTextField(260, 32, Color.WHITE, 13, 0.04f, new Color(220, 220, 224), 12, "C:/Users/Raphael/Documents/Sync/Developments/Java/RegISTER/src/assets/icons/app (1).png", "Search");
-        
-        JPanel button1 = new BetterPanel(115, 30, new Color(173, 204, 255), 10, 0.5f);
         JPanel button2 = new BetterPanel(115, 30, new Color(174, 226, 200), 10, 0.5f);
-        
-        JLabel button1Label = new JLabel("Search College");
-        button1Label.setFont(new Font("Google Sans", Font.PLAIN, 12));
-        button1Label.setAlignmentX(Component.LEFT_ALIGNMENT);
-        button1Label.setIcon(new ImageIcon("C:/Users/Raphael/Documents/Sync/Developments/Java/RegISTER/src/assets/icons/app (1).png"));
-        button1.add(button1Label);
-        button1.setBorder(BorderFactory.createEmptyBorder(9, 10, 10, 10));
-        button1.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-        
+
         JLabel button2Label = new JLabel("Add College");
         button2Label.setFont(new Font("Google Sans", Font.PLAIN, 12));
         button2Label.setAlignmentX(Component.LEFT_ALIGNMENT);
@@ -73,48 +87,64 @@ public final class ViewColleges extends javax.swing.JPanel {
         button2.add(button2Label);
         button2.setBorder(BorderFactory.createEmptyBorder(9, 10, 10, 10));
         button2.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        button2.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if (isAdding) {
+                    return;
+                }
+                System.out.println("Adding new");
+                isAdding = true;
+                Component[] components = recordsTable.getComponents();
+                recordsTable.add(createTableRecord(new College()));
+                for (Component component : components) {
+                    recordsTable.add(component);
+                }
+                recordsTable.setPreferredSize(new Dimension(800, (recordsTable.getComponentCount() * (50 + 17))));
+                SwingUtilities.invokeLater(() -> {
+                    scrlEmployeeList.getViewport().setViewPosition(new Point(0, 0));
+                    recordsTable.revalidate();
+                });
+            }
+        });
 
-        actionsPanel.add(Box.createHorizontalStrut(150));
-        actionsPanel.add(searchPanel);
-        actionsPanel.add(Box.createHorizontalStrut(5));
-        actionsPanel.add(button1);
-        actionsPanel.add(Box.createHorizontalStrut(5));
+        actionsPanel.add(Box.createHorizontalStrut(560));
         actionsPanel.add(button2);
-        
+
         return actionsPanel;
     }
-    
-    private JPanel createTablePanel() {
+
+    private JScrollPane createTablePanel() {
         recordsTable = new JPanel();
-        recordsTable.setOpaque(false);
-        recordsTable.setLayout(new BoxLayout(recordsTable, BoxLayout.PAGE_AXIS));
-        
+        recordsTable.setOpaque(true);
+        recordsTable.setLayout(new FlowLayout(FlowLayout.LEFT));
+
         // Titles
         JPanel title = new BetterPanel(775, 30, new Color(250, 247, 227), 10, 0.2f);
         title.setLayout(new FlowLayout(FlowLayout.LEFT));
-        
+
         JLabel column1 = new JLabel();
-        column1.setPreferredSize(new Dimension(240, 33));
+        column1.setPreferredSize(new Dimension(170, 33));
         column1.setFont(new Font("Google Sans Medium", Font.PLAIN, 12));
         column1.setOpaque(false);
         column1.setBackground(new Color(205, 220, 220));
         column1.setBorder(BorderFactory.createEmptyBorder(11, 0, 10, 10));
-        column1.setText("College Name");
+        column1.setText("    College Name");
         column1.setHorizontalAlignment(SwingConstants.CENTER);
         column1.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-        
+
         JLabel column2 = new JLabel();
-        column2.setPreferredSize(new Dimension(170, 33));
+        column2.setPreferredSize(new Dimension(90, 33));
         column2.setFont(new Font("Google Sans Medium", Font.PLAIN, 12));
         column2.setOpaque(false);
         column2.setBackground(new Color(220, 220, 220));
         column2.setBorder(BorderFactory.createEmptyBorder(11, 10, 10, 10));
-        column2.setText("College Code");
+        column2.setText("Code");
         column2.setHorizontalAlignment(SwingConstants.CENTER);
         column2.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-        
+
         JLabel column3 = new JLabel();
-        column3.setPreferredSize(new Dimension(90, 33));
+        column3.setPreferredSize(new Dimension(100, 33));
         column3.setFont(new Font("Google Sans Medium", Font.PLAIN, 12));
         column3.setOpaque(false);
         column3.setBackground(new Color(220, 220, 220));
@@ -122,9 +152,9 @@ public final class ViewColleges extends javax.swing.JPanel {
         column3.setText("Status");
         column3.setHorizontalAlignment(SwingConstants.CENTER);
         column3.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-        
+
         JLabel column4 = new JLabel();
-        column4.setPreferredSize(new Dimension(120, 33));
+        column4.setPreferredSize(new Dimension(150, 33));
         column4.setFont(new Font("Google Sans Medium", Font.PLAIN, 12));
         column4.setOpaque(false);
         column4.setBackground(new Color(220, 220, 220));
@@ -132,9 +162,9 @@ public final class ViewColleges extends javax.swing.JPanel {
         column4.setText("Date Started");
         column4.setHorizontalAlignment(SwingConstants.CENTER);
         column4.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-        
+
         JLabel column5 = new JLabel();
-        column5.setPreferredSize(new Dimension(120, 33));
+        column5.setPreferredSize(new Dimension(150, 33));
         column5.setFont(new Font("Google Sans Medium", Font.PLAIN, 12));
         column5.setOpaque(false);
         column5.setBackground(new Color(220, 220, 220));
@@ -142,100 +172,200 @@ public final class ViewColleges extends javax.swing.JPanel {
         column5.setText("Data Closed");
         column5.setHorizontalAlignment(SwingConstants.CENTER);
         column5.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-        
+
         title.add(column1);
         title.add(column2);
         title.add(column4);
         title.add(column5);
         title.add(column3);
-        
+
         add(title);
-        
-        return recordsTable;
+
+        scrlEmployeeList = new JScrollPane(recordsTable);
+        scrlEmployeeList.getHorizontalScrollBar().setUnitIncrement(10);
+        scrlEmployeeList.getVerticalScrollBar().setUnitIncrement(10);
+        scrlEmployeeList.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+        scrlEmployeeList.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        scrlEmployeeList.setPreferredSize(new Dimension(820, 565));
+        scrlEmployeeList.setOpaque(false);
+        scrlEmployeeList.setBorder(BorderFactory.createEmptyBorder());
+        scrlEmployeeList.getVerticalScrollBar().putClientProperty(FlatClientProperties.STYLE, ""
+                + "trackArc:$ScrollBar.thumbArc;"
+                + "thumbInsets:0,0,0,0;"
+                + "width:5;");
+        scrlEmployeeList.getViewport().setOpaque(false);
+
+        recordsTable.setPreferredSize(new Dimension(800, (recordsTable.getComponentCount() * (50 + 17))));
+        SwingUtilities.invokeLater(() -> {
+            scrlEmployeeList.getViewport().setViewPosition(new Point(0, 0));
+        });
+
+        return scrlEmployeeList;
     }
 
     private JPanel createTableRecord(College college) {
-        JPanel recordsPanel = new BetterPanel(780, 50, Color.WHITE, 10, 0.05f);
-        recordsPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
-        
-        JLabel column1 = new JLabel();
-        column1.setPreferredSize(new Dimension(200, 53));
+        JPanel recordsPanel = new BetterPanel(770, 50, Color.WHITE, 10, 0.05f);
+        recordsPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
+
+        JTextField column1 = new JTextField();
+        column1.setPreferredSize(new Dimension(170, 53));
         column1.setFont(new Font("Google Sans", Font.PLAIN, 12));
         column1.setOpaque(false);
         column1.setBackground(new Color(250, 250, 250));
         column1.setBorder(BorderFactory.createEmptyBorder(11, 10, 10, 10));
         column1.setText(college.getDescription());
         column1.setHorizontalAlignment(SwingConstants.LEFT);
-        
-        JLabel column2 = new JLabel();
-        column2.setPreferredSize(new Dimension(170, 53));
+        column1.setCaretPosition(0);
+        column1.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "College Name");
+
+        JTextField column2 = new JTextField();
+        column2.setPreferredSize(new Dimension(90, 53));
         column2.setFont(new Font("Google Sans", Font.PLAIN, 12));
         column2.setOpaque(false);
         column2.setBackground(new Color(220, 220, 220));
         column2.setBorder(BorderFactory.createEmptyBorder(11, 10, 10, 10));
         column2.setText(college.getCollegeCode());
         column2.setHorizontalAlignment(SwingConstants.CENTER);
-        
-        JPanel column3 = new BetterPanel(70, 20, new Color(160, 200, 255), 15, 0.5f);
-        column3.setLayout(new FlowLayout(FlowLayout.CENTER));
-        JLabel column3Label = new JLabel();
-        column3Label.setText("A".equals(college.getStatus()) ? "Active": "Inactive");
-        column3Label.setFont(new Font("Google Sans", Font.PLAIN, 11));
-        column3Label.setBorder(BorderFactory.createEmptyBorder(3, 10, 10, 10));
-        column3.add(column3Label);
-        
-        JLabel column4 = new JLabel();
-        column4.setPreferredSize(new Dimension(120, 53));
-        column4.setFont(new Font("Google Sans", Font.PLAIN, 12));
-        column4.setOpaque(false);
-        column4.setBackground(new Color(250, 250, 250));
-        column4.setBorder(BorderFactory.createEmptyBorder(11, 10, 10, 10));
-        column4.setText(college.getDateOpened().toString());
-        column4.setHorizontalAlignment(SwingConstants.CENTER);
-        
-        JLabel column5 = new JLabel();
-        column5.setPreferredSize(new Dimension(135, 53));
-        column5.setFont(new Font("Google Sans", Font.PLAIN, 12));
-        column5.setOpaque(false);
-        column5.setBackground(new Color(250, 250, 250));
-        column5.setBorder(BorderFactory.createEmptyBorder(11, 10, 10, 10));
-        column5.setText(college.getDateClosed().toString());
-        column5.setHorizontalAlignment(SwingConstants.CENTER);
-        
+        column2.setCaretPosition(0);
+        column2.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Code");
+        if (college.getCollegeCode() != null) {
+            column2.setEnabled(false);
+        }
+
+        JComboBox column3 = new JComboBox();
+        column3.addItem("Active");
+        column3.addItem("Inactive");
+        column3.setSelectedIndex("A".equals(college.getStatus()) ? 0 : 1);
+        column3.setPreferredSize(new Dimension(100, 30));
+
+        JPanel column4 = new BetterPanel(140, 28, new Color(250, 250, 250), 10, 0.2f, new Color(220, 220, 224));
+        JFormattedTextField formattedTextField4 = new JFormattedTextField();
+        formattedTextField4.setBorder(null);
+        formattedTextField4.setOpaque(false);
+        DatePicker dtp4 = new DatePicker();
+        dtp4.setDateSelectionAble((date) -> !date.isAfter(LocalDate.now())); // TODO:
+        dtp4.now();
+        dtp4.setEditor(formattedTextField4);
+        dtp4.setCloseAfterSelected(true);
+        dtp4.setEditorValidation(false);
+        dtp4.setAnimationEnabled(false);
+        column4.setLayout(new BorderLayout());
+        column4.add(formattedTextField4, BorderLayout.CENTER);
+        column4.add(formattedTextField4);
+        column4.setBorder(BorderFactory.createEmptyBorder(2, 15, 0, 15));
+        if (college.getDateOpened() != null) {
+            dtp4.setSelectedDate(new java.sql.Date(college.getDateOpened().getTime()).toLocalDate());
+        }
+
+        JPanel column5 = new BetterPanel(140, 28, new Color(250, 250, 250), 10, 0.2f, new Color(220, 220, 224));
+        JFormattedTextField formattedTextField5 = new JFormattedTextField();
+        formattedTextField5.setBorder(null);
+        formattedTextField5.setOpaque(false);
+        DatePicker dtp5 = new DatePicker();
+        dtp5.setDateSelectionAble((date) -> !date.isAfter(LocalDate.now())); // TODO:
+        dtp5.now();
+        dtp5.setEditor(formattedTextField5);
+        dtp5.setCloseAfterSelected(true);
+        dtp5.setEditorValidation(false);
+        dtp5.setAnimationEnabled(false);
+        column5.setLayout(new BorderLayout());
+        column5.add(formattedTextField5, BorderLayout.CENTER);
+        column5.add(formattedTextField5);
+        column5.setBorder(BorderFactory.createEmptyBorder(2, 15, 0, 15));
+        if (college.getDateClosed() != null) {
+            dtp5.setSelectedDate(new java.sql.Date(college.getDateClosed().getTime()).toLocalDate());
+        }
+
+        JLabel saveButton = new JLabel();
+        saveButton.setAlignmentX(Component.LEFT_ALIGNMENT);
+        saveButton.setIcon(new ImageIcon("C:/Users/Raphael/Documents/Sync/Developments/Java/RegISTER/src/assets/icons/app (1).png"));
+        saveButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        saveButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                boolean addingNew = column2.isEnabled();
+                if (column2.getText().isEmpty() || column2.getText().isBlank()) {
+                    final SimpleMessageModal simpleMessageModal = new SimpleMessageModal(SimpleMessageModal.Type.ERROR,
+                            "You need to add College Code and Description before adding to the database",
+                            "Invalid Input", SimpleModalBorder.CANCEL_OPTION, (controller, action) -> {
+                            });
+                    ModalDialog.showModal(StaticVars.mainForm, simpleMessageModal);
+                    return;
+                }
+                Date dateStarted = Date.from(dtp4.getSelectedDate().atStartOfDay(ZoneId.systemDefault()).toInstant());
+                Date dateClosed = Date.from(dtp5.getSelectedDate().atStartOfDay(ZoneId.systemDefault()).toInstant());
+                if (!addingNew) {
+                    System.out.println("Updating");
+                    DBUpdate.updateCollege(
+                            column2.getText(),
+                            column1.getText(),
+                            dateStarted,
+                            dateClosed,
+                            column3.getSelectedIndex() == 0 ? "A" : "I");
+                } else {
+                    DBAdd.addCollege(
+                            column2.getText(),
+                            column1.getText(),
+                            dateStarted,
+                            dateClosed,
+                            column3.getSelectedIndex() == 0 ? "A" : "I");
+                    isAdding = false;
+                    column2.setEnabled(false);
+                }
+                final SimpleMessageModal simpleMessageModal = new SimpleMessageModal(SimpleMessageModal.Type.DEFAULT,
+                        "Data is successfully saved to the database",
+                        "Data saved", SimpleModalBorder.CANCEL_OPTION, (controller, action) -> {
+                        });
+                ModalDialog.showModal(StaticVars.mainForm, simpleMessageModal);
+            }
+        });
+        JLabel deleteButton = new JLabel();
+        deleteButton.setAlignmentX(Component.LEFT_ALIGNMENT);
+        deleteButton.setIcon(new ImageIcon("C:/Users/Raphael/Documents/Sync/Developments/Java/RegISTER/src/assets/icons/app (1).png"));
+        deleteButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        deleteButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                boolean addingNew = column2.isEnabled();
+                if (!addingNew) {
+                    if (column2.getText().isEmpty() || column2.getText().isBlank()) {
+                        final SimpleMessageModal simpleMessageModal = new SimpleMessageModal(SimpleMessageModal.Type.ERROR,
+                                "You need to add College Code and Description before adding to the database",
+                                "Invalid Input", SimpleModalBorder.CANCEL_OPTION, (controller, action) -> {
+                                });
+                        ModalDialog.showModal(StaticVars.mainForm, simpleMessageModal);
+                        return;
+                    }
+                    System.out.println("Updating");
+                    DBDelete.deleteCollege(column2.getText());
+                    final SimpleMessageModal simpleMessageModal = new SimpleMessageModal(SimpleMessageModal.Type.DEFAULT,
+                            "Data is successfully deleted to the database",
+                            "Data saved", SimpleModalBorder.CANCEL_OPTION, (controller, action) -> {
+                            });
+                    ModalDialog.showModal(StaticVars.mainForm, simpleMessageModal);
+                } else {
+                    isAdding = false;
+                }
+                recordsTable.remove(recordsPanel);
+                recordsTable.setPreferredSize(new Dimension(800, (recordsTable.getComponentCount() * (50 + 17))));
+                SwingUtilities.invokeLater(() -> {
+                    scrlEmployeeList.getViewport().setViewPosition(new Point(0, 0));
+                    recordsTable.revalidate();
+                });
+            }
+        });
+
         recordsPanel.add(column1);
         recordsPanel.add(column2);
         recordsPanel.add(column4);
         recordsPanel.add(column5);
         recordsPanel.add(column3);
-        recordsPanel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-        
-        recordsPanel.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                column1.setForeground(Color.red);
-                column2.setForeground(Color.red);
-                column3Label.setForeground(Color.red);
-                column4.setForeground(Color.red);
-                column5.setForeground(Color.red);
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-                column1.setForeground(Color.black);
-                column2.setForeground(Color.black);
-                column3Label.setForeground(Color.black);
-                column4.setForeground(Color.black);
-                column5.setForeground(Color.black);
-            }
-            
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                ViewEmployees.viewEmployeesCardLayout.show(MainView.viewEmployees, "empInfoPanel");
-            }
-        });
-        
+        recordsPanel.add(Box.createHorizontalStrut(30));
+        recordsPanel.add(saveButton);
+        recordsPanel.add(deleteButton);
         return recordsPanel;
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
