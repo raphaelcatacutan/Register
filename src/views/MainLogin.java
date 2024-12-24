@@ -11,25 +11,17 @@ import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.time.LocalDate;
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
-import javax.swing.Box;
-import javax.swing.BoxLayout;
-import javax.swing.ImageIcon;
-import javax.swing.JComboBox;
-import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
-import javax.swing.UIManager;
-import javax.swing.text.AttributeSet;
-import javax.swing.text.BadLocationException;
-import javax.swing.text.PlainDocument;
-import raven.datetime.component.date.DatePicker;
+import raven.modal.ModalDialog;
+import raven.modal.component.SimpleModalBorder;
 import utils.StaticVars;
 import views.components.BetterPanel;
 import views.components.BetterPasswordField;
 import views.components.BetterTextField;
+import views.components.SimpleMessageModal;
 
 /**
  *
@@ -128,7 +120,7 @@ public class MainLogin extends javax.swing.JPanel {
             label1.setOpaque(false);
             label1.setBackground(Color.red);
         BetterTextField betterTextField = new BetterTextField(
-            width - 100, 35, Color.WHITE, 13, 0.04f, new Color(220, 220, 224), 12, null, null
+            width - 100, 35, Color.WHITE, 13, 0.04f, new Color(220, 220, 224), 12, null, "Username: plm"
         );
             betterTextField.setOpaque(false);
             JTextField textfield1 = betterTextField.textField;
@@ -147,11 +139,11 @@ public class MainLogin extends javax.swing.JPanel {
             label2.setOpaque(false);
             label2.setBackground(Color.red);
         BetterPasswordField betterPasswordFiled = new BetterPasswordField(
-            width - 100, 35, Color.WHITE, 13, 0.04f, new Color(220, 220, 224), 12, null, null
+            width - 100, 35, Color.WHITE, 13, 0.04f, new Color(220, 220, 224), 12, null, "Password: plm"
         );
             betterPasswordFiled.setOpaque(false);
-            JTextField textField2 = betterPasswordFiled.passwordField;
-            textField2.setForeground(Color.black);
+            JTextField textfield2 = betterPasswordFiled.passwordField;
+            textfield2.setForeground(Color.black);
         JPanel fieldPanel2 = new JPanel();
             fieldPanel2.setLayout(new BorderLayout());
             fieldPanel2.setOpaque(false);
@@ -171,7 +163,18 @@ public class MainLogin extends javax.swing.JPanel {
             button1.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
-                    StaticVars.mainCardLayout.show(StaticVars.mainForm.getContentPane(), "mainView");
+                    if ("plm".equals(textfield1.getText()) && "plm".equals(textfield2.getText())) {
+                        StaticVars.mainCardLayout.show(StaticVars.mainForm.getContentPane(), "mainView");
+                        textfield1.setText("");
+                        textfield2.setText("");
+                    }
+                    else {
+                        final SimpleMessageModal simpleMessageModal = new SimpleMessageModal(SimpleMessageModal.Type.ERROR, 
+                            "You input the wrong username or passworld. Please try again.", 
+                            "Invalid Credentials", SimpleModalBorder.CANCEL_OPTION, (controller, action) -> {
+                    });
+                    ModalDialog.showModal(StaticVars.mainForm, simpleMessageModal);
+                    }
                 }
             });
             

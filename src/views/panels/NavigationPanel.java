@@ -5,6 +5,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import utils.StaticVars;
 
 public class NavigationPanel {
     public static JPanel previousPanel = null; 
@@ -34,6 +35,7 @@ public class NavigationPanel {
         
         JPanel space = new JPanel();
         JPanel exit = createNavItem("Exit Application", "icons/analytics.png");
+        JPanel logout = createNavItem("Logout", "icons/analytics.png");
         
         navPanel.add(dashboardItem);
         navPanel.add(studentItem);
@@ -45,12 +47,13 @@ public class NavigationPanel {
         navPanel.add(settingsItem);
         
         // Adding space for exit
-        space.setMaximumSize(new Dimension(10, 200));
+        space.setMaximumSize(new Dimension(10, 150));
         space.setBorder(BorderFactory.createEmptyBorder(10, 15, 10, 15)); 
         space.setBackground(new Color(255, 255, 255));
         navPanel.add(space);
         
         // Exit Button
+        navPanel.add(logout);
         navPanel.add(exit);
         exitItem = exit;
         exit.repaint();
@@ -69,6 +72,24 @@ public class NavigationPanel {
             @Override
             public void mouseExited(MouseEvent e) {
                 exit.setBackground(Color.WHITE);
+                // Animations.animateColorChange(exit, exit.getBackground(), Color.WHITE);
+            }
+        });
+        logout.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                StaticVars.mainCardLayout.show(StaticVars.mainForm.getContentPane(), "mainLogin");
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                logout.setBackground(new Color(255, 201, 207));
+                // Animations.animateColorChange(exit, exit.getBackground(), new Color(255, 201, 207));
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                logout.setBackground(Color.WHITE);
                 // Animations.animateColorChange(exit, exit.getBackground(), Color.WHITE);
             }
         });
