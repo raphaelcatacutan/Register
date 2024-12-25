@@ -4,10 +4,8 @@
  */
 package views;
 
-import com.formdev.flatlaf.FlatClientProperties;
 import database.DBAdd;
 import database.DBDelete;
-import database.DBReadMd;
 import database.DBUpdate;
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -18,15 +16,12 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Point;
 import java.awt.RenderingHints;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
-import java.util.List;
-import java.util.Objects;
 import java.util.Random;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -36,16 +31,10 @@ import javax.swing.JComboBox;
 import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
-import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
-import models.Course;
 import models.Employee;
-import models.Grades;
-import models.Student;
-import models.Subject;
 import raven.datetime.component.date.DatePicker;
 import raven.modal.ModalDialog;
 import raven.modal.component.SimpleModalBorder;
@@ -548,104 +537,6 @@ public class EmployeesInfo extends javax.swing.JPanel {
         return glowPanel;
     }
     
-    private JPanel createSearchPanel() {
-        JPanel actionsPanel = new JPanel();
-        actionsPanel.setLayout(new BoxLayout(actionsPanel, BoxLayout.X_AXIS));
-        actionsPanel.setOpaque(false);
-        actionsPanel.setAlignmentX(Component.RIGHT_ALIGNMENT);
-
-        JLabel lblTitle = new javax.swing.JLabel();
-        lblTitle.setFont(new java.awt.Font("Google Sans", 0, 20)); // NOI18N
-        lblTitle.setText("Course Schedule");
-        
-        BetterTextField searchPanel = new BetterTextField(260, 32, Color.WHITE, 13, 0.04f, new Color(220, 220, 224), 12, getClass().getResource("/assets/icons/app (1).png").toString(), "Search");
-        
-        JPanel button1 = new BetterPanel(115, 30, new Color(173, 204, 255), 10, 0.5f);
-        
-        JLabel button1Label = new JLabel("Filter Course");
-        button1Label.setFont(new Font("Google Sans", Font.PLAIN, 12));
-        button1Label.setAlignmentX(Component.LEFT_ALIGNMENT);
-        button1Label.setIcon(new ImageIcon(getClass().getResource("/assets/icons/app (1).png")));
-        button1.add(button1Label);
-        button1.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-        button1.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-
-        actionsPanel.add(lblTitle);
-        actionsPanel.add(Box.createHorizontalStrut(240));
-        actionsPanel.add(searchPanel);
-        actionsPanel.add(Box.createHorizontalStrut(5));
-        actionsPanel.add(button1);
-        
-        return actionsPanel;
-    }
-    
-    private JScrollPane createTablePanel() {
-        JPanel gridPanel = new JPanel();
-        gridPanel.setOpaque(false);
-        gridPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
-        
-        JScrollPane scrollPane = new JScrollPane(gridPanel);
-            scrollPane.getHorizontalScrollBar().setUnitIncrement(10);
-            scrollPane.getVerticalScrollBar().setUnitIncrement(10);
-            scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS); 
-            scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-            scrollPane.setPreferredSize(new Dimension(820, 250));
-            scrollPane.setOpaque(false);
-            scrollPane.setBorder(BorderFactory.createEmptyBorder());
-            scrollPane.getVerticalScrollBar().putClientProperty(FlatClientProperties.STYLE, "" +
-                "trackArc:$ScrollBar.thumbArc;" +
-                "thumbInsets:0,0,0,0;" +
-                "width:5;");
-            scrollPane.getViewport().setOpaque(false);
-            
-        gridPanel.add(createGradesRecord(1));
-        gridPanel.add(createGradesRecord(2));
-        gridPanel.add(createGradesRecord(3));
-        gridPanel.add(createGradesRecord(4));
-        gridPanel.add(createGradesRecord(5));
-        gridPanel.add(createGradesRecord(5));
-        gridPanel.add(createGradesRecord(5));
-        gridPanel.add(createGradesRecord(5));
-        gridPanel.add(createGradesRecord(5));
-        gridPanel.add(createGradesRecord(5));
-        gridPanel.add(createGradesRecord(5));
-        gridPanel.add(createGradesRecord(5));
-        
-        gridPanel.setPreferredSize(new Dimension(800, (gridPanel.getComponentCount() * (70 + 17)) / 3));
-        SwingUtilities.invokeLater(() -> {
-            scrollPane.getViewport().setViewPosition(new Point(0, 0));
-        });
-        return scrollPane;
-    }
-
-    private JPanel createGradesRecord(int a) {
-        JPanel recordPanel = new BetterPanel(240, 70, Color.WHITE, 10, 0.05f);
-        recordPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
-        
-        JLabel column1 = new JLabel();
-        column1.setPreferredSize(new Dimension(120, 73));
-        column1.setFont(new Font("Google Sans", Font.PLAIN, 12));
-        column1.setOpaque(false);
-        column1.setBackground(new Color(250, 250, 250));
-        column1.setBorder(BorderFactory.createEmptyBorder(11, 10, 10, 10));
-        column1.setText("<html>Interdisiplinaryong Pagbasa at Pagsulat<html>");
-        column1.setHorizontalAlignment(SwingConstants.LEFT);
-        
-        JLabel column2 = new JLabel();
-        column2.setPreferredSize(new Dimension(100, 73));
-        column2.setFont(new Font("Google Sans Medium", Font.PLAIN, 15));
-        column2.setOpaque(false);
-        column2.setBackground(new Color(250, 250, 250));
-        column2.setBorder(BorderFactory.createEmptyBorder(11, 10, 10, 10));
-        column2.setText("8:00AM");
-        column2.setHorizontalAlignment(SwingConstants.CENTER);
-        
-        recordPanel.add(column1);
-        recordPanel.add(column2);
-        recordPanel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-        
-        return recordPanel;
-    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always

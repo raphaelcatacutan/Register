@@ -226,7 +226,7 @@ public class EmployeesList extends javax.swing.JPanel {
         circlePanel.add(letterLabel);
         glowPanel.add(circlePanel);
 
-         JLabel label1 = new JLabel();
+        JLabel label1 = new JLabel();
         label1.setText(lastName + ", " + firstName);
         label1.setOpaque(false);
         label1.setFocusable(false);
