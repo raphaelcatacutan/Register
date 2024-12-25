@@ -116,7 +116,7 @@ public final class ViewColleges extends javax.swing.JPanel {
 
     private JScrollPane createTablePanel() {
         recordsTable = new JPanel();
-        recordsTable.setOpaque(true);
+        recordsTable.setOpaque(false);
         recordsTable.setLayout(new FlowLayout(FlowLayout.LEFT));
 
         // Titles
@@ -330,7 +330,7 @@ public final class ViewColleges extends javax.swing.JPanel {
                 if (!addingNew) {
                     if (column2.getText().isEmpty() || column2.getText().isBlank()) {
                         final SimpleMessageModal simpleMessageModal = new SimpleMessageModal(SimpleMessageModal.Type.ERROR,
-                                "You need to add College Code and Description before adding to the database",
+                                "You need to add College Code before deleting to the database",
                                 "Invalid Input", SimpleModalBorder.CANCEL_OPTION, (controller, action) -> {
                                 });
                         ModalDialog.showModal(StaticVars.mainForm, simpleMessageModal);
