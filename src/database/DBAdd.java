@@ -49,7 +49,7 @@ public class DBAdd {
     }
 
     public static String addCourse(String courseCode, String description, String collegeCode, Date dateOpened, Date dateClosed, String status) {
-        String query = "INSERT INTO Course (courseCode, description, college_code, date_opened, dateClosed, status) VALUES (?, ?, ?, ?, ?, ?)";
+        String query = "INSERT INTO Course (course_code, description, college_code, date_opened, date_closed, status) VALUES (?, ?, ?, ?, ?, ?)";
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(query)) {
             stmt.setString(1, courseCode);

@@ -50,7 +50,7 @@ public class DBUpdate {
 
 
     public static void updateCourse(String courseCode, String description, String collegeCode, Date dateOpened, Date dateClosed, String status) {
-        String query = "UPDATE Course SET description = ?, collegeCode = ?, dateOpened = ?, dateClosed = ?, status = ? WHERE courseCode = ?";
+        String query = "UPDATE Course SET description = ?, college_code = ?, date_opened = ?, date_closed = ?, status = ? WHERE course_code = ?";
         try (PreparedStatement stmt = DBConnection.getConnection().prepareStatement(query)) {
             stmt.setString(1, description);
             stmt.setString(2, collegeCode);
