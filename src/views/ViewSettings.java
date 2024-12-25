@@ -77,7 +77,7 @@ public final class ViewSettings extends javax.swing.JPanel {
     private JPanel createActionsPanel() {
         JPanel actions = new JPanel();
             actions.setLayout(new FlowLayout(FlowLayout.LEFT));
-            actions.setPreferredSize(new Dimension(850, 150));
+            actions.setPreferredSize(new Dimension(850, 120));
             
         JLabel aboutLabel = new JLabel();
             aboutLabel.setPreferredSize(new Dimension(692, 33));
@@ -255,7 +255,7 @@ public final class ViewSettings extends javax.swing.JPanel {
     }
     
     private JPanel createYearsTablePanel() {
-        yearListPanel = new BetterPanel(300, 400, new Color(250, 250, 250), 30, 0.2f);
+        yearListPanel = new BetterPanel(300, 450, new Color(250, 250, 250), 30, 0.2f);
             yearListPanel.setOpaque(false);
             yearListPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 1, 1));
             yearListPanel.setBorder(BorderFactory.createEmptyBorder(25, 25, 25, 25));
@@ -293,7 +293,7 @@ public final class ViewSettings extends javax.swing.JPanel {
     }
 
     private JPanel createSemesterTablePanel() {
-        semesterListPanel = new BetterPanel(300, 400, new Color(250, 250, 250), 30, 0.2f);
+        semesterListPanel = new BetterPanel(300, 450, new Color(250, 250, 250), 30, 0.2f);
         semesterListPanel.setOpaque(false);
             semesterListPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 1, 1));
             semesterListPanel.setBorder(BorderFactory.createEmptyBorder(25, 25, 25, 25));

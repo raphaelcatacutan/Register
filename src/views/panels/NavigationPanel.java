@@ -31,7 +31,7 @@ public class NavigationPanel {
         gradingItem = createNavItem("Grading", "icons/analytics.png");
         collegesItem = createNavItem("Colleges", "icons/analytics.png");
         coursesItem = createNavItem("Courses", "icons/analytics.png");
-        settingsItem = createNavItem("Settings", "icons/analytics.png");
+        settingsItem = createNavItem("Year & Semester", "icons/analytics.png");
         
         JPanel space = new JPanel();
         JPanel exit = createNavItem("Exit Application", "icons/analytics.png");
