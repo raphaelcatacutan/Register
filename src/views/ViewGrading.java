@@ -8,6 +8,7 @@ import com.formdev.flatlaf.FlatClientProperties;
 import database.DBReadMd;
 import database.DBUpdate;
 import java.awt.*;
+import java.awt.event.ItemEvent;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -127,6 +128,7 @@ public final class ViewGrading extends javax.swing.JPanel {
             comboBoxes.add(fieldPanel1);
             cbxSchoolYear.setSelectedIndex(-1);
             cbxSchoolYear.addActionListener(e -> {
+                if (cbxSchoolYear.getSelectedItem() == null) return;
                 cbxSubject.removeAllItems();
                 cbxBlockNo.removeAllItems();
                 
@@ -161,6 +163,7 @@ public final class ViewGrading extends javax.swing.JPanel {
             cbxSemester.setSelectedIndex(-1);
             comboBoxes.add(fieldPanel2);
             cbxSemester.addActionListener(e -> {
+                if (cbxSemester.getSelectedItem() == null) return;
                 cbxSubject.removeAllItems();
                 cbxBlockNo.removeAllItems();
                 
@@ -194,6 +197,7 @@ public final class ViewGrading extends javax.swing.JPanel {
             comboBoxes.add(Box.createHorizontalStrut(5));
             comboBoxes.add(fieldPanel3);
             cbxSubject.addActionListener(e -> {
+                if (cbxSubject.getSelectedItem() == null) return;
                 cbxBlockNo.removeAllItems();
                 
                 List<Schedule> schedules = DBReadMd.readSchedules();
@@ -222,6 +226,7 @@ public final class ViewGrading extends javax.swing.JPanel {
             comboBoxes.add(Box.createHorizontalStrut(5));
             comboBoxes.add(fieldPanel4);
             cbxBlockNo.addActionListener(e -> {
+                if (cbxBlockNo.getSelectedItem() == null) return;
                 refreshData();
             });
             

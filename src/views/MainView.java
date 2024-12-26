@@ -80,8 +80,8 @@ public class MainView extends javax.swing.JPanel {
             @Override
             public void mouseClicked(MouseEvent e) {
                 mainViewCardLayout.show(viewsPanel, "viewGrading");
-                viewGrading.refreshData();
                 viewGrading.refreshComboBox();
+                viewGrading.refreshData();
             }
         });
         NavigationPanel.collegesItem.addMouseListener(new MouseAdapter() {
