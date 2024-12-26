@@ -258,6 +258,8 @@ public class EmployeesList extends javax.swing.JPanel {
         label1.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
+                ViewEmployees.empInfoPanel.selectedEmployee = employee;
+                ViewEmployees.empInfoPanel.refreshView();
                 ViewEmployees.viewEmployeesCardLayout.show(MainView.viewEmployees, "empInfoPanel");
             }
         });

@@ -58,58 +58,58 @@ public class MainView extends javax.swing.JPanel {
         NavigationPanel.dashboardItem.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                viewDashboard.refreshData();
                 mainViewCardLayout.show(viewsPanel, "viewDashboard");
+                viewDashboard.refreshData();
             }
         });
         NavigationPanel.studentItem.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                ViewStudents.studListPanel.refreshData(false);
                 mainViewCardLayout.show(viewsPanel, "viewStudents");
+                ViewStudents.studListPanel.refreshData(false);
             }
         });
         NavigationPanel.employeesItem.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                ViewEmployees.empListPanel.refreshData(false);
                 mainViewCardLayout.show(viewsPanel, "viewEmployees");
+                ViewEmployees.empListPanel.refreshData(false);
             }
         });
         NavigationPanel.gradingItem.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
+                mainViewCardLayout.show(viewsPanel, "viewGrading");
                 viewGrading.refreshData();
                 viewGrading.refreshComboBox();
-                mainViewCardLayout.show(viewsPanel, "viewGrading");
             }
         });
         NavigationPanel.collegesItem.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                viewColleges.refreshData();
                 mainViewCardLayout.show(viewsPanel, "viewColleges");
+                viewColleges.refreshData();
             }
         });
         NavigationPanel.settingsItem.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                viewSettings.refreshData();
                 mainViewCardLayout.show(viewsPanel, "viewSettings");
+                viewSettings.refreshData();
             }
         });
         NavigationPanel.coursesItem.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                viewCourses.refreshData();
                 mainViewCardLayout.show(viewsPanel, "viewCourses");
+                viewCourses.refreshData();
             }
         });
         NavigationPanel.subjectsItem.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                ViewSubjects.subListPanel.refreshData();
                 mainViewCardLayout.show(viewsPanel, "viewSubjects");
+                ViewSubjects.subListPanel.refreshData();
             }
         });
         viewDashboard.refreshData();

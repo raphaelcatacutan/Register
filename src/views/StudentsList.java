@@ -272,6 +272,8 @@ public class StudentsList extends javax.swing.JPanel {
         label1.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
+                ViewStudents.studInfoPanel.selectedStudent = student;
+                ViewStudents.studInfoPanel.refreshView();
                 ViewStudents.viewStudentsCardLayout.show(MainView.viewStudents, "studInfoPanel");
             }
         });
