@@ -288,7 +288,7 @@ public final class ViewCourses extends javax.swing.JPanel {
 
         JLabel saveButton = new JLabel();
         saveButton.setAlignmentX(Component.LEFT_ALIGNMENT);
-        saveButton.setIcon(new ImageIcon(getClass().getResource("/assets/icons/app (2).png").toString()));
+        saveButton.setIcon(new ImageIcon(getClass().getResource("/assets/icons/diskette.png")));
         saveButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         saveButton.addMouseListener(new MouseAdapter() {
             @Override
@@ -332,7 +332,7 @@ public final class ViewCourses extends javax.swing.JPanel {
         });
         JLabel deleteButton = new JLabel();
         deleteButton.setAlignmentX(Component.LEFT_ALIGNMENT);
-        deleteButton.setIcon(new ImageIcon(getClass().getResource("/assets/icons/app (2).png").toString()));
+        deleteButton.setIcon(new ImageIcon(getClass().getResource("/assets/icons/delete.png")));
         deleteButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         deleteButton.addMouseListener(new MouseAdapter() {
             @Override
