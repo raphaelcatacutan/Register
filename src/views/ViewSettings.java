@@ -90,7 +90,7 @@ public final class ViewSettings extends javax.swing.JPanel {
             JLabel aboutButtonLabel = new JLabel("Visit Page");
             aboutButtonLabel.setFont(new Font("Google Sans", Font.PLAIN, 12));
             aboutButtonLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
-            aboutButtonLabel.setIcon(new ImageIcon("C:/Users/Raphael/Documents/Sync/Developments/Java/RegISTER/src/assets/icons/app (1).png"));
+            aboutButtonLabel.setIcon(new ImageIcon(getClass().getResource("/assets/icons/app (2).png").toString()));
             aboutButton.add(aboutButtonLabel);
             aboutButton.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
             aboutButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -114,7 +114,7 @@ public final class ViewSettings extends javax.swing.JPanel {
             JLabel databaseButton1Label = new JLabel("Backup Database");
             databaseButton1Label.setFont(new Font("Google Sans", Font.PLAIN, 12));
             databaseButton1Label.setAlignmentX(Component.LEFT_ALIGNMENT);
-            databaseButton1Label.setIcon(new ImageIcon("C:/Users/Raphael/Documents/Sync/Developments/Java/RegISTER/src/assets/icons/app (1).png"));
+            databaseButton1Label.setIcon(new ImageIcon(getClass().getResource("/assets/icons/app (2).png").toString()));
             databaseButton1.add(databaseButton1Label);
             databaseButton1.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
             databaseButton1.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -122,7 +122,7 @@ public final class ViewSettings extends javax.swing.JPanel {
             JLabel databaseButton2Label = new JLabel("Restore Database");
             databaseButton2Label.setFont(new Font("Google Sans", Font.PLAIN, 12));
             databaseButton2Label.setAlignmentX(Component.LEFT_ALIGNMENT);
-            databaseButton2Label.setIcon(new ImageIcon("C:/Users/Raphael/Documents/Sync/Developments/Java/RegISTER/src/assets/icons/app (1).png"));
+            databaseButton2Label.setIcon(new ImageIcon(getClass().getResource("/assets/icons/app (2).png").toString()));
             databaseButton2.add(databaseButton2Label);
             databaseButton2.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
             databaseButton2.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -148,7 +148,7 @@ public final class ViewSettings extends javax.swing.JPanel {
             JLabel yearButtonLabel = new JLabel("Add Year");
             yearButtonLabel.setFont(new Font("Google Sans", Font.PLAIN, 12));
             yearButtonLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
-            yearButtonLabel.setIcon(new ImageIcon("C:/Users/Raphael/Documents/Sync/Developments/Java/RegISTER/src/assets/icons/app (1).png"));
+            yearButtonLabel.setIcon(new ImageIcon(getClass().getResource("/assets/icons/app (2).png").toString()));
             yearButton.add(yearButtonLabel);
             yearButton.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
             yearButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -189,7 +189,7 @@ public final class ViewSettings extends javax.swing.JPanel {
             JLabel semesterButtonLabel = new JLabel("Add Semester");
             semesterButtonLabel.setFont(new Font("Google Sans", Font.PLAIN, 12));
             semesterButtonLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
-            semesterButtonLabel.setIcon(new ImageIcon("C:/Users/Raphael/Documents/Sync/Developments/Java/RegISTER/src/assets/icons/app (1).png"));
+            semesterButtonLabel.setIcon(new ImageIcon(getClass().getResource("/assets/icons/app (2).png").toString()));
             semesterButton.add(semesterButtonLabel);
             semesterButton.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
             semesterButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -233,7 +233,7 @@ public final class ViewSettings extends javax.swing.JPanel {
             JLabel passwordButtonLabel = new JLabel("Add Semester");
             passwordButtonLabel.setFont(new Font("Google Sans", Font.PLAIN, 12));
             passwordButtonLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
-            passwordButtonLabel.setIcon(new ImageIcon("C:/Users/Raphael/Documents/Sync/Developments/Java/RegISTER/src/assets/icons/app (1).png"));
+            passwordButtonLabel.setIcon(new ImageIcon(getClass().getResource("/assets/icons/app (2).png").toString()));
             passwordButton.add(passwordButtonLabel);
             passwordButton.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
             passwordButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));

@@ -134,7 +134,7 @@ public class StudentsList extends javax.swing.JPanel {
         actionsPanel.setOpaque(false);
         actionsPanel.setAlignmentX(Component.RIGHT_ALIGNMENT);
 
-        BetterTextField searchPanel = new BetterTextField(260, 32, Color.WHITE, 13, 0.04f, new Color(220, 220, 224), 12, "C:/Users/Raphael/Documents/Sync/Developments/Java/RegISTER/src/assets/icons/app (1).png", "Search");
+        BetterTextField searchPanel = new BetterTextField(260, 32, Color.WHITE, 13, 0.04f, new Color(220, 220, 224), 12, getClass().getResource("/assets/icons/app (2).png").toString(), "Search");
         txfSearch = searchPanel.textField;
         
         JPanel button1 = new BetterPanel(115, 30, new Color(173, 204, 255), 10, 0.5f);
@@ -143,7 +143,6 @@ public class StudentsList extends javax.swing.JPanel {
         JLabel button1Label = new JLabel("Search Student");
         button1Label.setFont(new Font("Google Sans", Font.PLAIN, 12));
         button1Label.setAlignmentX(Component.LEFT_ALIGNMENT);
-        button1Label.setIcon(new ImageIcon("C:/Users/Raphael/Documents/Sync/Developments/Java/RegISTER/src/assets/icons/app (1).png"));
         button1.add(button1Label);
         button1.setBorder(BorderFactory.createEmptyBorder(9, 10, 10, 10));
         button1.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -157,7 +156,6 @@ public class StudentsList extends javax.swing.JPanel {
         JLabel button2Label = new JLabel("Add Student");
         button2Label.setFont(new Font("Google Sans", Font.PLAIN, 12));
         button2Label.setAlignmentX(Component.LEFT_ALIGNMENT);
-        button2Label.setIcon(new ImageIcon("C:/Users/Raphael/Documents/Sync/Developments/Java/RegISTER/src/assets/icons/app (1).png"));
         button2.add(button2Label);
         button2.setBorder(BorderFactory.createEmptyBorder(9, 10, 10, 10));
         button2.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));

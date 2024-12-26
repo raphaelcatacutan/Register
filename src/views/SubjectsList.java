@@ -122,7 +122,7 @@ public class SubjectsList extends javax.swing.JPanel {
         JLabel button1Label = new JLabel("Clear Form");
         button1Label.setFont(new Font("Google Sans", Font.PLAIN, 12));
         button1Label.setAlignmentX(Component.LEFT_ALIGNMENT);
-        button1Label.setIcon(new ImageIcon("C:/Users/Raphael/Documents/Sync/Developments/Java/RegISTER/src/assets/icons/app (1).png"));
+        button1Label.setIcon(new ImageIcon(getClass().getResource("/assets/icons/app (2).png").toString()));
         button1.add(button1Label);
         button1.setBorder(BorderFactory.createEmptyBorder(9, 10, 10, 10));
         button1.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -145,7 +145,7 @@ public class SubjectsList extends javax.swing.JPanel {
         JLabel button2Label = new JLabel("Save Subject");
         button2Label.setFont(new Font("Google Sans", Font.PLAIN, 12));
         button2Label.setAlignmentX(Component.LEFT_ALIGNMENT);
-        button2Label.setIcon(new ImageIcon("C:/Users/Raphael/Documents/Sync/Developments/Java/RegISTER/src/assets/icons/app (1).png"));
+        button2Label.setIcon(new ImageIcon(getClass().getResource("/assets/icons/app (2).png").toString()));
         button2.add(button2Label);
         button2.setBorder(BorderFactory.createEmptyBorder(9, 10, 10, 10));
         button2.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -184,7 +184,7 @@ public class SubjectsList extends javax.swing.JPanel {
         JLabel button3Label = new JLabel("Add Schedule");
         button3Label.setFont(new Font("Google Sans", Font.PLAIN, 12));
         button3Label.setAlignmentX(Component.LEFT_ALIGNMENT);
-        button3Label.setIcon(new ImageIcon("C:/Users/Raphael/Documents/Sync/Developments/Java/RegISTER/src/assets/icons/app (1).png"));
+        button3Label.setIcon(new ImageIcon(getClass().getResource("/assets/icons/app (2).png").toString()));
         button3.add(button3Label);
         button3.setBorder(BorderFactory.createEmptyBorder(9, 10, 10, 10));
         button3.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));

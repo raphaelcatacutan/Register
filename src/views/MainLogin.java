@@ -45,7 +45,7 @@ public class MainLogin extends javax.swing.JPanel {
 
             {
                 try {
-                    backgroundImage = ImageIO.read(new File("C:\\Users\\Raphael\\Downloads\\carousel6.jpg"));
+                    backgroundImage = ImageIO.read(getClass().getResource("/assets/image/plm.jpg"));
                 } catch (IOException e) {
                 }
             }

@@ -4,6 +4,7 @@ import com.formdev.flatlaf.FlatClientProperties;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
+import java.net.URL;
 import javax.swing.BorderFactory;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -13,6 +14,7 @@ import javax.swing.JTextField;
 public class BetterTextField extends BetterPanel {
     public JTextField textField;
     private JLabel iconLabel; // JLabel to hold the icon
+    
     
     public BetterTextField(int width, int height, Color background, int cornerRadius, float glowOpacity, Color borderColor, int fontSize, String iconPath, String hintText) {
         super(width, height, background, cornerRadius, glowOpacity, borderColor);

@@ -24,18 +24,18 @@ public class NavigationPanel {
         navPanel.setBackground(new Color(255, 255, 255));
         navPanel.setLayout(new BoxLayout(navPanel, BoxLayout.Y_AXIS));
 
-        dashboardItem = createNavItem("Dashboard", "icons/app.png");
-        studentItem = createNavItem("Students", "icons/analytics.png");
-        employeesItem = createNavItem("Employees", "icons/analytics.png");
-        subjectsItem = createNavItem("Subjects", "icons/analytics.png");
-        gradingItem = createNavItem("Grading", "icons/analytics.png");
-        collegesItem = createNavItem("Colleges", "icons/analytics.png");
-        coursesItem = createNavItem("Courses", "icons/analytics.png");
-        settingsItem = createNavItem("Year & Semester", "icons/analytics.png");
+        dashboardItem = createNavItem("Dashboard", "/assets/icons/add.png");
+        studentItem = createNavItem("Students", "/assets/icons/graduation.png");
+        employeesItem = createNavItem("Employees", "/assets/icons/user.png");
+        subjectsItem = createNavItem("Subjects", "/assets/icons/atom.png");
+        gradingItem = createNavItem("Grading", "/assets/icons/paper.png");
+        collegesItem = createNavItem("Colleges", "/assets/icons/college.png");
+        coursesItem = createNavItem("Courses", "/assets/icons/folder.png");
+        settingsItem = createNavItem("Year & Semester", "/assets/icons/calendar.png");
         
         JPanel space = new JPanel();
-        JPanel exit = createNavItem("Exit Application", "icons/analytics.png");
-        JPanel logout = createNavItem("Logout", "icons/analytics.png");
+        JPanel exit = createNavItem("Exit Application", "/assets/icons/logout (1).png");
+        JPanel logout = createNavItem("Logout", "/assets/icons/logout.png");
         
         navPanel.add(dashboardItem);
         navPanel.add(studentItem);
@@ -66,13 +66,11 @@ public class NavigationPanel {
             @Override
             public void mouseEntered(MouseEvent e) {
                 exit.setBackground(new Color(255, 201, 207));
-                // Animations.animateColorChange(exit, exit.getBackground(), new Color(255, 201, 207));
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
                 exit.setBackground(Color.WHITE);
-                // Animations.animateColorChange(exit, exit.getBackground(), Color.WHITE);
             }
         });
         logout.addMouseListener(new MouseAdapter() {
@@ -84,13 +82,11 @@ public class NavigationPanel {
             @Override
             public void mouseEntered(MouseEvent e) {
                 logout.setBackground(new Color(255, 201, 207));
-                // Animations.animateColorChange(exit, exit.getBackground(), new Color(255, 201, 207));
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
                 logout.setBackground(Color.WHITE);
-                // Animations.animateColorChange(exit, exit.getBackground(), Color.WHITE);
             }
         });
         
@@ -123,7 +119,7 @@ public class NavigationPanel {
         panel.setMaximumSize(new Dimension(500, 40));
         panel.setBackground(new Color(255, 255, 255));
         
-        ImageIcon icon = new ImageIcon(NavigationPanel.class.getResource("/assets/icons/add.png"));
+        ImageIcon icon = new ImageIcon(NavigationPanel.class.getResource(iconPath));
         Image scaledImage = icon.getImage().getScaledInstance(16, 16, Image.SCALE_SMOOTH);
         ImageIcon scaledIcon = new ImageIcon(scaledImage);
         JLabel iconLabel = new JLabel(scaledIcon);

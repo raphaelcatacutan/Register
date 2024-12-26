@@ -10,7 +10,6 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 import javax.swing.*;
 import models.Course;
 import models.Employee;
@@ -200,7 +199,7 @@ public final class ViewDashboard extends javax.swing.JPanel {
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
 
-                ImageIcon backgroundImage = new ImageIcon("C:\\Users\\Raphael\\Downloads\\a.png");
+                ImageIcon backgroundImage = new ImageIcon(getClass().getResource("/assets/image/a_1.png"));
                 Graphics2D g2d = (Graphics2D) g;
                 g2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
                 g2d.drawImage(backgroundImage.getImage(), -20, 0, 450, 450, this);
@@ -253,7 +252,7 @@ public final class ViewDashboard extends javax.swing.JPanel {
 
                 g2d.fillPolygon(xPoints, yPoints, 6);
 
-                ImageIcon imageIcon = new ImageIcon("C:\\Users\\Raphael\\Downloads\\option.png");
+                ImageIcon imageIcon = new ImageIcon(getClass().getResource("/assets/icons/graduation (1).png"));
                 Image image = imageIcon.getImage();
                 int imageX = centerX - radius / 2 + 2;
                 int imageY = centerY - radius / 2 + 2;
@@ -306,7 +305,7 @@ public final class ViewDashboard extends javax.swing.JPanel {
 
                 g2d.fillPolygon(xPoints, yPoints, 6);
 
-                ImageIcon imageIcon = new ImageIcon("C:\\Users\\Raphael\\Downloads\\option.png");
+                ImageIcon imageIcon = new ImageIcon(getClass().getResource("/assets/icons/user (1).png"));
                 Image image = imageIcon.getImage();
                 int imageX = centerX - radius / 2 + 2;
                 int imageY = centerY - radius / 2 + 2;
@@ -360,7 +359,7 @@ public final class ViewDashboard extends javax.swing.JPanel {
 
                 g2d.fillPolygon(xPoints, yPoints, 6);
 
-                ImageIcon imageIcon = new ImageIcon("C:\\Users\\Raphael\\Downloads\\option.png");
+                ImageIcon imageIcon = new ImageIcon(getClass().getResource("/assets/icons/open-folder.png"));
                 Image image = imageIcon.getImage();
                 int imageX = centerX - radius / 2 + 2;
                 int imageY = centerY - radius / 2 + 2;
@@ -415,7 +414,7 @@ public final class ViewDashboard extends javax.swing.JPanel {
 
                 g2d.fillPolygon(xPoints, yPoints, 6);
 
-                ImageIcon imageIcon = new ImageIcon("C:\\Users\\Raphael\\Downloads\\option.png");
+                ImageIcon imageIcon = new ImageIcon(getClass().getResource("/assets/icons/atom (1).png"));
                 Image image = imageIcon.getImage();
                 int imageX = centerX - radius / 2 + 2;
                 int imageY = centerY - radius / 2 + 2;
@@ -471,7 +470,7 @@ public final class ViewDashboard extends javax.swing.JPanel {
 
                 g2d.fillPolygon(xPoints, yPoints, 6);
 
-                ImageIcon imageIcon = new ImageIcon("C:\\Users\\Raphael\\Downloads\\option.png");
+                ImageIcon imageIcon = new ImageIcon(getClass().getResource("/assets/icons/calendar (1).png"));
                 Image image = imageIcon.getImage();
                 int imageX = centerX - radius / 2 + 2;
                 int imageY = centerY - radius / 2 + 2;

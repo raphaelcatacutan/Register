@@ -127,10 +127,10 @@ public class EmployeesInfo extends javax.swing.JPanel {
         
         JLabel lblTitle = new javax.swing.JLabel();
         lblTitle.setFont(new java.awt.Font("Google Sans Medium", 0, 24)); // NOI18N
-        lblTitle.setText("Employee Information");
+        lblTitle.setText("   Employee Information");
         
         JLabel lblBack = new javax.swing.JLabel();
-        lblBack.setIcon(new ImageIcon(getClass().getResource("/assets/icons/app (2).png"))); // NOI18N
+        lblBack.setIcon(new ImageIcon(getClass().getResource("/assets/icons/back.png"))); // NOI18N
         lblBack.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         lblBack.addMouseListener(new MouseAdapter() {
             @Override

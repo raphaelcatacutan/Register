@@ -1,20 +1,17 @@
 
 import com.formdev.flatlaf.themes.FlatMacLightLaf;
 import java.awt.CardLayout;
-import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.geom.RoundRectangle2D;
+import java.io.IOException;
+import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import raven.popup.GlassPanePopup;
-import raven.popup.component.PopupCallbackAction;
-import raven.popup.component.PopupController;
-import raven.popup.component.SimplePopupBorder;
 import utils.StaticVars;
 import views.MainLogin;
 import views.MainView;
@@ -39,8 +36,8 @@ public class Register extends JFrame{
         
         StaticVars.mainView = mainView;
         
-        getContentPane().add(mainLogin, "mainLogin");
         getContentPane().add(mainView, "mainView");
+        getContentPane().add(mainLogin, "mainLogin");
         
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(getContentPane().getPreferredSize());
@@ -48,6 +45,15 @@ public class Register extends JFrame{
         setShape(new RoundRectangle2D.Double(0, 0, getWidth(), getHeight(), 20, 20)); 
         setResizable(false); 
         setLocationRelativeTo(null);
+        
+        try {
+            Image icon = ImageIO.read(Register.class.getResource("/assets/image/seal.png"));
+
+            setIconImage(icon);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        
         setTitle("RegISTER");
     }
     /**

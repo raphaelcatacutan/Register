@@ -83,7 +83,7 @@ public final class ViewCourses extends javax.swing.JPanel {
         JLabel button2Label = new JLabel("Add Course");
         button2Label.setFont(new Font("Google Sans", Font.PLAIN, 12));
         button2Label.setAlignmentX(Component.LEFT_ALIGNMENT);
-        button2Label.setIcon(new ImageIcon("C:/Users/Raphael/Documents/Sync/Developments/Java/RegISTER/src/assets/icons/app (1).png"));
+        button2Label.setIcon(new ImageIcon(getClass().getResource("/assets/icons/app (2).png").toString()));
         button2.add(button2Label);
         button2.setBorder(BorderFactory.createEmptyBorder(9, 10, 10, 10));
         button2.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -288,7 +288,7 @@ public final class ViewCourses extends javax.swing.JPanel {
 
         JLabel saveButton = new JLabel();
         saveButton.setAlignmentX(Component.LEFT_ALIGNMENT);
-        saveButton.setIcon(new ImageIcon("C:/Users/Raphael/Documents/Sync/Developments/Java/RegISTER/src/assets/icons/app (1).png"));
+        saveButton.setIcon(new ImageIcon(getClass().getResource("/assets/icons/app (2).png").toString()));
         saveButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         saveButton.addMouseListener(new MouseAdapter() {
             @Override
@@ -332,7 +332,7 @@ public final class ViewCourses extends javax.swing.JPanel {
         });
         JLabel deleteButton = new JLabel();
         deleteButton.setAlignmentX(Component.LEFT_ALIGNMENT);
-        deleteButton.setIcon(new ImageIcon("C:/Users/Raphael/Documents/Sync/Developments/Java/RegISTER/src/assets/icons/app (1).png"));
+        deleteButton.setIcon(new ImageIcon(getClass().getResource("/assets/icons/app (2).png").toString()));
         deleteButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         deleteButton.addMouseListener(new MouseAdapter() {
             @Override
