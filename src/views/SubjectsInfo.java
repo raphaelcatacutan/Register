@@ -312,7 +312,7 @@ public class SubjectsInfo extends javax.swing.JPanel {
             label6.setOpaque(false);
             label6.setBackground(Color.red);
         cbxYear = new JComboBox();
-            cbxYear.setPreferredSize(new Dimension(120, 25));
+            cbxYear.setPreferredSize(new Dimension(165, 25));
         JPanel fieldPanel6 = new JPanel();
             fieldPanel6.setLayout(new BorderLayout());
             fieldPanel6.setOpaque(false);
@@ -328,13 +328,13 @@ public class SubjectsInfo extends javax.swing.JPanel {
             label7.setOpaque(false);
             label7.setBackground(Color.red);
         cbxSemester = new JComboBox();
-            cbxSemester.setPreferredSize(new Dimension(90, 25));
+            cbxSemester.setPreferredSize(new Dimension(161, 25));
         JPanel fieldPanel7 = new JPanel();
             fieldPanel7.setLayout(new BorderLayout());
             fieldPanel7.setOpaque(false);
             fieldPanel7.add(label7, BorderLayout.PAGE_START);
             fieldPanel7.add(cbxSemester, BorderLayout.PAGE_END);
-            fieldPanel7.setBorder(BorderFactory.createEmptyBorder(0, 13, 0, 0));
+            fieldPanel7.setBorder(BorderFactory.createEmptyBorder(0, 6, 0, 0));
             glowPanel.add(fieldPanel7);
             
         JLabel label8 = new JLabel("Employee/Professor:");
@@ -344,13 +344,13 @@ public class SubjectsInfo extends javax.swing.JPanel {
             label8.setOpaque(false);
             label8.setBackground(Color.red);
         cbxEmployee = new JComboBox();
-            cbxEmployee.setPreferredSize(new Dimension(235, 25));
+            cbxEmployee.setPreferredSize(new Dimension(337, 25));
         JPanel fieldPanel8 = new JPanel();
             fieldPanel8.setLayout(new BorderLayout());
             fieldPanel8.setOpaque(false);
             fieldPanel8.add(label8, BorderLayout.PAGE_START);
             fieldPanel8.add(cbxEmployee, BorderLayout.PAGE_END);
-            fieldPanel8.setBorder(BorderFactory.createEmptyBorder(0, 13, 0, 0));
+            fieldPanel8.setBorder(BorderFactory.createEmptyBorder(0, 6, 0, 0));
             glowPanel.add(fieldPanel8);
             
         JLabel label9 = new JLabel("College:");
@@ -360,13 +360,13 @@ public class SubjectsInfo extends javax.swing.JPanel {
             label9.setOpaque(false);
             label9.setBackground(Color.red);
         cbxCollege = new JComboBox();
-            cbxCollege.setPreferredSize(new Dimension(235, 25));
+            cbxCollege.setPreferredSize(new Dimension(337, 25));
         JPanel fieldPanel9 = new JPanel();
             fieldPanel9.setLayout(new BorderLayout());
             fieldPanel9.setOpaque(false);
             fieldPanel9.add(label9, BorderLayout.PAGE_START);
             fieldPanel9.add(cbxCollege, BorderLayout.PAGE_END);
-            fieldPanel9.setBorder(BorderFactory.createEmptyBorder(0, 13, 0, 0));
+            fieldPanel9.setBorder(BorderFactory.createEmptyBorder(0, 6, 0, 0));
             glowPanel.add(fieldPanel9);
             
         JLabel label10 = new JLabel("Type:");
@@ -378,7 +378,7 @@ public class SubjectsInfo extends javax.swing.JPanel {
         cbxType = new JComboBox();
             cbxType.addItem("Online");
             cbxType.addItem("Onsite");
-            cbxType.setPreferredSize(new Dimension(90, 26));
+            cbxType.setPreferredSize(new Dimension(337, 26));
             cbxType.setSelectedIndex(-1);
         JPanel fieldPanel10 = new JPanel();
             fieldPanel10.setLayout(new BorderLayout());
@@ -402,24 +402,24 @@ public class SubjectsInfo extends javax.swing.JPanel {
             cbxDay.addItem("Thursday");
             cbxDay.addItem("Friday");
             cbxDay.addItem("Saturday");
-            cbxDay.setPreferredSize(new Dimension(150, 26));
+            cbxDay.setPreferredSize(new Dimension(337, 26));
             cbxDay.setSelectedIndex(-1);
         JPanel fieldPanel11 = new JPanel();
             fieldPanel11.setLayout(new BorderLayout());
             fieldPanel11.setOpaque(false);
             fieldPanel11.add(label11, BorderLayout.PAGE_START);
             fieldPanel11.add(cbxDay, BorderLayout.PAGE_END);
-            fieldPanel11.setBorder(BorderFactory.createEmptyBorder(0, 13, 0, 0));
+            fieldPanel11.setBorder(BorderFactory.createEmptyBorder(0, 6, 0, 0));
             glowPanel.add(fieldPanel11);
             
-        JLabel label1 = new JLabel("Block Number:");
+        JLabel label1 = new JLabel("Block:");
             label1.setFont(new java.awt.Font("Google Sans Medium", 0, 12));
             label1.setBorder(BorderFactory.createEmptyBorder(0, 5, 0, 0));
             label1.setAlignmentX(Component.LEFT_ALIGNMENT);
             label1.setOpaque(false);
             label1.setBackground(Color.red);
         BetterTextField betterTextField1 = new BetterTextField(
-            130, 25, Color.WHITE, 13, 0.04f, new Color(220, 220, 224), 12, null, null
+            335, 25, Color.WHITE, 13, 0.04f, new Color(220, 220, 224), 12, null, null
         );
             betterTextField1.setOpaque(false);
             txfBlockNumber = betterTextField1.textField;
@@ -438,7 +438,7 @@ public class SubjectsInfo extends javax.swing.JPanel {
             label2.setOpaque(false);
             label2.setBackground(Color.red);
         BetterTextField betterTextField2 = new BetterTextField(
-            200, 25, Color.WHITE, 13, 0.04f, new Color(220, 220, 224), 12, null, null
+            335, 25, Color.WHITE, 13, 0.04f, new Color(220, 220, 224), 12, null, null
         );
             betterTextField2.setOpaque(false);
             txfTime = betterTextField2.textField;
@@ -457,7 +457,7 @@ public class SubjectsInfo extends javax.swing.JPanel {
             label3.setOpaque(false);
             label3.setBackground(Color.red);
         BetterTextField betterTextField3 = new BetterTextField(
-            200, 25, Color.WHITE, 13, 0.04f, new Color(220, 220, 224), 12, null, null
+            335, 25, Color.WHITE, 13, 0.04f, new Color(220, 220, 224), 12, null, null
         );
             betterTextField3.setOpaque(false);
             txfRoom = betterTextField3.textField;
@@ -476,7 +476,7 @@ public class SubjectsInfo extends javax.swing.JPanel {
             label4.setOpaque(false);
             label4.setBackground(Color.red);
         BetterTextField betterTextField4 = new BetterTextField(
-            342, 25, Color.WHITE, 13, 0.04f, new Color(220, 220, 224), 12, null, null
+            335, 25, Color.WHITE, 13, 0.04f, new Color(220, 220, 224), 12, null, null
         );
             betterTextField4.setOpaque(false);
             txfSeq = betterTextField4.textField;
@@ -503,36 +503,9 @@ public class SubjectsInfo extends javax.swing.JPanel {
         lblTitle.setText("Enroll Student");
         
         glowPanel.add(lblTitle);
-//        glowPanel.add(createStudentSearchPanel());
         glowPanel.add(createStudentListPanel());
             
         return glowPanel;
-    }
-    
-    private JPanel createStudentSearchPanel() {
-        JPanel actionsPanel = new JPanel();
-            actionsPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
-            actionsPanel.setOpaque(false);
-            actionsPanel.setAlignmentX(Component.RIGHT_ALIGNMENT);
-            actionsPanel.setPreferredSize(new Dimension(330, 80));
-
-        BetterTextField searchPanel = new BetterTextField(200, 32, Color.WHITE, 13, 0.04f, new Color(220, 220, 224), 12, getClass().getResource("/assets/icons/app (1).png").toString(), "Search");
-        
-        JPanel button1 = new BetterPanel(90, 30, new Color(173, 204, 255), 10, 0.5f);
-        
-        JLabel button1Label = new JLabel("Search");
-        button1Label.setFont(new Font("Google Sans", Font.PLAIN, 12));
-        button1Label.setAlignmentX(Component.LEFT_ALIGNMENT);
-        button1Label.setIcon(new ImageIcon(getClass().getResource("/assets/icons/app (1).png")));
-        button1.add(button1Label);
-        button1.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-        button1.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-
-//        actionsPanel.add(lblTitle);
-        actionsPanel.add(searchPanel);
-        actionsPanel.add(button1);
-        
-        return actionsPanel;
     }
     
     private JScrollPane createStudentListPanel() {

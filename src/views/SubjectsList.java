@@ -115,8 +115,6 @@ public class SubjectsList extends javax.swing.JPanel {
         actionsPanel.setOpaque(false);
         actionsPanel.setAlignmentX(Component.RIGHT_ALIGNMENT);
 
-        BetterTextField searchPanel = new BetterTextField(260, 32, Color.WHITE, 13, 0.04f, new Color(220, 220, 224), 12, "C:/Users/Raphael/Documents/Sync/Developments/Java/RegISTER/src/assets/icons/app (1).png", "Search");
-        
         JPanel button1 = new BetterPanel(115, 30, new Color(173, 204, 255), 10, 0.5f);
         JPanel button2 = new BetterPanel(115, 30, new Color(174, 226, 200), 10, 0.5f);
         JPanel button3 = new BetterPanel(115, 30, new Color(250, 247, 227), 10, 0.5f);
@@ -204,15 +202,12 @@ public class SubjectsList extends javax.swing.JPanel {
         });
         
 
-        actionsPanel.add(Box.createHorizontalStrut(400));
-//        actionsPanel.add(searchPanel);
-        actionsPanel.add(Box.createHorizontalStrut(5));
+        actionsPanel.add(Box.createHorizontalStrut(250));
         actionsPanel.add(button1);
         actionsPanel.add(Box.createHorizontalStrut(5));
         actionsPanel.add(button2);
         actionsPanel.add(Box.createHorizontalStrut(5));
         actionsPanel.add(button3);
-        
         
         return actionsPanel;
     }
@@ -228,7 +223,7 @@ public class SubjectsList extends javax.swing.JPanel {
             scrlStudentList.getVerticalScrollBar().setUnitIncrement(10);
             scrlStudentList.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS); 
             scrlStudentList.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-            scrlStudentList.setPreferredSize(new Dimension(220, 500));
+            scrlStudentList.setPreferredSize(new Dimension(220, 570));
             scrlStudentList.setOpaque(false);
             scrlStudentList.setBorder(BorderFactory.createEmptyBorder());
             scrlStudentList.getVerticalScrollBar().putClientProperty(FlatClientProperties.STYLE, "" +
@@ -334,7 +329,7 @@ public class SubjectsList extends javax.swing.JPanel {
             label1.setOpaque(false);
             label1.setBackground(Color.red);
         BetterTextField betterTextField1 = new BetterTextField(
-            230, 30, Color.WHITE, 13, 0.04f, new Color(220, 220, 224), 12, null, null
+            260, 30, Color.WHITE, 13, 0.04f, new Color(220, 220, 224), 12, null, null
         );
             betterTextField1.setOpaque(false);
             txfSubjectCode = betterTextField1.textField;
@@ -353,7 +348,7 @@ public class SubjectsList extends javax.swing.JPanel {
             label3.setOpaque(false);
             label3.setBackground(Color.red);
         BetterTextField betterTextField3 = new BetterTextField(
-            70, 30, Color.WHITE, 13, 0.04f, new Color(220, 220, 224), 12, null, null
+            100, 30, Color.WHITE, 13, 0.04f, new Color(220, 220, 224), 12, null, null
         );
             betterTextField3.setOpaque(false);
             txfUnits = betterTextField3.textField;
@@ -373,7 +368,7 @@ public class SubjectsList extends javax.swing.JPanel {
             label4.setOpaque(false);
             label4.setBackground(Color.red);
         BetterTextField betterTextField4 = new BetterTextField(
-            70, 30, Color.WHITE, 13, 0.04f, new Color(220, 220, 224), 12, null, null
+            100, 30, Color.WHITE, 13, 0.04f, new Color(220, 220, 224), 12, null, null
         );
             betterTextField4.setOpaque(false);
             txfCurriculum = betterTextField4.textField;
@@ -392,7 +387,7 @@ public class SubjectsList extends javax.swing.JPanel {
             label2.setOpaque(false);
             label2.setBackground(Color.red);
         BetterTextField betterTextField2 = new BetterTextField(
-            430, 30, Color.WHITE, 13, 0.04f, new Color(220, 220, 224), 12, null, null
+            483, 30, Color.WHITE, 13, 0.04f, new Color(220, 220, 224), 12, null, null
         );
             betterTextField2.setOpaque(false);
             txfDescription = betterTextField2.textField;
@@ -418,9 +413,7 @@ public class SubjectsList extends javax.swing.JPanel {
             label6.setOpaque(false);
             label6.setBackground(Color.red);
         cbxCollege = new JComboBox();
-            cbxCollege.addItem("Male");
-            cbxCollege.addItem("Female");
-            cbxCollege.setPreferredSize(new Dimension(300, 32));
+            cbxCollege.setPreferredSize(new Dimension(310, 32));
         JPanel fieldPanel6 = new JPanel();
             fieldPanel6.setLayout(new BorderLayout());
             fieldPanel6.setOpaque(false);
@@ -438,7 +431,7 @@ public class SubjectsList extends javax.swing.JPanel {
         cbxStatus = new JComboBox();
             cbxStatus.addItem("Active");
             cbxStatus.addItem("Inactive");
-            cbxStatus.setPreferredSize(new Dimension(125, 30));
+            cbxStatus.setPreferredSize(new Dimension(160, 30));
         JPanel fieldPanel7 = new JPanel();
             fieldPanel7.setLayout(new BorderLayout());
             fieldPanel7.setOpaque(false);
@@ -453,7 +446,7 @@ public class SubjectsList extends javax.swing.JPanel {
             label10.setAlignmentX(Component.LEFT_ALIGNMENT);
             label10.setOpaque(false);
             label10.setBackground(Color.red);
-        JPanel dateField10 = new BetterPanel(185, 30, new Color(250, 250, 250), 10, 0.05f, new Color(220, 220, 224));
+        JPanel dateField10 = new BetterPanel(235, 30, new Color(250, 250, 250), 10, 0.05f, new Color(220, 220, 224));
             JFormattedTextField formattedTextField10 = new JFormattedTextField();
             formattedTextField10.setBorder(null);
             formattedTextField10.setOpaque(false);
@@ -482,7 +475,7 @@ public class SubjectsList extends javax.swing.JPanel {
             label11.setAlignmentX(Component.LEFT_ALIGNMENT);
             label11.setOpaque(false);
             label11.setBackground(Color.red);
-        JPanel dateField11 = new BetterPanel(185, 30, new Color(250, 250, 250), 10, 0.05f, new Color(220, 220, 224));
+        JPanel dateField11 = new BetterPanel(230, 30, new Color(250, 250, 250), 10, 0.05f, new Color(220, 220, 224));
             JFormattedTextField formattedTextField12 = new JFormattedTextField();
             formattedTextField12.setBorder(null);
             formattedTextField12.setOpaque(false);
@@ -516,9 +509,7 @@ public class SubjectsList extends javax.swing.JPanel {
 
         JLabel lblTitle = new javax.swing.JLabel();
             lblTitle.setFont(new java.awt.Font("Google Sans", 0, 20)); // NOI18N
-            lblTitle.setText("Schedules");
-        
-        BetterTextField searchPanel = new BetterTextField(260, 32, Color.WHITE, 13, 0.04f, new Color(220, 220, 224), 12, getClass().getResource("/assets/icons/app (1).png").toString(), "Search");
+            lblTitle.setText("Schedules List");
         
         JPanel button1 = new BetterPanel(115, 30, new Color(173, 204, 255), 10, 0.5f);
         
@@ -531,10 +522,6 @@ public class SubjectsList extends javax.swing.JPanel {
             button1.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 
         actionsPanel.add(lblTitle);
-//        actionsPanel.add(Box.createHorizontalStrut(0));
-//        actionsPanel.add(searchPanel);
-//        actionsPanel.add(Box.createHorizontalStrut(5));
-//        actionsPanel.add(button1);
         
         return actionsPanel;
     }
@@ -542,7 +529,7 @@ public class SubjectsList extends javax.swing.JPanel {
     private JPanel createScheduleGridPanel() {
         scheduleListPanel = new JPanel();
         scheduleListPanel.setOpaque(false);
-        scheduleListPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
+        scheduleListPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
         scheduleListPanel.setPreferredSize(new Dimension(545, 200));
         
         return scheduleListPanel;
