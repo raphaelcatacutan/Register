@@ -36,8 +36,8 @@ public class Register extends JFrame{
         
         StaticVars.mainView = mainView;
         
-        getContentPane().add(mainView, "mainView");
         getContentPane().add(mainLogin, "mainLogin");
+        getContentPane().add(mainView, "mainView");
         
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(getContentPane().getPreferredSize());
